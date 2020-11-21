@@ -8,7 +8,7 @@ Map map;
 boolean play;
 
 void showMenu(){
-    printf("// Welcome to Willy wangky's fum factory!!//");
+    printf("// Welcome to Willy wangky's fun factory!!//");
     printf("// New game / load game / exit? //");
     scanf("%s", option);
     if(option == "new"){
