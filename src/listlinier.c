@@ -75,15 +75,13 @@ void PrintInfo (List L){
 /* Contoh : jika ada tiga elemen bernilai 1, 20, 30 akan dicetak: [1,20,30] */
 /* Jika list kosong : menulis [] */
 /* Tidak ada tambahan karakter apa pun di awal, akhir, atau di tengah */
-    printf("[");
     if(!IsEmpty(L)){//Periksa jika list kosong
         address P=First(L);
         //Print setiap elemen hingga elemen terakhir list
         while(Next(P)!=Nil){
-            printf("%d,",Info(P));
+            printf("%s->",Info(P));
             P=Next(P);
         }
-        printf("%d",Info(P));
+        printf("%s",Info(P));
     }
-    printf("]");
 }

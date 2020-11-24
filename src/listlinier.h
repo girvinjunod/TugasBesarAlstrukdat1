@@ -59,7 +59,7 @@ void InsVLast (List *L, infotype X);
 /* I.S. L mungkin kosong */
 /* F.S. Melakukan alokasi sebuah elemen dan */
 /* menambahkan elemen list di akhir: elemen terakhir yang baru */
-/* bernilai X jika alokasi berhasil. Jika alokasi gagal: I.S.= F.S. */
+/* bernilai X jika alokasi berhasil. Jika alokasi gagal: I.S.= F.S. */	
 
 /****************** PROSES SEMUA ELEMEN LIST ******************/
 void PrintInfo (List L);
