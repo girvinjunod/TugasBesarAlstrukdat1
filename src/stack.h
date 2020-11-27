@@ -9,23 +9,68 @@
 #define stackt_H
 
 #include "boolean.h"
+#include "point.h"
 
 #define Nil -1
 #define MaxEl 100
 /* Nil adalah stack dengan elemen kosong . */
 
 /* definisi struct_aksi */
+typedef struct{
+	POINT coord;
+	int id_build; /* id wahana yang mau di-build */
+	int harga_build;
+	int durasi_build;
+	/* bahan bangunan nyimpennya gimana yak */
+} struct_build;
+
+typedef struct{
+	POINT coord;
+	int id_upgrade; /* id upgrade-an wahana */
+	int harga_upgrade;
+	int durasi_upgrade;
+	/* bahan bangunan nyimpennya gimana yak */
+} struct_upgrade;
+
+typedef struct{
+	int harga_buy;
+	int durasi_buy;
+	int id_barang;
+	int jumlah_barang;
+} struct_buy;
+
 typedef struct {
 	int id_aksi; /* 0 itu build, 1 itu upgrade, 2 itu buy */
-	Point koord;
-	int id_build;
-	int durasi_aksi;
-	int harga_aksi;
-	int jenis_bahan; /* masih kudu mikir */
+	struct_build build_details;
+	struct_upgrade upgrade_details;
+	struct_buy buy_details;
 } struct_aksi;
 
-/* selektor struct_aksi */
-/* belum dibikin */
+/* selektor struct_aksi, a itu struct_aksi */
+#define KoordBuild(a) a.build_details.coord
+#define IDBuild(a) a.build_details.id_build
+#define HargaBuild(a) a.build_details.harga_build
+#define DurasiBuild(a) a.build_details.durasi_build
+#define KoordUpgrade(a) a.upgrade_details.coord
+#define IDUpgrade(a) a.upgrade_details.id_upgrade
+#define HargaUpgrade(a) a.upgrade_details.harga_upgrade
+#define DurasiUpgrade(a) a.upgrade_details.durasi_upgrade
+#define HargaBuy(a) a.buy_details.harga_buy
+#define DurasiBuy(a) a.buy_details.durasi_buy
+#define IDBarangBuy(a) a.buy_details.id_barang
+#define JumlahBarangBuy(a) a.buy_details.jumlah_barang
+#define IDAksi(a) a.id_aksi
+#define BuildDetails(a) a.build_details
+#define UpgradeDetails(a) a.upgrade_details
+#define BuyDetails(a) a.buy_details
+
+/* konstruktor struct_aksi */
+struct_aksi MakeAksiBuild(POINT koord, int id_build, int harga_build, int durasi_build);
+/* mengembalikan struct_aksi dengan data pada parameter */
+struct_aksi MakeAksiUpgrade(POINT koord, int id_upgrade, int harga_upgrade, int durasi_upgrade);
+/* mengembalikan struct_aksi dengan data pada parameter */
+struct_aksi MakeAksiBuy(int harga_buy, int durasi_buy, int id_barang, int jumlah_barang);
+/* mengembalikan struct_aksi dengan data pada parameter */
 
 typedef int address;   /* indeks tabel */
 
@@ -43,7 +88,7 @@ typedef struct {
 
 /* Definisi akses dengan Selektor : Set dan Get */
 #define TopStack(S) (S).TOP
-#define InfoTopStack(S) (S).idAksi[(S).TOP]
+#define InfoTopStack(S) (S).aksi[(S).TOP]
 
 /* ************ Prototype ************ */
 /* *** Konstruktor/Kreator *** */
@@ -60,13 +105,13 @@ boolean IsFullStack (Stack S);
 /* Mengirim true jika tabel penampung nilai elemen stack penuh */
 
 /* ************ Menambahkan sebuah elemen ke Stack ************ */
-void PushStack (Stack * S, aksi X);
+void PushStack (Stack * S, struct_aksi X);
 /* Menambahkan X sebagai elemen Stack S. */
 /* I.S. S mungkin kosong, tabel penampung elemen stack TIDAK penuh */
 /* F.S. X menjadi TOP yang baru,TOP bertambah 1 */
 
 /* ************ Menghapus sebuah elemen Stack ************ */
-void PopStack (Stack * S, aksi * X);
+void PopStack (Stack * S, struct_aksi * X);
 /* Menghapus X dari Stack S. */
 /* I.S. S  tidak mungkin kosong */
 /* F.S. X adalah nilai elemen TOP yang lama, TOP berkurang 1 */

@@ -25,16 +25,20 @@ void ShowPrepPhaseState(JAM cur_jam, JAM END_JAM){
 }
 
 BUILD(Stack *stack_aksi, int *durasi_stack, int *harga_stack, int remaining_time){
+	/* I.S. sembarang */
+	/* F.S. kalau build valid, menambahkan aksi ke stack_aksi */
+	/* kalau tidak, menampilkan pesan kesalahan */
 	printf("Ingin membangun wahana apa? (masukkan ID wahana)\n");
-	PrintChild(T);
+	PrintChild(T); /* T root tree wahana */
 	printf("$ ");
 	ADVKATA();
 	Tree cur_wahana = Search(T,ToInt(CKata));
+	/* belum validasi input, ntar */
 	if (BuildTime(Info(cur_wahana))<=remaining_time){
-		// ada cukup waktu untuk build
-		/* ganti map somehow, WIP */
+		/* ada cukup waktu untuk build */
 		/* push aksi build ke stack */
-		PushStack(stack_aksi,0); /* note: 0 itu id aksi build */
+		struct_aksi aksi_baru = MakeAksiBuild(/*koordinat player*/,ID(Info(cur_wahana)),Price(Info(cur_wahana)),BuildTime(Info(cur_wahana)));
+		PushStack(stack_aksi,aksi_baru); /* note: 0 itu id aksi build */
 		*durasi_stack += BuildTime(Info(cur_wahana));
 		*harga_stack += Price(Info(cur_wahana));
 	}
