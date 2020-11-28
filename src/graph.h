@@ -1,8 +1,10 @@
 #include "boolean.h"
-
+#include "map.h"
 struct node {
   int vertex;
   struct node* next;
+  MAP map;
+  int tes;
 };
 struct node* createNode(int);
 

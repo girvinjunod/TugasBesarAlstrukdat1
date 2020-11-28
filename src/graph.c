@@ -2,11 +2,14 @@
 #include <stdlib.h>
 #include "boolean.h"
 #include "graph.h"
+#include "map.h"
 
 struct node* createNode(int v) {
   struct node* newNode = malloc(sizeof(struct node));
   newNode->vertex = v;
   newNode->next = NULL;
+  /*newNode->map = map 1;*/
+  newNode->tes = v+100;
   return newNode;
 }
 
@@ -38,7 +41,17 @@ void addEdge(struct Graph* graph, int s, int d) {
   graph->adjLists[d] = newNode;
 }
 
-
+void isimap(struct Graph* graph){
+	int v;
+	int id= 3;
+  	for (v = 0; v < graph->numVertices; v++){
+  		struct node* temp = graph->adjLists[v];
+  		//tiap simpul/node isi map
+  		printf("isi map %d\n", id);
+  		printf("tes isi %d\n", temp->tes); //nanti tes nya apus, ganti sama isi mapnya
+  		id--;
+	  }
+}
 
 void printGraph(struct Graph* graph) {
 //print graf
@@ -86,8 +99,8 @@ int main() {
   printGraph(graph);
   int a = 1;
   int b = 2;
-  if (cekAdj(graph, a, b)) printf("a = %d adj b= %d", a, b);
-  else printf("no");
-
+  if (cekAdj(graph, a, b)) printf("a = %d adj b= %d\n", a, b);
+  else printf("no\n");
+  isimap(graph);
   return 0;
 }*/
