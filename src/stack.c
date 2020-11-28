@@ -83,7 +83,7 @@ void PushStack(Stack * S, struct_aksi X){
 /* I.S. S mungkin kosong, tabel penampung elemen stack TIDAK penuh */
 /* F.S. X menjadi TopStack yang baru,TopStack bertambah 1 */
 	TopStack(*S) += 1;
-	CopyAksi(X,&InfoTopStack(*S))
+	CopyAksi(X,&InfoTopStack(*S));
 }
 /* ************ Menghapus sebuah elemen Stack ************ */
 void PopStack(Stack * S, struct_aksi * X){

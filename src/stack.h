@@ -47,22 +47,22 @@ typedef struct {
 } struct_aksi;
 
 /* selektor struct_aksi, a itu struct_aksi */
-#define KoordBuild(a) a.build_details.coord
-#define IDBuild(a) a.build_details.id_build
-#define HargaBuild(a) a.build_details.harga_build
-#define DurasiBuild(a) a.build_details.durasi_build
-#define KoordUpgrade(a) a.upgrade_details.coord
-#define IDUpgrade(a) a.upgrade_details.id_upgrade
-#define HargaUpgrade(a) a.upgrade_details.harga_upgrade
-#define DurasiUpgrade(a) a.upgrade_details.durasi_upgrade
-#define HargaBuy(a) a.buy_details.harga_buy
-#define DurasiBuy(a) a.buy_details.durasi_buy
-#define IDBarangBuy(a) a.buy_details.id_barang
-#define JumlahBarangBuy(a) a.buy_details.jumlah_barang
-#define IDAksi(a) a.id_aksi
-#define BuildDetails(a) a.build_details
-#define UpgradeDetails(a) a.upgrade_details
-#define BuyDetails(a) a.buy_details
+#define KoordBuild(a) (a).build_details.coord
+#define IDBuild(a) (a).build_details.id_build
+#define HargaBuild(a) (a).build_details.harga_build
+#define DurasiBuild(a) (a).build_details.durasi_build
+#define KoordUpgrade(a) (a).upgrade_details.coord
+#define IDUpgrade(a) (a).upgrade_details.id_upgrade
+#define HargaUpgrade(a) (a).upgrade_details.harga_upgrade
+#define DurasiUpgrade(a) (a).upgrade_details.durasi_upgrade
+#define HargaBuy(a) (a).buy_details.harga_buy
+#define DurasiBuy(a) (a).buy_details.durasi_buy
+#define IDBarangBuy(a) (a).buy_details.id_barang
+#define JumlahBarangBuy(a) (a).buy_details.jumlah_barang
+#define IDAksi(a) (a).id_aksi
+#define BuildDetails(a) (a).build_details
+#define UpgradeDetails(a) (a).upgrade_details
+#define BuyDetails(a) (a).buy_details
 
 /* konstruktor struct_aksi */
 struct_aksi MakeAksiBuild(POINT koord, int id_build, int harga_build, int durasi_build);
@@ -94,7 +94,7 @@ typedef struct {
 
 /* ************ Prototype ************ */
 /* *** Konstruktor/Kreator *** */
-void CreateEmpty (Stack *S);
+void CreateEmptyStack (Stack *S);
 /* I.S. sembarang; */
 /* F.S. Membuat sebuah stack S yang kosong berkapasitas MaxEl */
 /* jadi indeksnya antara 0.. MaxEl */
