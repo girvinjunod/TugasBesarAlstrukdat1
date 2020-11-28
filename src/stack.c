@@ -38,6 +38,27 @@ struct_aksi MakeAksiBuy(int harga_buy, int durasi_buy, int id_barang, int jumlah
 	JumlahBarangBuy(ret)=jumlah_barang;
 	return ret;
 }
+void CopyAksi(struct_aksi a, struct_aksi *b){
+	/* menyalin isi a ke b */
+	/* KAMUS LOKAL */
+	/* ALGORITMA */
+	KoordBuild(*b) = KoordBuild(a);
+	IDBuild(*b) = IDBuild(a);
+	HargaBuild(*b) = HargaBuild(a); 
+	DurasiBuild(*b) = DurasiBuild(a);
+	KoordUpgrade(*b) = KoordUpgrade(a);
+	IDUpgrade(*b) = IDUpgrade(a);
+	HargaUpgrade(*b) = HargaUpgrade(a);
+	DurasiUpgrade(*b) = DurasiUpgrade(a);
+	HargaBuy(*b) = HargaBuy(a);
+	DurasiBuy(*b) = DurasiBuy(a);
+	IDBarangBuy(*b) = IDBarangBuy(a);
+	JumlahBarangBuy(*b) = JumlahBarangBuy(a);
+	IDAksi(*b) = IDAksi(a);
+	BuildDetails(*b) = BuildDetails(a);
+	UpgradeDetails(*b) = UpgradeDetails(a);
+	BuyDetails(*b) = BuyDetails(a);
+}
 
 void CreateEmptyStack(Stack *S){
 /* I.S. sembarang; */
@@ -62,14 +83,14 @@ void PushStack(Stack * S, struct_aksi X){
 /* I.S. S mungkin kosong, tabel penampung elemen stack TIDAK penuh */
 /* F.S. X menjadi TopStack yang baru,TopStack bertambah 1 */
 	TopStack(*S) += 1;
-	InfoTopStack(*S) = X;
+	CopyAksi(X,&InfoTopStack(*S))
 }
 /* ************ Menghapus sebuah elemen Stack ************ */
 void PopStack(Stack * S, struct_aksi * X){
 /* Menghapus X dari Stack S. */
 /* I.S. S  tidak mungkin kosong */
 /* F.S. X adalah nilai elemen TopStack yang lama, TopStack berkurang 1 */
-	*X = InfoTopStack(*S);
+	CopyAksi(InfoTopStack(*S),X);
 	TopStack(*S) -= 1;
 }
 
