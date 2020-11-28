@@ -6,8 +6,7 @@
 
 typedef struct {
     int ID;
-    char Name[100];
-    int NameLength;
+    Kata Name;
 	int BuildTime;
     int Resources;
     int SizeX;
@@ -23,7 +22,6 @@ typedef struct {
 /* *** Selektor *** */
 #define ID(W) (W).ID
 #define Name(W) (W).Name
-#define NameLength(W) (W).NameLength
 #define BuildTime(W) (W).BuildTime
 #define Resources(W) (W).Resources
 #define PosX(W) (W).PosX

@@ -2,44 +2,39 @@
 #include "pengunjung.h"
 #include <stdio.h>
 #include <stdlib.h>
-/*
-typedef struct tPengunjung { 
-	int kesabaran;
-	int wahana[100];
-} Pengunjung;*/
 
-void generatePengunjung(int n){ //n itu jumlahnya peng7unjung yang di generate
-	Pengunjung ListPengunjung[100];// ini jadi public cvasiable kalau bisa 
-	int i,j;
-	for(i = 0;i < 100; i++){
-		for (j = 0; j < 100; j++){
-			Wahana(ListPengunjung[i])[j] = -1;
-		}
-		NbWahana(ListPengunjung[i]) = 0;
-		Kesabaran(ListPengunjung[i]) = 10;
+Pengunjung generatePengunjung(){ //n itu jumlahnya pengunjung yang di generate
+	Pengunjung P;
+	P.kesabaran = 0;
+	P.nbListWahana = (rand() % 20) + 1;
+	P.nbActiveWahana = P.nbListWahana;
+	for(int i=0; i<P.nbListWahana; i++){
+		P.wahana[i] = rand() % nbWahana;
+		P.done[i] = false;
 	}
-	for(i = 0;i < n;i++){
-		//Kesabaran(ListPengunjung[i]) = 10;
-		//NbWahana(ListPengunjung[i]) = rand() % NbElmt(Active); // 
-		NbWahana(ListPengunjung[i]) = rand() % 10; // buat testing kalau real pake yang atas
-		printf("NbWahana(ListPengunjung[i]) = %d\n",NbWahana(ListPengunjung[i]));
-		for (j = 0;j<NbWahana(ListPengunjung[i]);j++){
-			//Wahana(ListPengunjung[i])[j] = rand() % NbElmt(Active);
-			Wahana(ListPengunjung[i])[j] = rand() % 10;// buat testing kalau real pake yang atas
-			printf("Wahana(ListPengunjung[i])[j] = %d\n",Wahana(ListPengunjung[i])[j]);
-		}		
-	}
+	return P;
 }
-void ServeWahana(int P, int Wahana){ // menghilangkan wahana dari listwahana pada pengunjung
-	int Serve = 0;
-	int i = 0;
-	while(!Serve || i < 100){
-		if(Wahana(P)[i] == Wahana){
-			serve = 1;
-			Wahana(P)[i] = -1;
-		}else{
-			i++;
-		}
-		
+void ServeWahana(Pengunjung *P, int ID){ // menghilangkan wahana dari listwahana pada pengunjung
+	int cur = 0;
+	while((*P).wahana[cur]!=ID || (*P).done[cur]){
+		cur++;
 	}
+	(*P).done[cur] = true;
+	(*P).kesabaran--;
+}
+void PrintPengunjung(Pengunjung P){
+	printf("(");
+	boolean first = true;
+	for(int i=0; i<P.nbListWahana; i++){
+		if(!P.done[i]){
+			if(first){
+				PrintName(ActiveWahana[P.wahana[i]]);
+				first = false;
+			}else{
+				printf(", ");
+				PrintName(ActiveWahana[P.wahana[i]]);
+			}
+		}
+	}
+	printf("), kesabaran: %d\n", P.kesabaran);
 }
