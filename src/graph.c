@@ -66,6 +66,7 @@ void CreateGraphMap(Graph* G)
         
         AddNodeGraph(G,i,*Mtemp);
     }
+    ConnectMap(G);
 }
 
 void AddNodeGraph(Graph *G,int n,MAP M)
@@ -83,12 +84,11 @@ void AddNodeGraph(Graph *G,int n,MAP M)
 
 void ConnectMap(Graph *G){
   adrNode P,P1,P2;
-  for(int i=1;i<=2;i++){
+  for(int i=1;i<=4;i+=3){
     P = SearchNode(*G,i);
 
-    if(i==1) P1=SearchNode(*G,i+1);
-    else P1=SearchNode(*G,i-1);
-    P2=SearchNode(*G,i+2);
+    if(i==1) {P1=SearchNode(*G,i+1);P2=SearchNode(*G,i+2);}
+    else {P1=SearchNode(*G,i-1);P2=SearchNode(*G,i-2);}
     
     ConnectNode(&P,&P1);
     ConnectNode(&P,&P2);
@@ -109,24 +109,6 @@ adrNode SearchNode(Graph G, int X){
     }
     else{
         return Nil;
-    }
-}
-
-void AddLastTrail(Graph *GR, int idB, int Trail){
-// I.S. idB, Trail terdefinisi dan ada dalam suatu id graph, trail 
-// F.S. Trail dimasukan sebagai trail terakhir di idB
-    adrNode P = SearchNode(*GR,idB);
-    adrNode PTrail = SearchNode(*GR,Trail);
-    adrSucc Pn = AlokSucc(PTrail);
-    adrSucc PT = Trail(P);
-    if(PT != Nil){
-        while(NextSucc(PT) != Nil){
-            PT = NextSucc(PT);
-        }
-        NextSucc(PT) = Pn;
-    }
-    else{
-        Trail(P) = Pn;
     }
 }
 
@@ -157,7 +139,44 @@ void move(char input,Graph *GM){
 		PosYPlayer(M) = Ordinat(temp);
 		setPoint(&M,'P',PosPlayer(M));
         Map(P) = M;
-	}else printf("That place is occupied");
+	}else if(checkSwitchVertical(M,temp)) SwitchMap(GM,true);
+    else if(checkSwitchHorizontal(M,temp)) SwitchMap(GM,false);
+    else printf("That place is occupied");
+}
+
+void SwitchMap(Graph *GM,boolean vertical){
+    adrNode P = SearchPlayer(*GM),newP;
+    MAP M = Map(P),newMap;
+    POINT gate;
+    adrSucc S = Trail(P);
+    if (vertical){
+        newP = Succ(NextSucc(S));
+        printf("test\n");
+        newMap = Map(newP);
+        setPoint(&M,'-',PosPlayer(M));
+
+        if(Ordinat(VGate(newMap))==0) gate=MakePOINT(Absis(VGate(newMap)),Ordinat(VGate(newMap))++);
+        else gate=MakePOINT(Absis(VGate(newMap)),Ordinat(VGate(newMap))--);
+        TulisPOINT(gate);printf("\n");
+    }else{
+        newP = NextSucc(S);
+        newMap = Map(newP);
+        setPoint(&M,'-',PosPlayer(M));
+
+        if(Absis(VGate(newMap))==0) gate=MakePOINT(Absis(VGate(newMap))++,Ordinat(VGate(newMap)));
+        else gate=MakePOINT(Absis(VGate(newMap))--,Ordinat(VGate(newMap)));
+    }
+
+    if(checkPoint(newMap,gate)){
+        setPoint(&M,'-',PosPlayer(M));
+        PosXPlayer(M) = pointUndef;
+        PosYPlayer(M) = pointUndef;
+        setPoint(&newMap,'P',gate);
+        PosXPlayer(newMap) = Absis(gate);
+        PosYPlayer(newMap) = Ordinat(gate);
+        Map(P) = M;
+        Map(newP) = newMap;
+    }else printf("That place is occupied");
 }
 
 adrNode SearchPlayer(Graph GM){
@@ -172,7 +191,6 @@ int main() {
 	Graph g;
 	CreateGraphMap(&g);
 	PrintCurrMap(g);
-    move('a',&g);
-    PrintCurrMap(g);
+    move('s',&g);
 }
 

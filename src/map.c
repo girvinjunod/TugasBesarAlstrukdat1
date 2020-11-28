@@ -23,18 +23,20 @@ void readMap(MAP *M1,MAP *M2,MAP *M3, MAP *M4){
     do{
 		cc = getc(fileMap);
 
-        if (cc=='1') {currMap=M1; cc=getc(fileMap); cc = getc(fileMap); NBrsEff(*currMap)=1; NKolEff(*currMap)=0;i=0;j=0;}
-        else if (cc=='2') {currMap=M2; cc=getc(fileMap); cc = getc(fileMap); NBrsEff(*currMap)=1; NKolEff(*currMap)=0;i=0;j=0;}
-        else if (cc=='3') {currMap=M3; cc=getc(fileMap); cc = getc(fileMap); NBrsEff(*currMap)=1; NKolEff(*currMap)=0;i=0;j=0;}
-        else if (cc=='4') {currMap=M4; cc=getc(fileMap); cc = getc(fileMap); NBrsEff(*currMap)=1; NKolEff(*currMap)=0;i=0;j=0;}
+        if (cc=='1') {currMap=M1; cc=getc(fileMap); cc = getc(fileMap); NBarEff(*currMap)=1; NColEff(*currMap)=0;i=0;j=0;}
+        else if (cc=='2') {currMap=M2; cc=getc(fileMap); cc = getc(fileMap); NBarEff(*currMap)=1; NColEff(*currMap)=0;i=0;j=0;}
+        else if (cc=='3') {currMap=M3; cc=getc(fileMap); cc = getc(fileMap); NBarEff(*currMap)=1; NColEff(*currMap)=0;i=0;j=0;}
+        else if (cc=='4') {currMap=M4; cc=getc(fileMap); cc = getc(fileMap); NBarEff(*currMap)=1; NColEff(*currMap)=0;i=0;j=0;}
 		else if (cc=='.') {cc = getc(fileMap);cc = getc(fileMap);}
 		else if(cc != EOF){
-			if (cc=='\n') {i++;j=0;NBrsEff(*currMap)++;NKolEff(*currMap)=0;}
+			if (cc=='\n') {i++;j=0;NBarEff(*currMap)++;NColEff(*currMap)=0;}
 			else{
 				Legend(*currMap,i,j) = cc;
 				if (cc=='P') PosPlayer(*currMap)=MakePOINT(j,i);
+				else if (cc=='v'||cc=='^') VGate(*currMap)=MakePOINT(j,i);
+				else if (cc=='<'||cc=='>') HGate(*currMap)=MakePOINT(j,i);
 				j++;
-				NKolEff(*currMap)++;
+				NColEff(*currMap)++;
 			}
 		}
     }while (cc != EOF);
@@ -43,6 +45,15 @@ void readMap(MAP *M1,MAP *M2,MAP *M3, MAP *M4){
 /* Check jika point di Current MAP occupied */
 boolean checkPoint(MAP M,POINT P){
 	return Legend(M,Ordinat(P),Absis(P)) == '-';
+}
+/* Check jika point P di MAP M menuju ke Map sebelahnya */
+boolean checkSwitchVertical(MAP M,POINT P){
+	legend L = Legend(M,Ordinat(P),Absis(P));
+	return L=='^'||L=='v'||L=='V';
+}
+boolean checkSwitchHorizontal(MAP M,POINT P){
+	legend L = Legend(M,Ordinat(P),Absis(P));
+	return L=='<'||L=='>';
 }
 
 /* Cari Map yang ada player */
@@ -56,9 +67,9 @@ void setPoint(MAP *M,char cc,POINT P){
 }
 
 void printMap(MAP M){
-	for (int i = IdxMin; i < NBrsEff(M); i++){
-        for (int j = IdxMin; j < NKolEff(M); j++){
-            if (j != NKolEff(M)-1) printf("%c", Legend(M,i,j));
+	for (int i = IdxMin; i < NBarEff(M); i++){
+        for (int j = IdxMin; j < NColEff(M); j++){
+            if (j != NColEff(M)-1) printf("%c", Legend(M,i,j));
             else printf("%c\n", Legend(M,i,j));
         }
     }
