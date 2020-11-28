@@ -2,10 +2,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "boolean.h"
 #include "wahana.h"
-#include "mesinkar.h"
-#include "mesinkata.h"
 
 void PrintName(Wahana W){
     for(int i=0; i<NameLength(W); i++){
@@ -39,4 +36,23 @@ void PrintInfoWahana(Wahana W){
     printf("Duration: %d\n", Duration(W));
     printf("Capacity: %d\n", Capacity(W));
     printf("Price: %d\n", Price(W));
+}
+
+Wahana CopyWahana(Wahana W){
+    Wahana Copy;
+    ID(Copy) = ID(W);
+    for(int i=0; i<NameLength(W); i++){
+        Name(Copy)[i] = Name(W)[i];
+    }
+    NameLength(Copy) = NameLength(W);
+    BuildTime(Copy) = BuildTime(W);
+    Resources(Copy) = Resources(W);
+    PosX(Copy) = PosX(W);
+    PosY(Copy) = PosY(W);
+    SizeX(Copy) = SizeX(W);
+    SizeY(Copy) = SizeY(W);
+    Duration(Copy) = Duration(W);
+    Capacity(Copy) = Capacity(W);
+    Price(Copy) = Price(W);
+    return Copy;
 }

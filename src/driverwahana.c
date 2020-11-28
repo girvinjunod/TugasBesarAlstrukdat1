@@ -9,11 +9,11 @@ int main() {
     ADVKATA();
     Wahana Dummy;
     ID(Dummy) = 0;
-    Tree T = Alokasi(Dummy);
+    Tree T = AlokasiTree(Dummy);
     while(!EndKata){
         MakeWahanaTree(&T, c);
     }
-    address S = Search(T, 1);
-    PrintChild(S);
+    addrNode S = SearchTree(T, 4);
+    PrintHistory(S);
     return 0;
 }

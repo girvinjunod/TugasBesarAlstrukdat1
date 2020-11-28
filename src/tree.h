@@ -1,51 +1,50 @@
 #ifndef tree_H
 #define tree_H
 
-#include "boolean.h"
 #include "wahana.h"
-#include "mesinkar.h"
-#include "mesinkata.h"
 
 
 #define Nil NULL
 #define MaxChildren 10
 
 typedef Wahana infotype;
-typedef struct tElmtTree *address;
+typedef struct tElmtTree *addrNode;
 typedef struct tElmtTree { 
 	infotype info;
-	address parent;
-    address children[MaxChildren];
+	addrNode parent;
+    addrNode children[MaxChildren];
 	int nbChild;
 } ElmtTree;
-typedef address Tree;
+typedef addrNode Tree;
 
 /* Notasi Akses */
-#define Info(P) (P)->info
+#define InfoTree(P) (P)->info
 #define Parent(P) (P)->parent
 #define Children(P) (P)->children
 #define NbChild(P) (P)->nbChild
 
 /* PROTOTYPE */
 /****************** TEST TREE KOSONG ******************/
-boolean IsEmpty (Tree T);
-boolean IsOneElmt (Tree T);
+boolean IsTreeEmpty (Tree T);
+boolean IsTreeOneElmt (Tree T);
 
 /****************** PEMBUATAN TREE KOSONG ******************/
-void CreateEmpty (Tree *T);
+void CreateTreeEmpty (Tree *T);
 
 /****************** Manajemen Memori ******************/
-address Alokasi (infotype W);
-void Dealokasi (address P);
+addrNode AlokasiTree (infotype W);
+void DealokasiTree (addrNode P);
 
 /* PRIMITIF */
-address Search (Tree T, int IDX);
-void Insert(Tree *T, Tree *SubT);
+addrNode SearchTree (Tree T, int IDX);
+void InsertChild(Tree *T, Tree *SubT);
 /* Memasukkan Subtree SubT ke salah satu anak Tree *T */
 
 /* PROSEDUR */
 void PrintChild(Tree T);
 void MakeWahanaTree(Tree *T, int c);
+void PrintHistory(addrNode P);
+Wahana CopyWahanaID(Tree T, int ID);
 
 
 #endif

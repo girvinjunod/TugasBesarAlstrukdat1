@@ -1,4 +1,4 @@
-#include "stackt.h"
+#include "stack.h"
 #include <stdio.h>
 #include "boolean.h"
 
@@ -21,9 +21,9 @@ struct_aksi MakeAksiUpgrade(POINT koord, int id_upgrade, int harga_upgrade, int 
 	/* ALGORITMA */
 	IDAksi(ret)=1;
 	KoordUpgrade(ret)=MakePOINT(Absis(koord),Ordinat(koord));
-	IDUpgrade(ret)=id_build;
-	HargaUpgrade(ret)=harga_build;
-	DurasiUpgrade(ret)=durasi_build;
+	IDUpgrade(ret)=id_upgrade;
+	HargaUpgrade(ret)=harga_upgrade;
+	DurasiUpgrade(ret)=durasi_upgrade;
 	return ret;
 }
 struct_aksi MakeAksiBuy(int harga_buy, int durasi_buy, int id_barang, int jumlah_barang){
@@ -43,33 +43,33 @@ void CreateEmptyStack(Stack *S){
 /* I.S. sembarang; */
 /* F.S. Membuat sebuah stack S yang kosong berkapasitas MaxEl */
 /* jadi indeksnya antara 0.. MaxEl */
-/* Ciri stack kosong : TOP bernilai Nil */
-	Top(*S) = Nil;
+/* Ciri stack kosong : TopStack bernilai Nil */
+	TopStack(*S) = Nil;
 }
 
 /* ************ Predikat Untuk test keadaan KOLEKSI ************ */
 boolean IsEmptyStack(Stack S){
 /* Mengirim true jika Stack kosong: lihat definisi di atas */
-	return Top(S) == Nil; 
+	return TopStack(S) == Nil; 
 }
 boolean IsFullStack(Stack S){
 /* Mengirim true jika tabel penampung nilai elemen stack penuh */
-	return (Top(S) == MaxEl-1);
+	return (TopStack(S) == MaxEl-1);
 }
 /* ************ Menambahkan sebuah elemen ke Stack ************ */
 void PushStack(Stack * S, struct_aksi X){
 /* Menambahkan X sebagai elemen Stack S. */
 /* I.S. S mungkin kosong, tabel penampung elemen stack TIDAK penuh */
-/* F.S. X menjadi TOP yang baru,TOP bertambah 1 */
-	Top(*S) += 1;
-	InfoTop(*S) = X;
+/* F.S. X menjadi TopStack yang baru,TopStack bertambah 1 */
+	TopStack(*S) += 1;
+	InfoTopStack(*S) = X;
 }
 /* ************ Menghapus sebuah elemen Stack ************ */
 void PopStack(Stack * S, struct_aksi * X){
 /* Menghapus X dari Stack S. */
 /* I.S. S  tidak mungkin kosong */
-/* F.S. X adalah nilai elemen TOP yang lama, TOP berkurang 1 */
-	*X = InfoTop(*S);
-	Top(*S) -= 1;
+/* F.S. X adalah nilai elemen TopStack yang lama, TopStack berkurang 1 */
+	*X = InfoTopStack(*S);
+	TopStack(*S) -= 1;
 }
 

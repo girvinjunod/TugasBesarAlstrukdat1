@@ -54,3 +54,13 @@ int ToInt(Kata C){
     }
     return result;
 }
+
+boolean IsKataSama(Kata A, Kata B){
+    boolean ret = A.Length == B.Length;
+    if(ret){
+        for(int i=0; i<A.Length; i++){
+            ret = ret && (A.TabKata[i] == B.TabKata[i]);
+        }
+    }
+    return ret;
+}
