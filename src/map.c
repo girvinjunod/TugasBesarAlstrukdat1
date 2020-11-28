@@ -35,6 +35,14 @@ anggap map nya itu
 	if (currnode == 3 && gerbang == "<") return 0;
 }
 
+struct Graph* makegerbang() {
+	struct Graph* graph = createAGraph(4);
+	addEdge(graph, 0, 1);
+  	addEdge(graph, 0, 3);
+  	addEdge(graph, 1, 2);
+  	addEdge(graph, 2, 3);
+  	return graph;
+}
 void displaymap(int currnode){
 	if (currnode == 0){
 		printf("placeholder map 1");
@@ -52,14 +60,10 @@ void displaymap(int currnode){
 }
 
 int main(){
-	struct Graph* graph = createAGraph(4);
-	addEdge(graph, 0, 1);
-  	addEdge(graph, 0, 3);
-  	addEdge(graph, 1, 2);
-  	addEdge(graph, 2, 3);
+  	struct Graph* gerbang = makegerbang();
   	int currnode = 0;
   	printf("saat ini ada di map %d\n", currnode);
-  	pindahmap(graph, &currnode, cektargetnode("^", currnode));
+  	pindahmap(gerbang, &currnode, cektargetnode("^", currnode));
   	printf("saat ini ada di map %d\n", currnode);
   	
 }
