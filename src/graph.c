@@ -9,7 +9,7 @@ struct node* createNode(int v) {
   newNode->vertex = v;
   newNode->next = NULL;
   /*newNode->map = map 1;*/
-  newNode->tes = v+100;
+  newNode->tes = 0;
   return newNode;
 }
 
@@ -47,8 +47,11 @@ void isimap(struct Graph* graph){
   	for (v = 0; v < graph->numVertices; v++){
   		struct node* temp = graph->adjLists[v];
   		//tiap simpul/node isi map
-  		printf("isi map %d\n", id);
-  		printf("tes isi %d\n", temp->tes); //nanti tes nya apus, ganti sama isi mapnya
+  		printf("isi map %d\n", v);
+  		printf("tes isi awal %d\n", temp->tes); //nanti tes nya apus, ganti sama isi mapnya
+  		//misal temp->map = map1;
+  		temp->tes = 69 + v;
+  		printf("tes isi abis input %d\n", temp->tes);
   		id--;
 	  }
 }
@@ -89,7 +92,7 @@ boolean cekAdj(struct Graph* g, int a, int b){
 	return false;
 }
 
-/*
+
 int main() {
   struct Graph* graph = createAGraph(4);
   addEdge(graph, 0, 1);
@@ -103,4 +106,4 @@ int main() {
   else printf("no\n");
   isimap(graph);
   return 0;
-}*/
+}
