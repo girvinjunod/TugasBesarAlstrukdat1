@@ -29,17 +29,17 @@ typedef struct {
 /* Baca MAP dari file map.txt */
 void readMap(MAP *M1,MAP *M2,MAP *M3, MAP *M4);
 
-/* Output */
-//void printFullMAP(MAP M1,MAP M2,MAP M3,MAP M4);
-
 /* Check jika point di Current MAP occupied */
-//boolean checkPoint(POINT P);
+boolean checkPoint(MAP M,POINT P);
+
+/* Check movement */
+void move(char input);
 
 //void pindahMap(struct Graph* g, int *currnode, int targetnode);
 
 //int cekTargetNode(char* gerbang, int currnode);
 
-void displayMap(MAP M);
+void printMap(MAP M);
 
 
 #endif

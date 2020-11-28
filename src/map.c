@@ -1,10 +1,59 @@
-//define Map disini
-
 #include <stdio.h>
 #include <stdlib.h>
 #include "boolean.h"
-#include "graph.c"
+#include "map.h"
+#include "point.h"
+//#include "graph.h"
 
+
+
+/* Baca MAP dari file map.txt */
+void readMap(MAP *M1,MAP *M2,MAP *M3, MAP *M4){
+// Membaca keempat MAP pada file map.txt, tiap map dipisah dengan line kosong
+    FILE *fileMap;
+    fileMap = fopen("map.txt","r");
+
+    MAP *currMap;
+    indeks i,j;
+
+    legend cc;
+
+    do{
+		cc = getc(fileMap);
+
+        if (cc=='1') {currMap=M1; cc=getc(fileMap); cc = getc(fileMap); NBrsEff(*currMap)=1; NKolEff(*currMap)=0;i=0;j=0;}
+        else if (cc=='2') {currMap=M2; cc=getc(fileMap); cc = getc(fileMap); NBrsEff(*currMap)=1; NKolEff(*currMap)=0;i=0;j=0;}
+        else if (cc=='3') {currMap=M3; cc=getc(fileMap); cc = getc(fileMap); NBrsEff(*currMap)=1; NKolEff(*currMap)=0;i=0;j=0;}
+        else if (cc=='4') {currMap=M4; cc=getc(fileMap); cc = getc(fileMap); NBrsEff(*currMap)=1; NKolEff(*currMap)=0;i=0;j=0;}
+		else if (cc=='.') {cc = getc(fileMap);cc = getc(fileMap);}
+		else if(cc != EOF){
+			if (cc=='\n') {i++;j=0;NBrsEff(*currMap)++;NKolEff(*currMap)=0;}
+			else{
+				Legend(*currMap,i,j) = cc;
+				j++;
+				NKolEff(*currMap)++;
+			}
+		}
+    }while (cc != EOF);
+}
+
+/* Check jika point di Current MAP occupied */
+boolean checkPoint(MAP M,POINT P){
+	return Legend(M,Absis(P),Ordinat(P)) == '-';
+}
+
+/* Check Movement */
+void move(char input){
+	/*POINT temp;
+	if (input=='w') MakePOINT(PosX,PosY+1);
+	else if (input=='a') MakePOINT(PosX-1,PosY);
+	else if (input=='s') MakePOINT(PosX,PosY-1);
+	else if (input=='d') MakePOINT(PosX+1,PosY);
+
+	if checkPoint(M)*/
+	print("test");
+}
+/*
 void pindahmap(struct Graph* g, int *currnode, int targetnode){
 	boolean adj = cekAdj(g, *currnode, targetnode);
 	if (adj){
@@ -12,7 +61,7 @@ void pindahmap(struct Graph* g, int *currnode, int targetnode){
 	}
 	else printf("node tidak adj, dunno tpi harusnya ga kepake ini");
 }
-int cektargetnode(char* gerbang, int currnode){
+int cektargetnode(char* gerbang, int currnode){*/
 /*
 anggap map nya itu
  
@@ -24,7 +73,7 @@ anggap map nya itu
  000  333
  000><333
  000  333
-*/
+
 	if (currnode == 0 && gerbang == "^") return 1;
 	if (currnode == 0 && gerbang == ">") return 3;
 	if (currnode == 1 && gerbang == ">") return 2;
@@ -42,28 +91,13 @@ struct Graph* makegerbang() {
   	addEdge(graph, 1, 2);
   	addEdge(graph, 2, 3);
   	return graph;
-}
-void displaymap(int currnode){
-	if (currnode == 0){
-		printf("placeholder map 1");
-	}
-	else if (currnode == 1){
-		printf("placeholder map 2");
-	}
-	else if (currnode == 1){
-		printf("placeholder map 3");
-	}
-	else if (currnode == 1){
-		printf("placeholder map 4");
-	}
-	else printf("nyasar mas");
-}
+}*/
 
-int main(){
-  	struct Graph* gerbang = makegerbang();
-  	int currnode = 0;
-  	printf("saat ini ada di map %d\n", currnode);
-  	pindahmap(gerbang, &currnode, cektargetnode("^", currnode));
-  	printf("saat ini ada di map %d\n", currnode);
-  	
+void printMap(MAP M){
+	for (int i = IdxMin; i < NBrsEff(M); i++){
+        for (int j = IdxMin; j < NKolEff(M); j++){
+            if (j != NKolEff(M)-1) printf("%c", Legend(M,i,j));
+            else printf("%c\n", Legend(M,i,j));
+        }
+    }
 }
