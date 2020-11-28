@@ -1,5 +1,5 @@
 #include "boolean.h"
-#include "pengunjung.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -8,7 +8,8 @@ Pengunjung generatePengunjung(){ //n itu jumlahnya pengunjung yang di generate
 	P.kesabaran = 0;
 	P.nbListWahana = (rand() % 20) + 1;
 	P.nbActiveWahana = P.nbListWahana;
-	for(int i=0; i<P.nbListWahana; i++){
+	int i;
+	for(i=0; i<P.nbListWahana; i++){
 		P.wahana[i] = rand() % nbWahana;
 		P.done[i] = false;
 	}
