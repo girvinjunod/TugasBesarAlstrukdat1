@@ -1,17 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "boolean.h"
-
-struct node {
-  int vertex;
-  struct node* next;
-};
-struct node* createNode(int);
-
-struct Graph {
-  int numVertices;
-  struct node** adjLists;
-};
+#include "graph.h"
 
 struct node* createNode(int v) {
   struct node* newNode = malloc(sizeof(struct node));
@@ -93,8 +83,7 @@ int main() {
   addEdge(graph, 0, 2);
   addEdge(graph, 0, 3);
   addEdge(graph, 1, 2);
-  tes(graph);
-  printGraph1(graph, 2);
+  printGraph(graph);
   int a = 1;
   int b = 2;
   if (cekAdj(graph, a, b)) printf("a = %d adj b= %d", a, b);
