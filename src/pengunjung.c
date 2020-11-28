@@ -26,7 +26,8 @@ void ServeWahana(Pengunjung *P, int ID){ // menghilangkan wahana dari listwahana
 void PrintPengunjung(Pengunjung P){
 	printf("(");
 	boolean first = true;
-	for(int i=0; i<P.nbListWahana; i++){
+	int i;
+	for(i=0; i<P.nbListWahana; i++){
 		if(!P.done[i]){
 			if(first){
 				PrintName(ActiveWahana[P.wahana[i]]);
