@@ -15,7 +15,8 @@ void LoadWahanaTree(){
 
 void LoadWahana(){
     nbWahana = 0;
-    for(int i=0; i<12; i++){
+    int i;
+    for(i=0; i<12; i++){
         ActiveWahana[i] = CopyWahanaID(DataWahana, i+1);
         PosX(ActiveWahana[i]) = 0;
         PosY(ActiveWahana[i]) = 0;

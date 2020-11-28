@@ -67,7 +67,8 @@ void SalinKata(){
 int ToInt(Kata C){
     int result = 0;
     int add;
-    for(int i=0; i<C.Length; i++){
+    int i;
+    for(i=0; i<C.Length; i++){
         add = C.TabKata[i] - '0';
         result = result*10 + add;
     }
@@ -76,8 +77,9 @@ int ToInt(Kata C){
 
 boolean IsKataSama(Kata A, Kata B){
     boolean ret = A.Length == B.Length;
+    int i;
     if(ret){
-        for(int i=0; i<A.Length; i++){
+        for(i=0; i<A.Length; i++){
             ret = ret && (A.TabKata[i] == B.TabKata[i]);
         }
     }

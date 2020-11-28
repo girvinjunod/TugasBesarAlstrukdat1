@@ -26,7 +26,8 @@ addrNode AlokasiTree (Wahana W){
     if(P != Nil){
         Parent(P) = Nil;
         InfoTree(P) = W;
-        for(int i=0; i<MaxChildren; i++){
+        int i;
+        for(i=0; i<MaxChildren; i++){
             Children(P)[i] = Nil;
         }
         NbChild(P) = 0;
@@ -60,7 +61,8 @@ void InsertChild(Tree *T, Tree *SubT){
 }
 
 void PrintChild(Tree T){
-    for(int i=0; i<NbChild(T); i++){
+	int i;
+    for(i=0; i<NbChild(T); i++){
         PrintInfoWahana(InfoTree(Children(T)[i]));
     }
 }
@@ -69,7 +71,8 @@ void MakeWahanaTree(Tree *T, int c){
     Wahana W;
     addrNode *P;
     int subc;
-    for(int i=0; i<c; i++){
+    int i;
+    for(i=0; i<c; i++){
         W = ReadWahana();
         *P = AlokasiTree(W);
         InsertChild(T, P);
