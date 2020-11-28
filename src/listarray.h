@@ -19,7 +19,7 @@
 /* Definisi elemen dan koleksi objek */
 typedef int IdxType;  /* type indeks */
 typedef struct ElType{ /* type elemen tabel */
-    const char* ElInfo;
+    char ElInfo[20];
     int ElValue;
 } ElType;
 
@@ -37,7 +37,7 @@ typedef struct {
    Definisi elemen pertama : T[i] dengan i=0 */
 
 /* ********** SELEKTOR ********** */
-#define InfoArray(T,i) (T).TI[(i)].ElInfo
+#define Info(T,i) (T).TI[(i)].ElInfo
 #define Value(T,i) (T).TI[(i)].ElValue
 
 /* ********** KONSTRUKTOR ********** */
@@ -125,5 +125,6 @@ void AddAsLastEl (TabInt * T, const char X[], int N);
 /* I.S. Tabel T boleh kosong, tetapi tidak penuh */
 /* F.S. X adalah elemen terakhir T yang baru */
 
+int Length(const char X[]);
 
 #endif
