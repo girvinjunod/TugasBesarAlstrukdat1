@@ -17,9 +17,9 @@ int main(){
 	BacaPOINT(&P2);
 	printf("P2 = "); TulisPOINT(P2);printf("\n");
 	printf("\n");
-	printf("EQ(P1,P2) = %d",EQ(P1,P2));
+	printf("EQ(P1,P2) = %d",EQPOINT(P1,P2));
 	printf("\n");	 
-	printf("NEQ(P1,P2) = %d",NEQ(P1,P2));	 
+	printf("NEQ(P1,P2) = %d",NEQPOINT(P1,P2));	 
 	printf("\n");
 	printf("IsOrigin(P1) = %d",IsOrigin(P1));
 	printf("\n");

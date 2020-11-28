@@ -40,14 +40,14 @@ void TulisPOINT (POINT P){
 }
 
 /* *** Kelompok operasi relasional terhadap POINT *** */
-boolean EQ (POINT P1, POINT P2){
+boolean EQPOINT (POINT P1, POINT P2){
 /* Mengirimkan true jika P1 = P2 : absis dan ordinatnya sama */
     int x1,y1,x2,y2;
     x1 = Absis(P1); y1 = Ordinat(P1);
     x2 = Absis(P2); y2 = Ordinat(P2);
     return (x1==x2 && y1==y2);
 }
-boolean NEQ (POINT P1, POINT P2){
+boolean NEQPOINT (POINT P1, POINT P2){
 /* Mengirimkan true jika P1 tidak sama dengan P2 */
     int x1,y1,x2,y2;
     x1 = Absis(P1); y1 = Ordinat(P1);
