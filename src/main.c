@@ -1,18 +1,5 @@
 #include <stdio.h>
-#include "boolean.h"
-#include "tree.h"
-#include "prioqueuePengunjung.h"
-#include "jam.h"
-#include "mainphase.h"
-
-int option;
-boolean play;
-int nbWahana;
-Wahana ActiveWahana[100];
-Tree DataWahana;
-PrioQueuePengunjung PQ[100];
-PrioQueuePengunjung Antrian;
-JAM Sekarang;
+#include "globalvariable.h"
 
 void LoadWahanaTree(){
     STARTKATA();
