@@ -11,7 +11,7 @@
 #include "boolean.h"
 #include "point.h"
 
-#define Nil -1
+#define Undef -1
 #define MaxEl 100
 /* Nil adalah stack dengan elemen kosong . */
 
@@ -74,13 +74,13 @@ struct_aksi MakeAksiBuy(int harga_buy, int durasi_buy, int id_barang, int jumlah
 void CopyAksi(struct_aksi a, struct_aksi *b);
 /* mengembalikan salinan a */
 
-typedef int address;   /* indeks tabel */
+typedef int addressStack;   /* indeks tabel */
 
 /* Contoh deklarasi variabel bertype stack dengan ciri TOP : */
 /* Versi I : dengan menyimpan tabel dan alamat top secara eksplisit*/
 typedef struct { 
   struct_aksi aksi[MaxEl]; /* tabel penyimpan elemen */
-  address TOP;  /* alamat TOP: elemen puncak */
+  addressStack TOP;  /* alamat TOP: elemen puncak */
 } Stack;
 /* Definisi stack S kosong : S.TOP = Nil */
 /* Elemen yang dipakai menyimpan nilai Stack T[0]..T[MaxEl-1] */

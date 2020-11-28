@@ -10,7 +10,7 @@ void MakeEmpty (TabInt * T){
 /* Proses: Inisialisasi semua elemen tabel T dengan ValUndef */
     IdxType i;
     for (i=IdxMin;i<=IdxMax;i++){
-        Info(*T,i)=ValUndef;
+        InfoArray(*T,i)=ValUndef;
     }
 }
 
@@ -21,7 +21,7 @@ int NbElmt (TabInt T){
 /* Mengirimkan nol jika tabel kosong */
     int count=0;
     IdxType i=IdxMin;
-    while (Info(T,i)!=ValUndef&&i<=IdxMax){
+    while (InfoArray(T,i)!=ValUndef&&i<=IdxMax){
         count++; i++;
     }
     return count;
@@ -41,7 +41,7 @@ IdxType GetLastIdx (TabInt T){
 /* Prekondisi : Tabel T tidak kosong */
 /* Mengirimkan indeks elemen T terakhir */
     IdxType i=IdxMin;
-    while (Info(T,i+1)!=ValUndef&&i<=IdxMax){
+    while (InfoArray(T,i+1)!=ValUndef&&i<=IdxMax){
         i++;
     }
     return (i);
@@ -63,7 +63,7 @@ boolean IsIdxEff (TabInt T, IdxType i){
 /* *** Test tabel kosong *** */
 boolean IsEmpty (TabInt T){
 /* Mengirimkan true jika tabel T kosong, mengirimkan false jika tidak */
-    return (Info(T,IdxMin)==ValUndef);
+    return (InfoArray(T,IdxMin)==ValUndef);
 }
 
 /* *** Test tabel penuh *** */
@@ -95,7 +95,7 @@ void BacaIsi (TabInt * T){
     while(N<0||N>MaxNbEl(*T));
     for(i=IdxMin;i<N;i++){
         scanf("%s",X);
-        Info(*T,i) = X;
+        InfoArray(*T,i) = X;
         scanf("%d",&elmt);
         Value(*T,i) = elmt;
     }
@@ -113,11 +113,11 @@ void TulisIsiTab (TabInt T){
     if (!(IsEmpty(T))){
         for (i=IdxMin;i<NbElmt(T);i++){
             if (i==GetLastIdx(T)) {
-                printf("(%s",Info(T,i));
+                printf("(%s",InfoArray(T,i));
                 printf(",%d)",Value(T,i));
             }
             else {
-                printf("(%s",Info(T,i));
+                printf("(%s",InfoArray(T,i));
                 printf(",%d),",Value(T,i));
 
             }
@@ -138,7 +138,7 @@ IdxType Search1 (TabInt T, const char X[]){
     boolean found=false;
     idx = IdxUndef;
     while (!found&&i<NbElmt(T)){
-        if (Info(T,i)==X){
+        if (InfoArray(T,i)==X){
             idx = i;
             found=true;
         }
@@ -153,7 +153,7 @@ boolean SearchB (TabInt T, const char X[]){
     IdxType i=IdxMin;
     boolean found=false;
     while (!(found)&&i<NbElmt(T)){
-        if (Info(T,i)==X){
+        if (InfoArray(T,i)==X){
             found = true;
         }
         i++;
@@ -178,10 +178,10 @@ void AddAsLastEl (TabInt * T, const char X[], int N){
 /* F.S. X adalah elemen terakhir T yang baru */
     if(!IsFull(*T)){
         if(!IsEmpty(*T)){
-            Info(*T,GetLastIdx(*T)+1) = X;
+            InfoArray(*T,GetLastIdx(*T)+1) = X;
             Value(*T,GetLastIdx(*T)+1) = N;
         }else{
-            Info(*T,IdxMin) = X;
+            InfoArray(*T,IdxMin) = X;
             Value(*T,IdxMin) = N;
         }   
     }

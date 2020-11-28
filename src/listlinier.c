@@ -5,7 +5,7 @@
 
 /* PROTOTYPE */
 /****************** TEST LIST KOSONG ******************/
-boolean IsEmpty (List L){
+boolean IsEmptyLinier (List L){
 /* Mengirim true jika list kosong */
     return First(L)==Nil;
 }
@@ -14,7 +14,7 @@ boolean IsEmpty (List L){
 void CreateEmpty (List *L){
 /* I.S. sembarang             */
 /* F.S. Terbentuk list kosong */
-    First(*L)=Nil;
+    FirstLinier(*L)=Nil;
 }
 
 /****************** Manajemen Memori ******************/
@@ -27,7 +27,7 @@ address Alokasi (infotype X){
     P = (address)malloc(sizeof(ElmtList));
     if(P!=NULL){//Periksa keberhasilan alokasi
         for(int i=0; i<CKata.Length; i++){
-            Info(P)[i] = X[i];
+            InfoLinier(P)[i] = X[i];
         }
         Next(P)=Nil;
         return P;
@@ -46,9 +46,9 @@ void Dealokasi (address *P){
 void InsertLast (List *L, address P){
 /* I.S. Sembarang, P sudah dialokasi  */
 /* F.S. P ditambahkan sebagai elemen terakhir yang baru */
-    address Ptemp=First(*L);
+    address Ptemp=FirstLinier(*L);
     //Periksa jika list kosong
-    if(IsEmpty(*L)) First(*L)=P;
+    if(IsEmptyLinier(*L)) FirstLinier(*L)=P;
     else{
         //Mencari elemen list terakhir
         while(Next(Ptemp)!=Nil){
@@ -75,13 +75,13 @@ void PrintInfo (List L){
 /* Contoh : jika ada tiga elemen bernilai 1, 20, 30 akan dicetak: [1,20,30] */
 /* Jika list kosong : menulis [] */
 /* Tidak ada tambahan karakter apa pun di awal, akhir, atau di tengah */
-    if(!IsEmpty(L)){//Periksa jika list kosong
-        address P=First(L);
+    if(!IsEmptyLinier(L)){//Periksa jika list kosong
+        address P=FirstLinier(L);
         //Print setiap elemen hingga elemen terakhir list
         while(Next(P)!=Nil){
-            printf("%s->",Info(P));
+            printf("%s->",InfoLinier(P));
             P=Next(P);
         }
-        printf("%s",Info(P));
+        printf("%s",InfoLinier(P));
     }
 }

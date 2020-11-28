@@ -119,4 +119,5 @@ int main(){
 	scanf("%d",&C);
 	printf("CountXBrs (M, i, C) = %d\n", CountXBrs (M, i, C));
 	printf("CountXKol (M, i, C) = %d\n", CountXKol (M, i, C));
+	return 0;
 }

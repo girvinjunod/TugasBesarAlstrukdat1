@@ -37,7 +37,7 @@ typedef struct {
    Definisi elemen pertama : T[i] dengan i=0 */
 
 /* ********** SELEKTOR ********** */
-#define Info(T,i) (T).TI[(i)].ElInfo
+#define InfoArray(T,i) (T).TI[(i)].ElInfo
 #define Value(T,i) (T).TI[(i)].ElValue
 
 /* ********** KONSTRUKTOR ********** */

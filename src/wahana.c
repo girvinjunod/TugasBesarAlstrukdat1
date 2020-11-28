@@ -5,7 +5,8 @@
 #include "wahana.h"
 
 void PrintName(Wahana W){
-    for(int i=0; i<Name(W).Length; i++){
+	int i;
+    for(i=0; i<Name(W).Length; i++){
         printf("%c", Name(W).TabKata[i]);
     }
 }

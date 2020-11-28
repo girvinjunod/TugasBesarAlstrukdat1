@@ -2,7 +2,7 @@
 #include "globalvariable.h"
 
 void LoadWahanaTree(){
-    STARTKATA();
+    STARTKATAKEYBOARD();
     int c = ToInt(CKata);
     ADVKATA();
     Wahana Dummy;

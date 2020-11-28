@@ -1,3 +1,6 @@
+#ifndef globalvariable_H
+#define globalvariable_H
+
 #include "boolean.h"
 #include "graph.h"
 #include "jam.h"
@@ -5,7 +8,7 @@
 #include "listlinier.h"
 #include "mainphase.h"
 #include "map.h"
-#include "matriks.h"
+//#include "matriks.h"
 #include "mesinkar.h"
 #include "mesinkata.h"
 #include "pengunjung.h"
@@ -24,3 +27,6 @@ PrioQueuePengunjung PQ[100];
 PrioQueuePengunjung Antrian;
 JAM Sekarang;
 int option;
+
+
+#endif

@@ -65,13 +65,13 @@ void CreateEmptyStack(Stack *S){
 /* F.S. Membuat sebuah stack S yang kosong berkapasitas MaxEl */
 /* jadi indeksnya antara 0.. MaxEl */
 /* Ciri stack kosong : TopStack bernilai Nil */
-	TopStack(*S) = Nil;
+	TopStack(*S) = Undef;
 }
 
 /* ************ Predikat Untuk test keadaan KOLEKSI ************ */
 boolean IsEmptyStack(Stack S){
 /* Mengirim true jika Stack kosong: lihat definisi di atas */
-	return TopStack(S) == Nil; 
+	return TopStack(S) == Undef; 
 }
 boolean IsFullStack(Stack S){
 /* Mengirim true jika tabel penampung nilai elemen stack penuh */
