@@ -17,6 +17,7 @@ typedef struct {
     int Duration;
     int Capacity;
     int Price;
+    double ChanceRusak; /* di filenya ketulis ChanceRusak*1e6 */
 } Wahana;
 
 /* *** Selektor *** */
@@ -32,6 +33,7 @@ typedef struct {
 #define Duration(W) (W).Duration
 #define Capacity(W) (W).Capacity
 #define Price(W) (W).Price
+#define ChanceRusak(W) (W).ChanceRusak
 
 void PrintName(Wahana W);
 

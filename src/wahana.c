@@ -25,6 +25,7 @@ Wahana ReadWahana(){
     Duration(W) = ToInt(CKata); ADVKATA();
     Capacity(W) = ToInt(CKata); ADVKATA();
     Price(W) = ToInt(CKata); ADVKATA();
+    ChanceRusak(W) =  (double)ToInt(Ckata)/1e6; ADVKATA();
     return W;
 }
 
@@ -36,6 +37,7 @@ void PrintInfoWahana(Wahana W){
     printf("Duration: %d\n", Duration(W));
     printf("Capacity: %d\n", Capacity(W));
     printf("Price: %d\n", Price(W));
+    printf("Chance Rusak: %.2f\n", ChanceRusak(W));
 }
 
 Wahana CopyWahana(Wahana W){
@@ -54,5 +56,6 @@ Wahana CopyWahana(Wahana W){
     Duration(Copy) = Duration(W);
     Capacity(Copy) = Capacity(W);
     Price(Copy) = Price(W);
+    ChanceRusak(Copy) = ChanceRusak(W);
     return Copy;
 }
