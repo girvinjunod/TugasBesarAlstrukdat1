@@ -3,14 +3,15 @@
 
 #include "boolean.h"
 #include "map.h"
-#include "listlinier.h"
+#include "point.h"
 
 #define Nil NULL
 /* Selektor */
 typedef struct tNodeGraph* adrNode;
 typedef struct tAdrSucc* adrSucc;
 typedef struct tNodeGraph {
-	int Id;
+	int Id;//ID untuk map
+    MAP Map;//Pointer ke Map
     int NPred;
     adrSucc Trail; // ke bawah
     adrNode Next; // ke kanan
@@ -26,12 +27,14 @@ typedef struct {
 #define IdGraph(P) (P)->Id
 #define NPred(P) (P)->NPred
 #define Trail(P) (P)->Trail
+#define Map(P) (P)->Map
 #define NextGraph(GR) (GR)->Next
 #define Succ(P) (P)->Succ
 #define NextSucc(P) (P)->Next
+#define First(G) (G).First
 /* Konstruktor, Destruktor */
 
-adrNode AlokNode(int X);
+adrNode AlokNode(int X,MAP M);
 /* I.S. X adalah bilangan bulat valid */
 /* F.S. Alokasi node dalam graph dengan ID X dan Npred, Trail dan Next diinisialisasikan 0,Nil,dan Nil  */
 void DealokNode(adrNode P);
@@ -43,12 +46,15 @@ adrSucc AlokSucc(adrNode Pn);
 void DealokSuccNode(adrSucc Pt);
 /* I.S. adrSucc Pt valid */
 /* F.S. Melakukan dealokasi pada SuccNode Pt */
-void CreateGraph(Graph* G, int n);
-/* I.S. Graph terdefinisi, mungkin kosong , n bilangan bulat valid */
-/* F.S. Graph dibuat dengan Id dari First(G) adalah n */
-void AddNodeGraph(Graph *G,int n);
+void ConnectNode(adrNode *P1,adrNode *P2);
+
+void CreateGraphMap(Graph* G);
+/* I.S. Graph terdefinisi dan kosong */
+/* F.S. Graph dibuat dengan 4 node yang masing" mempunyai 1 map */
+void AddNodeGraph(Graph *G,int n,MAP M);
 /* I.S. Graph terdefinisi, mungkin kosong , n bilangan bulat valid */
 /* F.S. Menambahkan Node di ujung graph dengan ID n */
+void ConnectMap(Graph *G);
 
 /* OPERASI SEARCH */
 adrNode SearchNode(Graph G, int X);
@@ -59,8 +65,15 @@ void AddLastTrail(Graph *GR, int idB, int Trail);
 // I.S. idB, Trail terdefinisi dan ada dalam suatu id graph, trail 
 // F.S. Trail dimasukan sebagai trail terakhir di idB
 
-void PrintGraph(Graph GR);
-// memprint semua item di graph
+/* Print Map yang ada player */
+void PrintCurrMap(Graph GR);
+
+/* Check movement */
+void move(char input,Graph *GM);
+
+/* Find player */
+adrNode SearchPlayer(Graph GM);
+
 
 #endif
 

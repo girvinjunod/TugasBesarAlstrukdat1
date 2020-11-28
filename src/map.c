@@ -3,8 +3,6 @@
 #include "boolean.h"
 #include "map.h"
 #include "point.h"
-//#include "graph.h"
-
 
 
 /* Baca MAP dari file map.txt */
@@ -16,8 +14,12 @@ void readMap(MAP *M1,MAP *M2,MAP *M3, MAP *M4){
     MAP *currMap;
     indeks i,j;
 
-    legend cc;
+	PosXPlayer(*M1)=pointUndef;PosYPlayer(*M1)=pointUndef;
+	PosXPlayer(*M2)=pointUndef;PosYPlayer(*M2)=pointUndef;
+	PosXPlayer(*M3)=pointUndef;PosYPlayer(*M3)=pointUndef;
+	PosXPlayer(*M4)=pointUndef;PosYPlayer(*M4)=pointUndef;
 
+    legend cc;
     do{
 		cc = getc(fileMap);
 
@@ -30,6 +32,7 @@ void readMap(MAP *M1,MAP *M2,MAP *M3, MAP *M4){
 			if (cc=='\n') {i++;j=0;NBrsEff(*currMap)++;NKolEff(*currMap)=0;}
 			else{
 				Legend(*currMap,i,j) = cc;
+				if (cc=='P') PosPlayer(*currMap)=MakePOINT(j,i);
 				j++;
 				NKolEff(*currMap)++;
 			}
@@ -39,59 +42,18 @@ void readMap(MAP *M1,MAP *M2,MAP *M3, MAP *M4){
 
 /* Check jika point di Current MAP occupied */
 boolean checkPoint(MAP M,POINT P){
-	return Legend(M,Absis(P),Ordinat(P)) == '-';
+	return Legend(M,Ordinat(P),Absis(P)) == '-';
 }
 
-/* Check Movement */
-void move(char input){
-	/*POINT temp;
-	if (input=='w') MakePOINT(PosX,PosY+1);
-	else if (input=='a') MakePOINT(PosX-1,PosY);
-	else if (input=='s') MakePOINT(PosX,PosY-1);
-	else if (input=='d') MakePOINT(PosX+1,PosY);
-
-	if checkPoint(M)*/
-	print("test");
-}
-/*
-void pindahmap(struct Graph* g, int *currnode, int targetnode){
-	boolean adj = cekAdj(g, *currnode, targetnode);
-	if (adj){
-		*currnode = targetnode;
-	}
-	else printf("node tidak adj, dunno tpi harusnya ga kepake ini");
-}
-int cektargetnode(char* gerbang, int currnode){*/
-/*
-anggap map nya itu
- 
- 111  222
- 111><222 
- 111  222
-  v    v
-  ^    ^
- 000  333
- 000><333
- 000  333
-
-	if (currnode == 0 && gerbang == "^") return 1;
-	if (currnode == 0 && gerbang == ">") return 3;
-	if (currnode == 1 && gerbang == ">") return 2;
-	if (currnode == 1 && gerbang == "v") return 0;
-	if (currnode == 2 && gerbang == "<") return 1;
-	if (currnode == 2 && gerbang == "v") return 3;
-	if (currnode == 3 && gerbang == "^") return 2;
-	if (currnode == 3 && gerbang == "<") return 0;
+/* Cari Map yang ada player */
+boolean isPlayerHere(MAP M){
+    return PosXPlayer(M)!=pointUndef && PosYPlayer(M)!=pointUndef;
 }
 
-struct Graph* makegerbang() {
-	struct Graph* graph = createAGraph(4);
-	addEdge(graph, 0, 1);
-  	addEdge(graph, 0, 3);
-  	addEdge(graph, 1, 2);
-  	addEdge(graph, 2, 3);
-  	return graph;
-}*/
+/* Mengubah titik di Map */
+void setPoint(MAP *M,char cc,POINT P){
+	Legend(*M,Ordinat(P),Absis(P)) = cc;
+}
 
 void printMap(MAP M){
 	for (int i = IdxMin; i < NBrsEff(M); i++){
