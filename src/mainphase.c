@@ -9,7 +9,8 @@ void MinuteUpdate(){
     //Tentang antrian, belum dirandom
 
     //Ngecek tiap wahana
-    for(int i=0; i<nbWahana; i++){
+    int i;
+    for(i=0; i<nbWahana; i++){
         if(!IsEmptyQ(PQ[i])){
             while(Detik == Prio(InfoHeadQ(PQ[i]))){
                 infotypeQ Q;
@@ -44,7 +45,8 @@ void SERVE(Kata K){
         infotypeQ Q;
         Dequeue(&Antrian, &Q);
         boolean foundonlist = false;
-        for(int j=0; j<Q.info.nbListWahana; j++){
+        int j;
+        for(j=0; j<Q.info.nbListWahana; j++){
             if(Q.info.wahana[j] == i && !Q.info.done[j]){
                 foundonlist = true;
             }
@@ -52,7 +54,7 @@ void SERVE(Kata K){
         if(foundonlist){
             Q.prio = Duration(ActiveWahana[i])*60 + JAMToDetik(Sekarang);
             Enqueue(&PQ[i], Q);
-            for(int j=0; j<5; j++){
+            for(j=0; j<5; j++){
                 MinuteUpdate();
             }
         }else{
@@ -64,7 +66,8 @@ void SERVE(Kata K){
 
 void generateAntrian(){
     int BanyakAntrian = (rand() % 25) + 1;
-    for(int i=0; i<BanyakAntrian; i++){
+    int i;
+    for(i=0; i<BanyakAntrian; i++){
         Pengunjung P = generatePengunjung();
         infotypeQ Q;
         Q.info = P;
