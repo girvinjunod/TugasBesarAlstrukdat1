@@ -17,7 +17,7 @@ typedef struct {
     int Duration;
     int Capacity;
     int Price;
-    double ChanceRusak;
+    double ChanceRusak; /* di filenya ketulis ChanceRusak*1e6 */
 } Wahana;
 
 /* *** Selektor *** */

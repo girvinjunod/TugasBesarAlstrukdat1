@@ -25,7 +25,7 @@ Wahana ReadWahana(){
     Duration(W) = ToInt(CKata); ADVKATA();
     Capacity(W) = ToInt(CKata); ADVKATA();
     Price(W) = ToInt(CKata); ADVKATA();
-    ChanceRusak(W) = ToDouble(Ckata); ADVKATA();
+    ChanceRusak(W) =  (double)ToInt(Ckata)/1e6; ADVKATA();
     return W;
 }
 
