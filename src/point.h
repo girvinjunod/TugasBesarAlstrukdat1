@@ -6,6 +6,8 @@
 
 #include "boolean.h"
 
+#define pointUndef -1
+
 typedef struct {
 	int X; /* absis   */
 	int Y; /* ordinat */

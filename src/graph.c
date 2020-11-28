@@ -3,15 +3,16 @@
 #include "boolean.h"
 #include "graph.h"
 #include "map.h"
+#include "point.h"
 
-adrNode AlokNode(int X)
+adrNode AlokNode(int X,MAP M)
 /* I.S. X adalah bilangan bulat valid */
 /* F.S. Alokasi node dalam graph dengan ID X dan Npred, Trail dan Next diinisialisasikan 0,Nil,dan Nil  */
 {
     adrNode P = (adrNode) malloc((sizeof(NodeGraph)+1));
     if(P != Nil){
         IdGraph(P) = X;
-        NPred(P) = 0;
+        Map(P) = M;
         Trail(P) = Nil;
         NextGraph(P) = Nil;
     }
@@ -38,28 +39,60 @@ void DealokSuccNode(adrSucc Pt)
 {
     free(Pt);
 }
-void CreateGraph(Graph* G, int n)
-/* I.S. Graph terdefinisi, mungkin kosong , n bilangan bulat valid */
-/* F.S. Graph dibuat dengan Id dari First(G) adalah n */
+
+void ConnectNode(adrNode *P1,adrNode *P2){
+  adrSucc S = Trail(*P1);
+  while (S!=Nil) S=NextSucc(S); 
+  S = AlokSucc(*P2);
+  
+  S = Trail(*P2);
+  while (S!=Nil) S=NextSucc(S);
+  S = AlokSucc(*P1);
+}
+
+void CreateGraphMap(Graph* G)
+/* I.S. Graph terdefinisi dan kosong */
+/* F.S. Graph dibuat dengan 4 node yang masing" mempunyai 1 map */
 {
-    adrNode P = AlokNode(1);
+    MAP M1,M2,M3,M4,*Mtemp;
+    readMap(&M1,&M2,&M3,&M4);
+    
+    adrNode P = AlokNode(1,M1);
     First(*G) = P;
-    int i;
-    for(i = 2; i <= n; i++){
-        AddNodeGraph(G, i);
+    for(int i=2; i<=4;i++){
+        if(i==2) Mtemp = &M2;
+        else if(i==3) Mtemp = &M3;
+        else if(i==4) Mtemp = &M4;
+        
+        AddNodeGraph(G,i,*Mtemp);
     }
 }
 
-void AddNodeGraph(Graph *G,int n)
+void AddNodeGraph(Graph *G,int n,MAP M)
 /* I.S. Graph terdefinisi, mungkin kosong , n bilangan bulat valid */
 /* F.S. Menambahkan Node di ujung graph dengan ID n */
 {
-    adrNode P = AlokNode(n);
+    adrNode P = AlokNode(n,M);
+
     adrNode A = First(*G);
     while(NextGraph(A) != Nil){
         A = NextGraph(A);
     }
     NextGraph(A) = P;
+}
+
+void ConnectMap(Graph *G){
+  adrNode P,P1,P2;
+  for(int i=1;i<=2;i++){
+    P = SearchNode(*G,i);
+
+    if(i==1) P1=SearchNode(*G,i+1);
+    else P1=SearchNode(*G,i-1);
+    P2=SearchNode(*G,i+2);
+    
+    ConnectNode(&P,&P1);
+    ConnectNode(&P,&P2);
+  }
 }
 
 /* OPERASI SEARCH */
@@ -97,35 +130,49 @@ void AddLastTrail(Graph *GR, int idB, int Trail){
     }
 }
 
-void PrintGraph(Graph GR){
+void PrintCurrMap(Graph GR){
 //memprint semua item di graph
-    adrNode P = First(GR);
-    while(P != Nil){
-        printf("%d ", IdGraph(P));
-        printf("- ");
-        adrSucc tmp = Trail(P);
-        while(tmp != Nil){
-            printf("%d ", IdGraph(Succ(tmp)));
-            tmp = NextSucc(tmp);
-        }
-        printf("\n");
-        P = NextGraph(P);
-    }
+    adrNode P = SearchPlayer(GR);
+    printMap(Map(P));
+}
+
+/* Check Movement */
+void move(char input,Graph *GM){
+	POINT temp;
+
+    adrNode P = SearchPlayer(*GM);
+    MAP M = Map(P);
+
+	int x=PosXPlayer(M),y=PosYPlayer(M);
+	if (input=='w') y--;
+	else if (input=='a') x--;
+	else if (input=='s') y++;
+	else if (input=='d') x++;
+
+	temp = MakePOINT(x,y);
+	
+	if (checkPoint(M,temp)){
+		setPoint(&M,'-',PosPlayer(M));
+		PosXPlayer(M) = Absis(temp);
+		PosYPlayer(M) = Ordinat(temp);
+		setPoint(&M,'P',PosPlayer(M));
+        Map(P) = M;
+	}else printf("That place is occupied");
+}
+
+adrNode SearchPlayer(Graph GM){
+  adrNode P = First(GM);
+  while(P != Nil && !isPlayerHere(Map(P))){
+      P = NextGraph(P);
+  }
+  return P;
 }
 
 int main() {
 	Graph g;
-	CreateGraph(&g, 4);
-	AddLastTrail( &g, 1, 2);
-	AddLastTrail( &g, 1, 4);
-	AddLastTrail( &g, 2, 1);
-	AddLastTrail( &g, 2, 3);
-	AddLastTrail( &g, 3, 2);
-	AddLastTrail( &g, 3, 4);
-	AddLastTrail( &g, 4, 3);
-	AddLastTrail( &g, 4, 1);
-	PrintGraph(g);
-	adrNode a = First(g);
-	printf("id first %d" ,IdGraph(a));
+	CreateGraphMap(&g);
+	PrintCurrMap(g);
+    move('a',&g);
+    PrintCurrMap(g);
 }
 
