@@ -4,124 +4,124 @@
 #include "graph.h"
 #include "map.h"
 
-struct node* createNode(int v) {
-  struct node* newNode = malloc(sizeof(struct node));
-  newNode->vertex = v;
-  newNode->next = NULL;
-  /*newNode->map = map 1;*/
-  newNode->tes = v;
-  return newNode;
-}
-
-
-struct Graph* createAGraph(int vertices) {
-  struct Graph* graph = malloc(sizeof(struct Graph));
-  graph->numVertices = vertices;
-
-  graph->adjLists = malloc(vertices * sizeof(struct node*));
-
-  int i;
-  for (i = 0; i < vertices; i++)
-    graph->adjLists[i] = NULL;
-
-  return graph;
-}
-
-
-void addEdge(struct Graph* graph, int s, int d) {
-// tambah edge
-//nyambungin s ke d
-  struct node* newNode = createNode(d);
-  newNode->next = graph->adjLists[s];
-  graph->adjLists[s] = newNode;
-
-//nyambungin d ke s
-  newNode = createNode(s);
-  newNode->next = graph->adjLists[d];
-  graph->adjLists[d] = newNode;
-}
-
-void isimap(struct Graph* graph){
-	int v;
-	int i;
-	int t;
-	int angka;
-  	for (v = 0; v < 4; v++){
-  		struct node* temp = graph->adjLists[v];
-  		//tiap simpul/node isi map
-  		for(i = 0; i<2;i++){ 
-  		printf("isi map %d\n", temp->vertex); //isinya emg harus berkali2 gara2 adj list
-  		printf("tes isi awal %d\n", temp->tes); //nanti tes nya apus, ganti sama isi mapnya
-  		//misal temp->map = map1;
-  		if (temp->vertex == 0) angka = 0;
-  		else if (temp->vertex == 1) angka = 1;
-  		else if (temp->vertex == 2) angka = 2;
-  		else if (temp->vertex == 3) angka = 3;
-  		temp->tes = 69 + angka;
-  		printf("tes isi abis input %d\n", temp->tes);
-  		temp = temp->next;
-  		}
-	  }
-	for (t = 0; t < graph->numVertices; t++) {
-    struct node* temp = graph->adjLists[t];
-    printf("\n isi tes dari simpul %d\n: ", t);
-    while (temp) {
-      printf("%d -> ", temp->tes);
-      temp = temp->next;
+adrNode AlokNode(int X)
+/* I.S. X adalah bilangan bulat valid */
+/* F.S. Alokasi node dalam graph dengan ID X dan Npred, Trail dan Next diinisialisasikan 0,Nil,dan Nil  */
+{
+    adrNode P = (adrNode) malloc((sizeof(NodeGraph)+1));
+    if(P != Nil){
+        IdGraph(P) = X;
+        NPred(P) = 0;
+        Trail(P) = Nil;
+        NextGraph(P) = Nil;
     }
-    printf("\n");
-  }
-	
 }
-
-void printGraph(struct Graph* graph) {
-//print graf
-  int v;
-  for (v = 0; v < graph->numVertices; v++) {
-    struct node* temp = graph->adjLists[v];
-    printf("\n Vertex %d\n: ", v);
-    while (temp) {
-      printf("%d -> ", temp->vertex);
-      temp = temp->next;
+void DealokNode(adrNode P)
+/* I.S. adrNode P valid */
+/* F.S. Melakukan dealokasi dari P  */
+{
+    free(P);
+}
+adrSucc AlokSucc(adrNode Pn)
+/* I.S. adrNode Pn valid */
+/* F.S. Membuat address P , Mengalokasikan Succ(P) = Pn dan next = Nil */
+{
+    adrSucc P = (adrSucc) malloc(sizeof(SuccGraph)+1);
+    if(P!= Nil){
+        Succ(P) = Pn;
+        NextSucc(P) = Nil;
     }
-    printf("\n");
-  }
 }
-
-void printGraph1(struct Graph* graph, int v) {
-//print semua node yg nyambung ke node v
-  struct node* temp = graph->adjLists[v];
-  printf("\n Vertex %d\n: ", v);
-    while (temp) {
-      printf("%d -> ", temp->vertex);
-      temp = temp->next;
+void DealokSuccNode(adrSucc Pt)
+/* I.S. adrSucc Pt valid */
+/* F.S. Melakukan dealokasi pada SuccNode Pt */
+{
+    free(Pt);
+}
+void CreateGraph(Graph* G, int n)
+/* I.S. Graph terdefinisi, mungkin kosong , n bilangan bulat valid */
+/* F.S. Graph dibuat dengan Id dari First(G) adalah n */
+{
+    adrNode P = AlokNode(1);
+    First(*G) = P;
+    int i;
+    for(i = 2; i <= n; i++){
+        AddNodeGraph(G, i);
     }
-    printf("\n");
 }
 
-boolean cekAdj(struct Graph* g, int a, int b){
-	struct node* temp = g->adjLists[a];
-	while (temp) {
-		if (temp->vertex == b){
-			return true;
-		}
-		temp = temp->next;
-	}
-	return false;
+void AddNodeGraph(Graph *G,int n)
+/* I.S. Graph terdefinisi, mungkin kosong , n bilangan bulat valid */
+/* F.S. Menambahkan Node di ujung graph dengan ID n */
+{
+    adrNode P = AlokNode(n);
+    adrNode A = First(*G);
+    while(NextGraph(A) != Nil){
+        A = NextGraph(A);
+    }
+    NextGraph(A) = P;
 }
 
+/* OPERASI SEARCH */
+adrNode SearchNode(Graph G, int X){
+/* I.S. G berisi minimal 1 elemen, X adalah ID dari salah satu elemen graph */
+/* F.S. Mengembalikan adrNode dari elemen dengan ID X */
+    boolean found = false;
+    adrNode A = First(G);
+    while(A != Nil && IdGraph(A) != X){
+        A = NextGraph(A);
+    }
+    if(A != Nil){
+        return A;
+    }
+    else{
+        return Nil;
+    }
+}
+
+void AddLastTrail(Graph *GR, int idB, int Trail){
+// I.S. idB, Trail terdefinisi dan ada dalam suatu id graph, trail 
+// F.S. Trail dimasukan sebagai trail terakhir di idB
+    adrNode P = SearchNode(*GR,idB);
+    adrNode PTrail = SearchNode(*GR,Trail);
+    adrSucc Pn = AlokSucc(PTrail);
+    adrSucc PT = Trail(P);
+    if(PT != Nil){
+        while(NextSucc(PT) != Nil){
+            PT = NextSucc(PT);
+        }
+        NextSucc(PT) = Pn;
+    }
+    else{
+        Trail(P) = Pn;
+    }
+}
+
+void PrintGraph(Graph GR){
+//memprint semua item di graph
+    adrNode P = First(GR);
+    while(P != Nil){
+        printf("%d ", IdGraph(P));
+        printf("- ");
+        adrSucc tmp = Trail(P);
+        while(tmp != Nil){
+            printf("%d ", IdGraph(Succ(tmp)));
+            tmp = NextSucc(tmp);
+        }
+        printf("\n");
+        P = NextGraph(P);
+    }
+}
 
 int main() {
-  struct Graph* graph = createAGraph(4);
-	addEdge(graph, 0, 1);
-  	addEdge(graph, 0, 3);
-  	addEdge(graph, 1, 2);
-  	addEdge(graph, 2, 3);
-  printGraph(graph);
-  int a = 1;
-  int b = 2;
-  if (cekAdj(graph, a, b)) printf("a = %d adj b= %d\n", a, b);
-  else printf("no\n");
-  isimap(graph);
-  return 0;
+	Graph g;
+	CreateGraph(&g, 4);
+	AddLastTrail( &g, 1, 2);
+	AddLastTrail( &g, 2, 3);
+	AddLastTrail( &g, 3, 4);
+	AddLastTrail( &g, 4, 1);
+	PrintGraph(g);
+	adrNode a = First(g);
+	printf("id first %d" ,IdGraph(a));
 }
+
