@@ -16,8 +16,26 @@ void IgnoreBlank(){
     }
 }
 
-void STARTKATA(){
-    START();
+void CREATEEMPTYKATA(){
+    int i;
+    for (i=0;i<NMax;i++) CKata.TabKata[i]='\0'; 
+}
+
+void STARTKATAKEYBOARD(){
+    CREATEEMPTYKATA();
+    STARTKEYBOARD();
+    IgnoreBlank();
+    EndKata = false;
+    if(CC == MARK){
+        EndKata = true;
+    }else{
+        SalinKata();
+    }
+}
+
+void STARTKATAFILE(char *namafile){
+    CREATEEMPTYKATA();
+    STARTFILE(namafile);
     IgnoreBlank();
     EndKata = false;
     if(CC == MARK){
@@ -28,6 +46,7 @@ void STARTKATA(){
 }
 
 void ADVKATA(){
+    CREATEEMPTYKATA();
     IgnoreBlank();
     if(CC == MARK){
         EndKata = true;

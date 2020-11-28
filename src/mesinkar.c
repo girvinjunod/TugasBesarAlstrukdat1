@@ -10,7 +10,8 @@ boolean EOP;
 static FILE * pita;
 static int retval;
 
-void START() {
+void STARTKEYBOARD() {
+/* start baca dari keyboard */
 /* Mesin siap dioperasikan. Pita disiapkan untuk dibaca.
    Karakter pertama yang ada pada pita posisinya adalah pada jendela.
    I.S. : sembarang
@@ -20,6 +21,19 @@ void START() {
 	/* Algoritma */
 	pita = stdin;
 	ADV();
+}
+
+void STARTFILE(char* namafile){
+/* start baca dari file */
+/* Mesin siap dioperasikan. Pita disiapkan untuk dibaca.
+ Karakter pertama yang ada pada pita posisinya adalah pada jendela.
+ I.S. : sembarang
+ F.S. : CC adalah karakter pertama pada pita. Jika CC != MARK maka EOP akan padam (false).
+        Jika CC = MARK maka EOP akan menyala (true) */
+
+  /* Algoritma */
+  pita = fopen(namafile,"r");
+  ADV();
 }
 
 void ADV() {

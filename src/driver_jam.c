@@ -1,4 +1,5 @@
 #include "jam.h"
+//#include "jam.c"
 #include <stdio.h>
 
 int main(){
