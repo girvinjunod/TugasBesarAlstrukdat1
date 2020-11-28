@@ -2,7 +2,6 @@
 #define Wahana_H
 
 #include "boolean.h"
-#include "mesinkar.h"
 #include "mesinkata.h"
 
 typedef struct {
@@ -39,5 +38,7 @@ void PrintName(Wahana W);
 Wahana ReadWahana();
 
 void PrintInfoWahana(Wahana W);
+
+Wahana CopyWahana(Wahana W);
 
 #endif

@@ -2,34 +2,30 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "boolean.h"
-#include "wahana.h"
-#include "mesinkar.h"
-#include "mesinkata.h"
 #include "tree.h"
 
 
 /* PROTOTYPE */
 /****************** TEST LIST KOSONG ******************/
-boolean IsEmpty (Tree T){
+boolean IsTreeEmpty (Tree T){
     return T == Nil;
 }
-boolean IsOneElmt (Tree T){
-    return (!IsEmpty(T) && NbChild(T) == 0);
+boolean CreateTreeEmptyIsTreeOneElmt (Tree T){
+    return (!IsTreeEmpty(T) && NbChild(T) == 0);
 }
 
 /****************** PEMBUATAN LIST KOSONG ******************/
-void CreateEmpty (Tree *T){
+void CreateTreeEmpty (Tree *T){
     *T = Nil;
 }
 
 /****************** Manajemen Memori ******************/
-address Alokasi (infotype W){
-    address P;
-    P = (address) malloc (sizeof(ElmtTree));
+addrNode AlokasiTree (infotype W){
+    addrNode P;
+    P = (addrNode) malloc (sizeof(ElmtTree));
     if(P != Nil){
         Parent(P) = Nil;
-        Info(P) = W;
+        InfoTree(P) = W;
         for(int i=0; i<MaxChildren; i++){
             Children(P)[i] = Nil;
         }
@@ -37,21 +33,22 @@ address Alokasi (infotype W){
     }
     return P;
 }
-void Dealokasi (address P){
+void DeAlokasiTree (addrNode P){
     free(P);
 }
 
 /* PRIMITIF */
-address Search (Tree T, int IDX){
-    if(IsEmpty(T)){
+addrNode SearchTree(Tree T, int IDX){
+    if(IsTreeEmpty(T)){
         return Nil;
-    }else if(ID(Info(T))==IDX){
+    }else if(ID(InfoTree(T))==IDX){
         return T;
     }else{
-        address P = Nil;
+        addrNode P = Nil;
         int i=0;
         while(P==Nil && Children(T)[i]!=Nil){   
-            P = Search(Children(T)[i], IDX);
+            P = SearchTree(Children(T)[i], IDX);
+            i++;
         }
     }
 }
@@ -64,17 +61,17 @@ void InsertChild(Tree *T, Tree *SubT){
 
 void PrintChild(Tree T){
     for(int i=0; i<NbChild(T); i++){
-        PrintInfoWahana(Info(Children(T)[i]));
+        PrintInfoWahana(InfoTree(Children(T)[i]));
     }
 }
 
 void MakeWahanaTree(Tree *T, int c){
     Wahana W;
-    address *P;
+    addrNode *P;
     int subc;
     for(int i=0; i<c; i++){
         W = ReadWahana();
-        *P = Alokasi(W);
+        *P = AlokasiTree(W);
         InsertChild(T, P);
         subc = ToInt(CKata);
         ADVKATA();
@@ -82,5 +79,16 @@ void MakeWahanaTree(Tree *T, int c){
     }
 }
 
+void PrintHistory(addrNode P){
+    if(Parent(P)!=Nil){
+        PrintHistory(Parent(P));
+        PrintName(InfoTree(P));
+        printf("\n");
+    }
+}
+Wahana CopyWahanaID(Tree T, int ID){
+    addrNode P = SearchTree(T, ID);
+    return CopyWahana(InfoTree(P));
+}
 
 
