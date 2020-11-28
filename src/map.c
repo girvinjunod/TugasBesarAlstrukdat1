@@ -6,12 +6,33 @@
 #include "graph.c"
 
 void pindahmap(struct Graph* g, int *currnode, int targetnode){
-//ke-trigger klo jalan ke gerbang, nanti bisa cek symbol gerbang di map sama current node aj buat nentuin target nodenya
 	boolean adj = cekAdj(g, *currnode, targetnode);
 	if (adj){
 		*currnode = targetnode;
 	}
 	else printf("node tidak adj, dunno tpi harusnya ga kepake ini");
+}
+int cektargetnode(char* gerbang, int currnode){
+/*
+anggap map nya itu
+ 
+ 111  222
+ 111><222 
+ 111  222
+  v    v
+  ^    ^
+ 000  333
+ 000><333
+ 000  333
+*/
+	if (currnode == 0 && gerbang == "^") return 1;
+	if (currnode == 0 && gerbang == ">") return 3;
+	if (currnode == 1 && gerbang == ">") return 2;
+	if (currnode == 1 && gerbang == "v") return 0;
+	if (currnode == 2 && gerbang == "<") return 1;
+	if (currnode == 2 && gerbang == "v") return 3;
+	if (currnode == 3 && gerbang == "^") return 2;
+	if (currnode == 3 && gerbang == "<") return 0;
 }
 
 void displaymap(int currnode){
@@ -38,6 +59,7 @@ int main(){
   	addEdge(graph, 2, 3);
   	int currnode = 0;
   	printf("saat ini ada di map %d\n", currnode);
-  	pindahmap(graph, &currnode, 1);
+  	pindahmap(graph, &currnode, cektargetnode("^", currnode));
   	printf("saat ini ada di map %d\n", currnode);
+  	
 }
