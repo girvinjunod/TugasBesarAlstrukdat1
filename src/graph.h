@@ -61,15 +61,14 @@ adrNode SearchNode(Graph G, int X);
 /* I.S. G berisi minimal 1 elemen, X adalah ID dari salah satu elemen graph */
 /* F.S. Mengembalikan adrNode dari elemen dengan ID X */
 
-void AddLastTrail(Graph *GR, int idB, int Trail);
-// I.S. idB, Trail terdefinisi dan ada dalam suatu id graph, trail 
-// F.S. Trail dimasukan sebagai trail terakhir di idB
-
 /* Print Map yang ada player */
 void PrintCurrMap(Graph GR);
 
 /* Check movement */
 void move(char input,Graph *GM);
+
+/* Switch Map */
+void SwitchMap(Graph *GM,boolean vertical);
 
 /* Find player */
 adrNode SearchPlayer(Graph GM);
