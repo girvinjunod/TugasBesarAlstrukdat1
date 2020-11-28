@@ -64,7 +64,7 @@ void printGraph1(struct Graph* graph, int v) {
     }
     printf("\n");
 }
-  
+
 boolean cekAdj(struct Graph* g, int a, int b){
 	struct node* temp = g->adjLists[a];
 	while (temp) {
@@ -76,7 +76,7 @@ boolean cekAdj(struct Graph* g, int a, int b){
 	return false;
 }
 
-
+/*
 int main() {
   struct Graph* graph = createAGraph(4);
   addEdge(graph, 0, 1);
@@ -90,4 +90,4 @@ int main() {
   else printf("no");
 
   return 0;
-}
+}*/
