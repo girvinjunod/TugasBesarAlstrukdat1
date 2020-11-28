@@ -117,8 +117,12 @@ int main() {
 	Graph g;
 	CreateGraph(&g, 4);
 	AddLastTrail( &g, 1, 2);
+	AddLastTrail( &g, 1, 4);
+	AddLastTrail( &g, 2, 1);
 	AddLastTrail( &g, 2, 3);
+	AddLastTrail( &g, 3, 2);
 	AddLastTrail( &g, 3, 4);
+	AddLastTrail( &g, 4, 3);
 	AddLastTrail( &g, 4, 1);
 	PrintGraph(g);
 	adrNode a = First(g);
