@@ -20,7 +20,7 @@ void CreateTreeEmpty (Tree *T){
 }
 
 /****************** Manajemen Memori ******************/
-addrNode AlokasiTree (infotype W){
+addrNode AlokasiTree (Wahana W){
     addrNode P;
     P = (addrNode) malloc (sizeof(ElmtTree));
     if(P != Nil){

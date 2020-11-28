@@ -7,10 +7,9 @@
 #define Nil NULL
 #define MaxChildren 10
 
-typedef Wahana infotype;
 typedef struct tElmtTree *addrNode;
 typedef struct tElmtTree { 
-	infotype info;
+	Wahana info;
 	addrNode parent;
     addrNode children[MaxChildren];
 	int nbChild;
@@ -32,7 +31,7 @@ boolean IsTreeOneElmt (Tree T);
 void CreateTreeEmpty (Tree *T);
 
 /****************** Manajemen Memori ******************/
-addrNode AlokasiTree (infotype W);
+addrNode AlokasiTree (Wahana W);
 void DealokasiTree (addrNode P);
 
 /* PRIMITIF */
