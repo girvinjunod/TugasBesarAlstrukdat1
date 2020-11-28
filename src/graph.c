@@ -9,7 +9,7 @@ struct node* createNode(int v) {
   newNode->vertex = v;
   newNode->next = NULL;
   /*newNode->map = map 1;*/
-  newNode->tes = 0;
+  newNode->tes = v;
   return newNode;
 }
 
@@ -43,17 +43,35 @@ void addEdge(struct Graph* graph, int s, int d) {
 
 void isimap(struct Graph* graph){
 	int v;
-	int id= 3;
-  	for (v = 0; v < graph->numVertices; v++){
+	int i;
+	int t;
+	int angka;
+  	for (v = 0; v < 4; v++){
   		struct node* temp = graph->adjLists[v];
   		//tiap simpul/node isi map
-  		printf("isi map %d\n", v);
+  		for(i = 0; i<2;i++){ 
+  		printf("isi map %d\n", temp->vertex); //isinya emg harus berkali2 gara2 adj list
   		printf("tes isi awal %d\n", temp->tes); //nanti tes nya apus, ganti sama isi mapnya
   		//misal temp->map = map1;
-  		temp->tes = 69 + v;
+  		if (temp->vertex == 0) angka = 0;
+  		else if (temp->vertex == 1) angka = 1;
+  		else if (temp->vertex == 2) angka = 2;
+  		else if (temp->vertex == 3) angka = 3;
+  		temp->tes = 69 + angka;
   		printf("tes isi abis input %d\n", temp->tes);
-  		id--;
+  		temp = temp->next;
+  		}
 	  }
+	for (t = 0; t < graph->numVertices; t++) {
+    struct node* temp = graph->adjLists[t];
+    printf("\n isi tes dari simpul %d\n: ", t);
+    while (temp) {
+      printf("%d -> ", temp->tes);
+      temp = temp->next;
+    }
+    printf("\n");
+  }
+	
 }
 
 void printGraph(struct Graph* graph) {
@@ -95,10 +113,10 @@ boolean cekAdj(struct Graph* g, int a, int b){
 
 int main() {
   struct Graph* graph = createAGraph(4);
-  addEdge(graph, 0, 1);
-  addEdge(graph, 0, 2);
-  addEdge(graph, 0, 3);
-  addEdge(graph, 1, 2);
+	addEdge(graph, 0, 1);
+  	addEdge(graph, 0, 3);
+  	addEdge(graph, 1, 2);
+  	addEdge(graph, 2, 3);
   printGraph(graph);
   int a = 1;
   int b = 2;
