@@ -71,6 +71,8 @@ struct_aksi MakeAksiUpgrade(POINT koord, int id_upgrade, int harga_upgrade, int 
 /* mengembalikan struct_aksi dengan data pada parameter */
 struct_aksi MakeAksiBuy(int harga_buy, int durasi_buy, int id_barang, int jumlah_barang);
 /* mengembalikan struct_aksi dengan data pada parameter */
+void CopyAksi(struct_aksi a, struct_aksi *b);
+/* mengembalikan salinan a */
 
 typedef int address;   /* indeks tabel */
 
