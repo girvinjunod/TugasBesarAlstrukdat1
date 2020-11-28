@@ -6,13 +6,19 @@
 Pengunjung generatePengunjung(){ //n itu jumlahnya pengunjung yang di generate
 	Pengunjung P;
 	P.kesabaran = 0;
+	printf("haha1\n");
 	P.nbListWahana = (rand() % 20) + 1;
+	printf("haha2\n");
 	P.nbActiveWahana = P.nbListWahana;
+	printf("haha3\n");
 	int i;
 	for(i=0; i<P.nbListWahana; i++){
+		printf("haha4\n");
 		P.wahana[i] = rand() % nbWahana;
+		printf("haha5\n");
 		P.done[i] = false;
 	}
+	printf("haha6\n");
 	return P;
 }
 void ServeWahana(Pengunjung *P, int ID){ // menghilangkan wahana dari listwahana pada pengunjung

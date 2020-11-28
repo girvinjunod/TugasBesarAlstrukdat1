@@ -20,7 +20,7 @@
 #include "wahana.h"
 
 boolean play;
-int nbWahana;
+int nbWahana = 3;
 Wahana ActiveWahana[100];
 Tree DataWahana;
 PrioQueuePengunjung PQ[100];
