@@ -35,6 +35,12 @@ void PrintInfoWahana(Wahana W){
     printf("Price: %d\n", Price(W));
     printf("Chance Rusak: %.2f\n", ChanceRusak(W));
 }
+void LaporanWahana(Wahana W){
+    printf("Total Penghasilan: %d\n", TotalGold(W));
+    printf("Total Dinaiki: %d\n", TotalRide(W));
+    printf("Penghasilan hari ini: %d\n", DayGold(W));
+    printf("Dinaiki hari ini: %d\n", DayRide(W));
+}
 
 Wahana CopyWahana(Wahana W){
     Wahana Copy;

@@ -14,9 +14,14 @@ void MinuteUpdate(){
             while(Detik == Prio(InfoHeadQ(PQ[i]))){
                 infotypeQ Q;
                 Dequeue(&PQ[i], &Q);
-                ServeWahana(&(Q.info), ID(ActiveWahana[i]));
+                ServeWahana(&(Q.info), i);
                 Q.prio = Q.info.kesabaran;
                 Enqueue(&Antrian, Q);
+                //Update Laporan Wahana
+                TotalGold(ActiveWahana[i]) += Price(ActiveWahana[i]);
+                TotalRide(ActiveWahana[i])++;
+                DayGold(ActiveWahana[i]) += Price(ActiveWahana[i]);
+                DayRide(ActiveWahana[i])++;
             }
         }
     }
@@ -32,21 +37,33 @@ void SERVE(Kata K){
             notfound = false;
         }
     }
+
     if(notfound){
         printf("Semua wahana dengan nama tersebut penuh/rusak/bahkan tidak ada\n");
     }else{
         infotypeQ Q;
         Dequeue(&Antrian, &Q);
-        Q.prio = Duration(ActiveWahana[i])*60;
-        Enqueue(&PQ[i], Q);
-        for(int j=0; j<10; j++){
-            MinuteUpdate();
+        boolean foundonlist = false;
+        for(int j=0; j<Q.info.nbListWahana; j++){
+            if(Q.info.wahana[j] == i && !Q.info.done[j]){
+                foundonlist = true;
+            }
+        }
+        if(foundonlist){
+            Q.prio = Duration(ActiveWahana[i])*60 + JAMToDetik(Sekarang);
+            Enqueue(&PQ[i], Q);
+            for(int j=0; j<5; j++){
+                MinuteUpdate();
+            }
+        }else{
+            Enqueue(&Antrian, Q);
+            printf("Wahana tersebut tidak ada dalam list wahana pengunjung anda\n");
         }
     }
 }
 
 void generateAntrian(){
-    int BanyakAntrian = (rand() % 100) + 1;
+    int BanyakAntrian = (rand() % 25) + 1;
     for(int i=0; i<BanyakAntrian; i++){
         Pengunjung P = generatePengunjung();
         infotypeQ Q;

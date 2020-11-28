@@ -5,18 +5,24 @@
 #include "mesinkata.h"
 
 typedef struct {
+    //Statis selama program jalan
     int ID;
     Kata Name;
 	int BuildTime;
     int Resources;
     int SizeX;
     int SizeY;
-    int PosX;
-    int PosY;
     int Duration;
     int Capacity;
     int Price;
     double ChanceRusak; /* di filenya ketulis ChanceRusak*1e6 */
+    //Berubah selama program jalan (di Tree disimpennya tetap)
+    int PosX;
+    int PosY;
+    int TotalRide;
+    int TotalGold;
+    int DayRide;
+    int DayGold;
 } Wahana;
 
 /* *** Selektor *** */
@@ -24,8 +30,6 @@ typedef struct {
 #define Name(W) (W).Name
 #define BuildTime(W) (W).BuildTime
 #define Resources(W) (W).Resources
-#define PosX(W) (W).PosX
-#define PosY(W) (W).PosY
 #define SizeX(W) (W).SizeX
 #define SizeY(W) (W).SizeY
 #define Duration(W) (W).Duration
@@ -33,11 +37,20 @@ typedef struct {
 #define Price(W) (W).Price
 #define ChanceRusak(W) (W).ChanceRusak
 
+#define PosX(W) (W).PosX
+#define PosY(W) (W).PosY
+#define TotalRide(W) (W).TotalRide
+#define TotalGold(W) (W).TotalGold
+#define DayRide(W) (W).DayRide
+#define DayGold(W) (W).DayGold
+
 void PrintName(Wahana W);
 
 Wahana ReadWahana();
 
 void PrintInfoWahana(Wahana W);
+
+void LaporanWahana(Wahana W);
 
 Wahana CopyWahana(Wahana W);
 
