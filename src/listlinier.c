@@ -7,7 +7,7 @@
 /****************** TEST LIST KOSONG ******************/
 boolean IsEmptyLinier (List L){
 /* Mengirim true jika list kosong */
-    return First(L)==Nil;
+    return FirstLinier(L)==Nil;
 }
 
 /****************** PEMBUATAN LIST KOSONG ******************/
