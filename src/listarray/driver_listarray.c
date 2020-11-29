@@ -1,12 +1,20 @@
 //driver_listarray
 #include <stdio.h>
+#include "../util/globalvariable.h"
 
-#include "listarray.h"
-//#include "listarray.c"
-#include "../util/boolean.h"
-#include <math.h>
-#include <string.h>
-//#define  println(T)	printf(T);printf(\n);
+boolean play;
+int nbWahana = 3;
+Wahana ActiveWahana[100];
+Tree DataWahana;
+PrioQueuePengunjung PQ[100];
+PrioQueuePengunjung Antrian;
+Material Inventory, Shop;
+JAM Sekarang;
+int option;
+Graph GraphMap;
+char* NamaPlayer;
+int DuitPlayer;
+
 int main(){
 	TabInt T;
 	printf("MakeEmpty(&T)\n");

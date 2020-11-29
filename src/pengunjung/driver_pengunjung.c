@@ -15,6 +15,7 @@ int option;
 Graph GraphMap;
 char* NamaPlayer;
 int DuitPlayer;
+
 int main(){
 	Pengunjung P;
 	printf("P = generatePengunjung();\n");
