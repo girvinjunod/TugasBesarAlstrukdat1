@@ -1,7 +1,7 @@
 /* include-inlude */
-#include "jam.h"
-#include "tree.h"
-#include "prioqueuePengunjung.h"
+#include "../jam/jam.h"
+#include "../tree/tree.h"
+#include "../queue/prioqueuePengunjung.h"
 
 /* variabel yang harusnya ada di main.c */
 extern int nbWahana;

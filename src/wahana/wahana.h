@@ -1,8 +1,8 @@
 #ifndef Wahana_H
 #define Wahana_H
 
-#include "boolean.h"
-#include "mesinkata.h"
+#include "../util/boolean.h"
+#include "../mesinkata/mesinkata.h"
 
 typedef struct {
     //Statis selama program jalan

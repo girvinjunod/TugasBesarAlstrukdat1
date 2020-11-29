@@ -6,8 +6,8 @@
 #ifndef prioqueuePengunjung_H
 #define prioqueuePengunjung_H
 
-#include "boolean.h"
-#include "pengunjung.h"
+#include "../util/boolean.h"
+#include "../pengunjung/pengunjung.h"
 
 #define NilQ -1
 /* Konstanta untuk mendefinisikan addressQ tak terdefinisi */
@@ -15,7 +15,7 @@
 /* Definisi elemen dan addressQ */
 typedef struct {
     int prio;  /* [1..100], prioritas dengan NilQai 1..100 (1 adalah prioritas tertinggi) */
-    Pengunjung info;  /* elemen karakter */
+    Pengunjung infoqueue;  /* elemen karakter */
 } infotypeQ;
 typedef int addressQ;   /* indeks tabel */
 /* Contoh deklarasi variabel bertype PrioQueuePengunjung : */
@@ -31,7 +31,7 @@ typedef struct {
 /* ********* AKSES (Selektor) ********* */
 /* Jika e adalah infotypeQ dan Q adalah PrioQueuePengunjung, maka akses elemen : */
 #define Prio(e)     (e).prio
-#define Info(e)     (e).info
+#define InfoQueue(e)     (e).infoqueue
 #define HeadQ(Q)     (Q).HeadQ
 #define TailQ(Q)     (Q).TailQ
 #define InfoHeadQ(Q) (Q).T[(Q).HeadQ]

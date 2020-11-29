@@ -1,9 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "boolean.h"
 #include "graph.h"
-#include "map.h"
-#include "point.h"
 
 adrNode AlokNode(int X,MAP M)
 /* I.S. X adalah bilangan bulat valid */
@@ -59,7 +56,8 @@ void CreateGraphMap(Graph* G)
     
     adrNode P = AlokNode(1,M1);
     First(*G) = P;
-    for(int i=2; i<=4;i++){
+    int i;
+    for(i=2; i<=4;i++){
         if(i==2) Mtemp = &M2;
         else if(i==3) Mtemp = &M3;
         else if(i==4) Mtemp = &M4;
@@ -84,7 +82,8 @@ void AddNodeGraph(Graph *G,int n,MAP M)
 
 void ConnectMap(Graph *G){
   adrNode P,P1,P2;
-  for(int i=1;i<=4;i+=3){
+  int i;
+  for(i=1;i<=4;i+=3){
     P = SearchNode(*G,i);
 
     if(i==1) {P1=SearchNode(*G,i+1);P2=SearchNode(*G,i+2);}

@@ -4,7 +4,7 @@
 #ifndef POINT_H
 #define POINT_H
 
-#include "boolean.h"
+#include "../util/boolean.h"
 
 #define pointUndef -1
 

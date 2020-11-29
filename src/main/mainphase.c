@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "mainphase.h"
-#include "prioqueuePengunjung.h"
+#include "../main/mainphase.h"
+#include "../queue/prioqueuePengunjung.h"
 
 void MinuteUpdate(){
     Sekarang = NextNDetik(Sekarang, 60);

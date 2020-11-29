@@ -6,15 +6,15 @@
 #ifndef listlinier_H
 #define listlinier_H
 
-#include "boolean.h"
-#include "wahana.h"
+#include "../util/boolean.h"
+#include "../wahana/wahana.h"
 
 #define Nil NULL
 
 typedef char infotype[100];
 typedef struct tElmtlist *address;
 typedef struct tElmtlist {
-	infotype info;
+	infotype infolinier;
 	address next;
 } ElmtList;
 typedef struct {
@@ -25,7 +25,7 @@ typedef struct {
 /* List kosong : First(L) = Nil */
 /* Setiap elemen dengan address P dapat diacu Info(P), Next(P) */
 /* Elemen terakhir list : jika addressnya Last, maka Next(Last)=Nil */
-#define InfoLinier(P) (P)->info
+#define InfoLinier(P) (P)->infolinier
 #define Next(P) (P)->next
 #define FirstLinier(L) ((L).First)
 

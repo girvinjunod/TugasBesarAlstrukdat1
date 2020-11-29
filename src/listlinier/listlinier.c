@@ -1,5 +1,6 @@
 #include "listlinier.h"
-#include "boolean.h"
+#include "../util/boolean.h"
+#include "../util/globalvariable.h"
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -26,7 +27,8 @@ address Alokasi (infotype X){
     address P;
     P = (address)malloc(sizeof(ElmtList));
     if(P!=NULL){//Periksa keberhasilan alokasi
-        for(int i=0; i<CKata.Length; i++){
+        int i;
+		for(i=0; i<CKata.Length; i++){
             InfoLinier(P)[i] = X[i];
         }
         Next(P)=Nil;

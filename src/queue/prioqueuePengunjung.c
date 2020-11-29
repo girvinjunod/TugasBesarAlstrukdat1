@@ -2,7 +2,7 @@
 /* Definisi ADT Priority Queue Pengunjung dengan representasi array secara eksplisit dan alokasi dinamik */
 /* Model Implementasi Versi III dengan circular buffer */
 /* Elemen queue terurut tidak mengecil berdasarkan elemen prio */
-#include "boolean.h"
+#include "../util/boolean.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include "prioqueuePengunjung.h"

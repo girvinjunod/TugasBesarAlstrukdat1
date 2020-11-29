@@ -1,7 +1,7 @@
 #ifndef tree_H
 #define tree_H
 
-#include "wahana.h"
+#include "../wahana/wahana.h"
 
 
 #define Nil NULL

@@ -3,8 +3,8 @@
 #ifndef MATERIAL_H
 #define MATERIAL_H
 
-#include "listarray.h"
-#include "mesinkata.h"
+#include "../listarray/listarray.h"
+#include "../mesinkata/mesinkata.h"
 
 
 #define Material TabInt

@@ -1,8 +1,8 @@
 #ifndef pengunjung_H
 #define pengunjung_H
 
-#include "boolean.h"
-#include "wahana.h"
+#include "../util/boolean.h"
+#include "../wahana/wahana.h"
 #define Nil NULL
 
 extern int nbWahana;

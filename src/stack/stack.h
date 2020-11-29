@@ -8,8 +8,8 @@
 #ifndef stackt_H
 #define stackt_H
 
-#include "boolean.h"
-#include "point.h"
+#include "../util/boolean.h"
+#include "../point/point.h"
 
 #define Undef -1
 #define MaxEl 100

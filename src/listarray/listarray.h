@@ -4,7 +4,7 @@
 #ifndef LISTARRAY_H
 #define LISTARRAY_H
 
-#include "boolean.h"
+#include "../util/boolean.h"
 
 /*  Kamus Umum */
 #define IdxMax 99
