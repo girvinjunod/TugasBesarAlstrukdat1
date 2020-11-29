@@ -23,13 +23,22 @@ void MinuteUpdate(){
                 infotypeQ Q;
                 Dequeue(&PQ[i], &Q);
                 ServeWahana(&(Q.infoqueue), i);
-                Q.prio = Q.infoqueue.kesabaran;
-                Enqueue(&Antrian, Q);
+                if(IsEmptyQ(Antrian)){
+                    Q.infoqueue.kesabaran -= Duration(ActiveWahana[i]);
+                    Q.prio = Q.infoqueue.kesabaran;
+                }else{
+                    Q.infoqueue.kesabaran = Prio(InfoHeadQ(Antrian))-1;
+                    Q.prio = Q.infoqueue.kesabaran;
+                }
+                if(Q.infoqueue.nbActiveWahana > 0){
+                    Enqueue(&Antrian, Q);
+                }
                 //Update Laporan Wahana
                 TotalGold(ActiveWahana[i]) += Price(ActiveWahana[i]);
                 TotalRide(ActiveWahana[i])++;
                 DayGold(ActiveWahana[i]) += Price(ActiveWahana[i]);
                 DayRide(ActiveWahana[i])++;
+                DuitPlayer += Price(ActiveWahana[i]);
             }
             int Rusak = rand() % (1000000);
             if(Rusak < ChanceRusak(ActiveWahana[i])){
@@ -44,6 +53,17 @@ void MinuteUpdate(){
             }
         }
     }
+    //Mengurangi kesabaran
+    for(i = HeadQ(Antrian); i!= TailQ(Antrian); i = (i+1)%10){
+        Antrian.T[i].prio--;
+        Antrian.T[i].infoqueue.kesabaran--;
+    }
+    Antrian.T[i].prio--;
+    Antrian.T[i].infoqueue.kesabaran--;
+    infotypeQ Q;
+    while(Prio(InfoHeadQ(Antrian))<=0){
+        Dequeue(&Antrian, &Q);
+    }
 }
 
 void NMinuteUpdate(int N){
@@ -52,7 +72,6 @@ void NMinuteUpdate(int N){
         MinuteUpdate();
     }
 }
-
 
 
 void generateAntrian(){
@@ -91,11 +110,28 @@ void ShowMainPhaseState(JAM cur_JAM, JAM END_JAM){
 	printf("Legend:\nA = Antrian\nP = Player\nW = Wahana\nO = Office\n< ^ > V = Gerbang\n");
 	printf("\n");
 	/* print state prep. phase */
-	printf("Current Time: \n"); TulisJAM(cur_JAM); printf("\n");
-	printf("Opening Time: \n"); TulisJAM(END_JAM); printf("\n");
+    printf("Name: %s\n",NamaPlayer); /* belum tau name disimpen di mana, WIP */
+	printf("Money: %d\n",DuitPlayer); /* belum tau money disimpen di mana, WIP */
+	printf("Current Time: "); TulisJAM(cur_JAM); printf("\n");
+	printf("Opening Time: "); TulisJAM(END_JAM); printf("\n");
 	diff = DetikToJAM(Durasi(cur_JAM,END_JAM));
 	printf("Time Remaining: %d hour(s) %d minute(s)\n",Hour(diff),Minute(diff));
     PrintPrioQueuePengunjung(Antrian);
+    int i, broken = 0;
+    for(i=0; i<nbWahana; i++){
+        if(IsRusak(ActiveWahana[i]) == 1){
+            broken++;
+        }
+    }
+    if(broken>0){
+        printf("Broken:\n");
+        for(i=0; i<nbWahana; i++){
+            if(IsRusak(ActiveWahana[i]) == 1){
+                PrintName(ActiveWahana[i]);
+            }
+            printf("\n");
+        }
+    }
 }
 
 
@@ -123,11 +159,9 @@ void SERVE(Kata K){
             }
         }
         if(foundonlist){
+            NMinuteUpdate(5);
             Q.prio = Duration(ActiveWahana[i])*60 + JAMToDetik(Sekarang);
             Enqueue(&PQ[i], Q);
-            for(j=0; j<5; j++){
-                MinuteUpdate();
-            }
         }else{
             Enqueue(&Antrian, Q);
             printf("Wahana tersebut tidak ada dalam list wahana pengunjung anda\n");
@@ -138,6 +172,7 @@ void PrintDetailWahana(Wahana W){
     addrNode P = SearchTree(DataWahana, ID(W));
     printf("Melihat detail wahana \n");
     printf("Nama: ");
+    PrintName(W);
     printf("\n");
     printf("Lokasi: (%d,%d)\n", PosX(W), PosY(W));
     printf("Upgrade: ");
@@ -366,6 +401,7 @@ void MainPhase(int day){
 	boolean selesai = false;
 	/* simulasi prep. phase, pakai do-while karena pasti jalan setidaknya sekali */
 	do {
+        printf("\nMain phase day %d\n", day);
 		ShowMainPhaseState(Sekarang, END_JAM);
 		printf("Masukkan perintah:\n$ ");
 		ADVKATA();
@@ -389,9 +425,11 @@ void MainPhase(int day){
 			move('d',&GraphMap);
             MinuteUpdate();
 		} 
-		if (IsKataSama(CKata, Serve)){
+		else if (IsKataSama(CKata, Serve)){
             ADVKATA();
-            if(CheckAntrianAdj(GraphMap)){
+            if(Durasi(Sekarang,END_JAM)<600){
+                 printf("Waktu anda kurang untuk aksi ini");
+            }else if(CheckAntrianAdj(GraphMap)){
                 SERVE(CKata);
             }else{
                 printf("Anda tidak di dekat antrian\n");
@@ -401,11 +439,18 @@ void MainPhase(int day){
             DETAIL();
         }
         else if (IsKataSama(CKata, Office)){
-            
-            OFFICE();
+            if(IsInOffice(GraphMap)){
+                OFFICE();
+            }else{
+                printf("Anda tidak di dalam office\n");
+            }
         }
         else if (IsKataSama(CKata, Repair)){
-            REPAIR();
+            if(Durasi(Sekarang,END_JAM)<600){
+                printf("Waktu anda kurang untuk aksi ini");
+            }else{
+                REPAIR();
+            }
         }
         else if (IsKataSama(CKata, Prepare)){
             selesai = true;
@@ -413,5 +458,5 @@ void MainPhase(int day){
         else{
             printf("Perintah tidak valid.\n");
         }
-	} while (!selesai);
+	} while (!selesai && JLT(Sekarang, END_JAM));
 }
