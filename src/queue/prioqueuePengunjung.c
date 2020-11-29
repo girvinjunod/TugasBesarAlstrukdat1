@@ -109,10 +109,10 @@ void PrintPrioQueuePengunjung (PrioQueuePengunjung Q){
 	if(!IsEmptyQ(Q)){
 		int i = HeadQ(Q);
 		while(i != TailQ(Q)){
-			PrintPengunjung((Q).T[i].info);
+			PrintPengunjung((Q).T[i].infoqueue);
 			i = (i+1)%MaxElQ(Q);
 		}
-		PrintPengunjung((Q).T[i].info);
+		PrintPengunjung((Q).T[i].infoqueue);
 	}
 }
 

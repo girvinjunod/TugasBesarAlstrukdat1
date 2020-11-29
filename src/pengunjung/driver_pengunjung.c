@@ -1,6 +1,8 @@
-#include "pengunjung.h"
-#include "pengunjung.c"
+//#include "pengunjung.h"
+// /#include "pengunjung.c"
+#include "../util/boolean.h"
+#include "../util/globalvariable.h"
 int main(){
-	generatePengunjung(2);
+	//generatePengunjung();
 	return 0;
 }
