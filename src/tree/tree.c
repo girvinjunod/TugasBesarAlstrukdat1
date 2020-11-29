@@ -69,16 +69,16 @@ void PrintChild(Tree T){
 
 void MakeWahanaTree(Tree *T, int c){
     Wahana W;
-    addrNode *P;
+    addrNode P;
     int subc;
     int i;
     for(i=0; i<c; i++){
         ReadWahana(&W);
-        *P = AlokasiTree(W);
-        InsertChild(T, P);
+        P = AlokasiTree(W);
+        InsertChild(T, &P);
         subc = ToInt(CKata);
         ADVKATA();
-        MakeWahanaTree(P, subc);
+        MakeWahanaTree(&P, subc);
     }
 }
 
