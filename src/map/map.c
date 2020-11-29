@@ -55,6 +55,15 @@ boolean checkSwitchHorizontal(MAP M,POINT P){
 	legend L = Legend(M,Ordinat(P),Absis(P));
 	return L=='<'||L=='>';
 }
+boolean checkPosOffice(MAP M,POINT P){
+	legend L = Legend(M,Ordinat(P),Absis(P));
+	return L=='O';
+}
+boolean checkPosAntrian(MAP M,POINT P){
+	legend L = Legend(M,Ordinat(P),Absis(P));
+	return L=='A';
+}
+
 
 /* Cari Map yang ada player */
 boolean isPlayerHere(MAP M){
