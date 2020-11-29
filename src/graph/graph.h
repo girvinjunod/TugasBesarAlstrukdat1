@@ -64,16 +64,19 @@ adrNode SearchNode(Graph G, int X);
 /* F.S. Mengembalikan adrNode dari elemen dengan ID X */
 
 /* Print Map yang ada player */
-void PrintCurrMap(Graph GR);
+void PrintCurrMap(Graph GM);
 
 /* Put Player in the Point in the same MAP */
-void PutPlayer(Graph *GR,POINT P);
+void PutPlayer(Graph *GM,POINT P);
 /* Check movement */
 void move(char input,Graph *GM);
 /* Switch Map */
 void SwitchMap(Graph *GM,boolean vertical);
+/* Menulis legenda W pada map */
+void BuildWMap(Graph *GM,POINT P);
+
 /* Cari tile adjacent player yang kosong */
-POINT CheckClearAdj(Graph *GM);
+POINT CheckClearAdj(Graph GM);
 /* Cek jika player adjacent dengan legend 'A' */
 boolean CheckAntrianAdj(Graph GM);
 

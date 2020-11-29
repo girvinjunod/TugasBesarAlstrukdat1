@@ -111,14 +111,14 @@ adrNode SearchNode(Graph G, int X){
 }
 
 /* Print MAP yang ada player */
-void PrintCurrMap(Graph GR){
-    adrNode P = SearchPlayer(GR);
+void PrintCurrMap(Graph GM){
+    adrNode P = SearchPlayer(GM);
     printMap(Map(P));
 }
 
 /* Put Player in the Point in the same MAP */
-void PutPlayer(Graph *GR,POINT P){
-    adrNode S = SearchPlayer(*GR);
+void PutPlayer(Graph *GM,POINT P){
+    adrNode S = SearchPlayer(*GM);
     MAP M = Map(S);
 
     setPoint(&M,'-',PosPlayer(M));
@@ -143,11 +143,7 @@ void move(char input,Graph *GM){
 	temp = MakePOINT(x,y);
 	
 	if (checkPoint(M,temp)){
-		setPoint(&M,'-',PosPlayer(M));
-		PosXPlayer(M) = Absis(temp);
-		PosYPlayer(M) = Ordinat(temp);
-		setPoint(&M,'P',PosPlayer(M));
-        Map(P) = M;
+		PutPlayer(GM,temp);
 	}else if(checkSwitchVertical(M,temp)) SwitchMap(GM,true);
     else if(checkSwitchHorizontal(M,temp)) SwitchMap(GM,false);
     else printf("That place is occupied\n");
@@ -203,10 +199,18 @@ void SwitchMap(Graph *GM,boolean vertical){
         Map(newP) = newMap;
     }else printf("That place is occupied\n");
 }
+/* Menulis legenda 'W' pada map */
+void BuildWMap(Graph *GM,POINT P){
+    adrNode S = SearchPlayer(*GM);
+    MAP M = Map(S);
+    POINT newPos = CheckClearAdj(*GM);
+    PutPlayer(GM,newPos);
+    setPoint(&M,'W',P); Map(S) = M;
+}
 
 /*  Cari tile adjacent player yang kosong */
-POINT CheckAdj(Graph *GM){
-    adrNode P = SearchPlayer(*GM);
+POINT CheckClearAdj(Graph GM){
+    adrNode P = SearchPlayer(GM);
     POINT Pos = PosPlayer(Map(P));
     int x=Absis(Pos),y=Ordinat(Pos);
 
