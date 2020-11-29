@@ -7,7 +7,14 @@ void MinuteUpdate(){
     Sekarang = NextNDetik(Sekarang, 60);
     int Detik = JAMToDetik(Sekarang);
     //Tentang antrian, belum dirandom
-
+    int TambahAntrian = rand() % 50;
+    if(TambahAntrian == 0 && !IsFullQ(Antrian)){
+        Pengunjung P = generatePengunjung();
+        infotypeQ Q;
+        Q.infoqueue = P;
+        Q.prio = P.kesabaran;
+        Enqueue(&Antrian, Q);
+    }
     //Ngecek tiap wahana
     int i;
     for(i=0; i<nbWahana; i++){
@@ -24,6 +31,17 @@ void MinuteUpdate(){
                 DayGold(ActiveWahana[i]) += Price(ActiveWahana[i]);
                 DayRide(ActiveWahana[i])++;
             }
+            int Rusak = rand() % (1000000);
+            if(Rusak < ChanceRusak(ActiveWahana[i])){
+                while(IsEmptyQ(PQ[i])){
+                    infotypeQ Q;
+                    Dequeue(&PQ[i], &Q);
+                    Q.infoqueue.kesabaran = Prio(InfoHeadQ(Antrian))-1;
+                    Q.prio = Q.infoqueue.kesabaran;
+                    Enqueue(&Antrian, Q);
+                }
+                IsRusak(ActiveWahana[i]) = 1;
+            }
         }
     }
 }
@@ -34,6 +52,8 @@ void NMinuteUpdate(int N){
         MinuteUpdate();
     }
 }
+
+
 
 void generateAntrian(){
     int BanyakAntrian = (rand() % 25) + 1;
@@ -76,13 +96,14 @@ void ShowMainPhaseState(JAM cur_JAM, JAM END_JAM){
     PrintPrioQueuePengunjung(Antrian);
 }
 
+
 void SERVE(Kata K){
     boolean notfound = true;
     int i=-1;
     int Detik = JAMToDetik(Sekarang);
     while(i<nbWahana && notfound){
         i++;
-        if(NbElmtQ(PQ[i])<Capacity(ActiveWahana[i]) && IsKataSama(Name(ActiveWahana[i]), K)){
+        if(NbElmtQ(PQ[i])<Capacity(ActiveWahana[i]) && IsKataSama(Name(ActiveWahana[i]), K) && IsRusak(ActiveWahana[i])==0){
             notfound = false;
         }
     }
@@ -119,8 +140,9 @@ void PrintDetailWahana(Wahana W){
     printf("Lokasi: (%d,%d)\n", PosX(W), PosY(W));
     printf("Upgrade: \n");
     PrintChild(P);
-    printf("History: \n");
+    printf("History: ");
     PrintHistory(P);
+    printf("\n");
 }
 
 void PrintListActiveWahana(){
@@ -131,6 +153,96 @@ void PrintListActiveWahana(){
         printf("\n");
     }
 }
+
+void REPAIR(){
+    adrNode P = SearchPlayer(GraphMap);
+    MAP M = Map(P);
+    POINT Q = PosPlayer(M);
+    int MapID = IdGraph(P);
+    int i=0, j=0;
+    int RepairCandidate[4];
+    for(i=0; i<nbWahana; i++){
+        if(IsRusak(ActiveWahana[i]) == 1){
+            if(ActiveWahana[i].MapWahana == MapID && PosX(ActiveWahana[i]) == Q.X + 1 && PosY(ActiveWahana[i]) == Q.Y){
+                RepairCandidate[j] = i;
+                j++;
+            }
+            if(ActiveWahana[i].MapWahana == MapID && PosX(ActiveWahana[i]) == Q.X && PosY(ActiveWahana[i]) == Q.Y + 1){
+                RepairCandidate[j] = i;
+                j++;
+            }
+            if(ActiveWahana[i].MapWahana == MapID && PosX(ActiveWahana[i]) == Q.X - 1 && PosY(ActiveWahana[i]) == Q.Y){
+                RepairCandidate[j] = i;
+                j++;
+            }
+            if(ActiveWahana[i].MapWahana == MapID && PosX(ActiveWahana[i]) == Q.X && PosY(ActiveWahana[i]) == Q.Y - 1){
+                RepairCandidate[j] = i;
+                j++;
+            }
+        }
+    }
+    if(j==0){
+        printf("Tidak ada wahana didekat anda!\n");
+    }else{
+        printf("List wahana yang bisa di repair:\n");
+        for(i=0; i<j; i++){
+            printf("%d. ", i+1);
+            PrintName(ActiveWahana[RepairCandidate[i]]);
+            printf("\n");
+        }
+        printf("Masukkan nomor wahana yang ingin di repair:\n");
+        ADVKATA();
+        i = RepairCandidate[ToInt(CKata)-1];
+        if(DuitPlayer < 50){
+            printf("Anda membutuhkan 50 gold untuk melakukan repair");
+        }else{
+            DuitPlayer -= 50;
+            IsRusak(ActiveWahana[i]) = 0;
+            NMinuteUpdate(10);
+        }
+    }
+}
+void DETAIL(){
+    adrNode P = SearchPlayer(GraphMap);
+    MAP M = Map(P);
+    POINT Q = PosPlayer(M);
+    int MapID = IdGraph(P);
+    int i=0, j=0;
+    int DetailCandidate[4];
+    for(i=0; i<nbWahana; i++){
+        if(ActiveWahana[i].MapWahana == MapID && PosX(ActiveWahana[i]) == Q.X + 1 && PosY(ActiveWahana[i]) == Q.Y){
+            DetailCandidate[j] = i;
+            j++;
+        }
+        if(ActiveWahana[i].MapWahana == MapID && PosX(ActiveWahana[i]) == Q.X && PosY(ActiveWahana[i]) == Q.Y + 1){
+            DetailCandidate[j] = i;
+            j++;
+        }
+        if(ActiveWahana[i].MapWahana == MapID && PosX(ActiveWahana[i]) == Q.X - 1 && PosY(ActiveWahana[i]) == Q.Y){
+            DetailCandidate[j] = i;
+            j++;
+        }
+        if(ActiveWahana[i].MapWahana == MapID && PosX(ActiveWahana[i]) == Q.X && PosY(ActiveWahana[i]) == Q.Y - 1){
+            DetailCandidate[j] = i;
+            j++;
+        }
+    }
+    if(j==0){
+        printf("Tidak ada wahana didekat anda!\n");
+    }else{
+        printf("List wahana yang bisa dilihat detailnya:\n");
+        for(i=0; i<j; i++){
+            printf("%d. ", j+1);
+            PrintName(ActiveWahana[i]);
+            printf("\n");
+        }
+        printf("Masukkan nomor wahana yang ingin dilihat:\n");
+        ADVKATA();
+        i = DetailCandidate[ToInt(CKata)-1];
+        PrintDetailWahana(ActiveWahana[i]);
+    }
+}
+
 
 void OFFICE(){
     Kata Details;
@@ -253,15 +365,33 @@ void MainPhase(int day){
 	/* simulasi prep. phase, pakai do-while karena pasti jalan setidaknya sekali */
 	do {
 		ShowMainPhaseState(Sekarang, END_JAM);
-        PrintKata(CKata);
-        printf("%d", CKata.Length);
 		printf("Masukkan perintah:\n$ ");
+        if (IsKataSama(CKata, W)){
+			/* mindah koordinat player ke atas */
+			move('w',&GraphMap);
+            MinuteUpdate();
+		} 
+		else if (IsKataSama(CKata, A)){
+			/* mindah koordinat player ke kiri */
+			move('a',&GraphMap);
+            MinuteUpdate();
+		} 
+		else if (IsKataSama(CKata, S)){
+			/* mindah koordinat player ke bawah */
+			move('s',&GraphMap);
+            MinuteUpdate();
+		} 
+		else if (IsKataSama(CKata, D)){
+			/* mindah koordinat player ke kanan */
+			move('d',&GraphMap);
+            MinuteUpdate();
+		} 
 		if (IsKataSama(CKata, Serve)){
             ADVKATA();
             SERVE(CKata);
         }
         else if (IsKataSama(CKata, Detail)){
-            PrintDetailWahana(ActiveWahana[0]);
+            DETAIL();
         }
         else if (IsKataSama(CKata, Office)){
             OFFICE();

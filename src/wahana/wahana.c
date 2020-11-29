@@ -30,19 +30,20 @@ void ReadWahana(Wahana *W){
     Duration(*W) = ToInt(CKata); ADVKATA();
     Capacity(*W) = ToInt(CKata); ADVKATA();
     Price(*W) = ToInt(CKata); ADVKATA();
-    ChanceRusak(*W) =  (double)ToInt(CKata)/1e6; ADVKATA();
+    ChanceRusak(*W) = ToInt(CKata); ADVKATA();
 }
 
 void PrintInfoWahana(Wahana W){
-    printf("ID: %d\n", ID(W));
-    printf("BuildTime: %d\n", BuildTime(W));
+    printf("ID: %d\nNama: ", ID(W));
+    PrintName(W);
+    printf("\nBuildTime: %d\n", BuildTime(W));
     printf("Resources needed : \n");
     printM(Resources(W));
     printf("Ukuran: %d x %d\n", SizeX(W), SizeY(W));
     printf("Duration: %d\n", Duration(W));
     printf("Capacity: %d\n", Capacity(W));
     printf("Price: %d\n", Price(W));
-    printf("Chance Rusak: %.2f\n", ChanceRusak(W));
+    printf("Chance Rusak: %d\n", ChanceRusak(W));
 }
 
 void LaporanWahana(Wahana W){
@@ -61,8 +62,6 @@ Wahana CopyWahana(Wahana W){
         strcpy(Info(Resources(Copy),i), Info(Resources(W),i));
         Value(Resources(W),i) = Value(Resources(W),i);
     }
-    PosX(Copy) = PosX(W);
-    PosY(Copy) = PosY(W);
     SizeX(Copy) = SizeX(W);
     SizeY(Copy) = SizeY(W);
     Duration(Copy) = Duration(W);

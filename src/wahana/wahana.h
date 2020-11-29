@@ -18,8 +18,10 @@ typedef struct {
     int Duration;
     int Capacity;
     int Price;
-    double ChanceRusak; /* di filenya ketulis ChanceRusak*1e6 */
+    int ChanceRusak; /* di filenya ketulis ChanceRusak*1e6 */
     //Berubah selama program jalan (di Tree disimpennya tetap)
+    int IsRusak;
+    int MapWahana;
     int PosX;
     int PosY;
     int TotalRide;
@@ -39,7 +41,9 @@ typedef struct {
 #define Capacity(W) (W).Capacity
 #define Price(W) (W).Price
 #define ChanceRusak(W) (W).ChanceRusak
+#define IsRusak(W) (W).IsRusak
 
+#define MapWahana(W) (W).MapWahana;
 #define PosX(W) (W).PosX
 #define PosY(W) (W).PosY
 #define TotalRide(W) (W).TotalRide

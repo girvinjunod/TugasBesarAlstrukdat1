@@ -55,6 +55,10 @@ void InitGame(){
     STARTKATAFILE("../material/material.txt");
     generateShop(&Shop);
     printf("udah load shop\n");
+    int i=0;
+    for(i=0; i<11; i++){
+        PrintInfoWahana(InfoTree(SearchTree(DataWahana, i+1)));
+    }
     DuitPlayer = 10000;
 }
 

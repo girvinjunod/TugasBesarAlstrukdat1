@@ -83,10 +83,12 @@ void MakeWahanaTree(Tree *T, int c){
 }
 
 void PrintHistory(addrNode P){
-    if(Parent(P)!=Nil){
-        PrintHistory(Parent(P));
+    if(Parent(Parent(P)) == Nil){
         PrintName(InfoTree(P));
-        printf("\n");
+    }else{
+        PrintHistory(Parent(P));
+        printf("->");
+        PrintName(InfoTree(P));
     }
 }
 Wahana CopyWahanaID(Tree T, int ID){
