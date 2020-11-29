@@ -6,7 +6,7 @@
 #ifndef listlinier_H
 #define listlinier_H
 
-#include "boolean.h"
+#include "../util/boolean.h"
 #include "../wahana/wahana.h"
 
 #define Nil NULL

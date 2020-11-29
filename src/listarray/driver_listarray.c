@@ -3,7 +3,7 @@
 
 #include "listarray.h"
 //#include "listarray.c"
-#include "boolean.h"
+#include "../util/boolean.h"
 #include <math.h>
 #include <string.h>
 //#define  println(T)	printf(T);printf(\n);

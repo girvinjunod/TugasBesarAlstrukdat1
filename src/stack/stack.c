@@ -1,6 +1,6 @@
 #include "stack.h"
 #include <stdio.h>
-#include "boolean.h"
+#include "../util/boolean.h"
 #include <string.h>
 
 struct_aksi MakeAksiBuild(POINT koord, int id_build, int harga_build, int durasi_build){
