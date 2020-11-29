@@ -90,7 +90,7 @@ void ConnectMap(Graph *G){
     P = SearchNode(*G,i);
     
     if(i==1) {P1=SearchNode(*G,i+1);P2=SearchNode(*G,i+2);}
-    else {P1=SearchNode(*G,i-1);P2=SearchNode(*G,i-2);}
+    else {P1=SearchNode(*G,i-2);P2=SearchNode(*G,i-1);}
     ConnectNode(&P,&P1);
     ConnectNode(&P,&P2);
   }

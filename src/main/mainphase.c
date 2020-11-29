@@ -42,7 +42,7 @@ void MinuteUpdate(){
             }
             int Rusak = rand() % (1000000);
             if(Rusak < ChanceRusak(ActiveWahana[i])){
-                while(IsEmptyQ(PQ[i])){
+                while(!IsEmptyQ(PQ[i])){
                     infotypeQ Q;
                     Dequeue(&PQ[i], &Q);
                     Q.infoqueue.kesabaran = Prio(InfoHeadQ(Antrian))-1;
@@ -54,15 +54,17 @@ void MinuteUpdate(){
         }
     }
     //Mengurangi kesabaran
-    for(i = HeadQ(Antrian); i!= TailQ(Antrian); i = (i+1)%10){
+    if (!IsEmptyQ(Antrian)){
+        for(i = HeadQ(Antrian); i!= TailQ(Antrian); i = (i+1)%10){
+            Antrian.T[i].prio--;
+            Antrian.T[i].infoqueue.kesabaran--;
+        }
         Antrian.T[i].prio--;
         Antrian.T[i].infoqueue.kesabaran--;
-    }
-    Antrian.T[i].prio--;
-    Antrian.T[i].infoqueue.kesabaran--;
-    infotypeQ Q;
-    while(Prio(InfoHeadQ(Antrian))<=0){
-        Dequeue(&Antrian, &Q);
+        infotypeQ Q;
+        while(!IsEmptyQ(Antrian) && Prio(InfoHeadQ(Antrian))<=0){
+            Dequeue(&Antrian, &Q);
+        }
     }
 }
 
@@ -160,7 +162,7 @@ void SERVE(Kata K){
         }
         if(foundonlist){
             NMinuteUpdate(5);
-            Q.prio = Duration(ActiveWahana[i])*60 + JAMToDetik(Sekarang);
+            Q.prio = Duration(ActiveWahana[i]) + JAMToDetik(Sekarang);
             Enqueue(&PQ[i], Q);
         }else{
             Enqueue(&Antrian, Q);
