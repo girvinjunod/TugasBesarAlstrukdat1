@@ -29,13 +29,21 @@ void LoadWahana(){
     nbWahana = 0;
     int i;
     for(i=0; i<12; i++){
+        printf("test\n");
         ActiveWahana[i] = CopyWahanaID(DataWahana, i+1);
+        printf("test2\n");
         PosX(ActiveWahana[i]) = 0;
+        printf("test3\n");
         PosY(ActiveWahana[i]) = 0;
+        printf("test4\n");
         TotalRide(ActiveWahana[i]) = 0;
+        printf("test5\n");
         TotalGold(ActiveWahana[i]) = 0;
+        printf("test6\n");
         DayRide(ActiveWahana[i]) = 0;
+        printf("test7\n");
         DayGold(ActiveWahana[i]) = 0;
+        printf("test8\n");
         MakeEmptyQ(&PQ[i], 100);
         nbWahana++;
     }
@@ -45,21 +53,18 @@ void InitGame(){
     printf("Masukkan nama pemain:\n$ ");
     STARTKATAKEYBOARD();
     strcpy(NamaPlayer,CKata.TabKata);
-    printf("udah input nama\n");
+    /* printf("udah input nama\n"); */
     LoadWahanaTree();
-    printf("udah load tree wahana\n");
+    /* printf("udah load tree wahana\n"); */
     LoadWahana();
-    printf("udah init active wahana\n");
+    /* printf("udah init active wahana\n"); */
     CreateGraphMap(&GraphMap);
-    printf("udah load map\n");
+    /* printf("udah load map\n"); */
     STARTKATAFILE("../material/material.txt");
     generateShop(&Shop);
-    printf("udah load shop\n");
-    int i=0;
-    for(i=0; i<11; i++){
-        PrintInfoWahana(InfoTree(SearchTree(DataWahana, i+1)));
-    }
+    /* printf("udah load shop\n"); */
     DuitPlayer = 10000;
+    setInvenAwal(&Inventory,Shop);
 }
 
 void showMenu(){

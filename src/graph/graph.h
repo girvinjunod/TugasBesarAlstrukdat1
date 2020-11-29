@@ -75,12 +75,14 @@ void move(char input,Graph *GM);
 /* Switch Map */
 void SwitchMap(Graph *GM,boolean vertical);
 /* Menulis legenda W pada map */
-void BuildWMap(Graph *GM,POINT P);
+void BuildWMap(Graph *GM,POINT P,int n);
 
 /* Cari tile adjacent player yang kosong */
 POINT CheckClearAdj(Graph GM);
 /* Cek jika player adjacent dengan legend 'A' */
 boolean CheckAntrianAdj(Graph GM);
+/* Cari tile adjacent wahana */
+POINT GetAdjWahana(Graph GM);
 
 /* Find player */
 adrNode SearchPlayer(Graph GM);

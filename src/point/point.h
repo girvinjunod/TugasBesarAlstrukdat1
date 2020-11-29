@@ -45,6 +45,7 @@ boolean EQPOINT (POINT P1, POINT P2);
 /* Mengirimkan true jika P1 = P2 : absis dan ordinatnya sama */
 boolean NEQPOINT (POINT P1, POINT P2);
 /* Mengirimkan true jika P1 tidak sama dengan P2 */
+boolean IsUndef(POINT P);
 
 /* *** Kelompok menentukan di mana P berada *** */
 boolean IsOrigin (POINT P);

@@ -35,11 +35,13 @@ void BUILD(Stack *stack_aksi, int *durasi_stack, int *harga_stack, int remaining
 	boolean bahan_cukup;
 	int i, j;
 	/* ALGORITMA */
+	printInven(Inventory);
 	printf("Ingin membangun wahana apa? (masukkan ID wahana)\n");
 	PrintChild(DataWahana);
 	printf("$ ");
-	wahana_pilihan = SearchTree(DataWahana,ToInt(CKata)); /* note: gaada validasi int/bukan */
 	ADVKATA();
+	printf("ID wahana pilihan: %s\n",CKata.TabKata);
+	wahana_pilihan = SearchTree(DataWahana,ToInt(CKata)); /* note: gaada validasi int/bukan */
 	if (wahana_pilihan!=Nil){
 		info_wahana_pilihan = InfoTree(wahana_pilihan);
 		if (BuildTime(info_wahana_pilihan)<=remaining_time){
@@ -52,6 +54,7 @@ void BUILD(Stack *stack_aksi, int *durasi_stack, int *harga_stack, int remaining
 					if (j==IdxUndef || Value(Inventory,j)<Value(Resources(info_wahana_pilihan),j)){
 						bahan_cukup = false;
 					}
+					i++;
 				}
 				if (bahan_cukup){
 					aksi_baru = MakeAksiBuild(PosPlayer(Map(SearchPlayer(GraphMap))), ID(InfoTree(wahana_pilihan)), Price(InfoTree(wahana_pilihan)),BuildTime(InfoTree(wahana_pilihan)));
@@ -99,12 +102,9 @@ void UPGRADE(Stack *stack_aksi, int *durasi_stack, int *harga_stack, int remaini
 	/* ALGORITMA */
 	cur_node = SearchPlayer(GraphMap);
 	koord_player = PosPlayer(Map(cur_node)); /* cek aman apa nggak ntar */
-	koord_upgrade = MakePOINT(-1,-1);
+	koord_upgrade = GetAdjWahana(GraphMap);
 	for (i=0;i<nbWahana;i++){
-		manhattan_distance = (Absis(koord_player)-PosX(ActiveWahana[i])) * (Absis(koord_player)-PosX(ActiveWahana[i])>0 ? 1 : -1);
-		manhattan_distance += (Ordinat(koord_player)-PosY(ActiveWahana[i])) * (Ordinat(koord_player)-PosY(ActiveWahana[i])>0 ? 1 : -1);
-		if (manhattan_distance==1){
-			koord_upgrade = MakePOINT(PosX(ActiveWahana[i]),PosY(ActiveWahana[i]));
+		if (PosX(ActiveWahana[i])==Absis(koord_upgrade)&&PosY(ActiveWahana[i])==Ordinat(koord_upgrade)){
 			wahana_upgrade = SearchTree(DataWahana,ID(ActiveWahana[i]));
 		}
 	}
@@ -126,6 +126,7 @@ void UPGRADE(Stack *stack_aksi, int *durasi_stack, int *harga_stack, int remaini
 						if (j==IdxUndef || Value(Inventory,j)<Value(Resources(info_upgrade_pilihan),j)){
 							bahan_cukup = false;
 						}
+						i++;
 					}
 					if (bahan_cukup){
 						aksi_baru = MakeAksiUpgrade(koord_upgrade, ID(InfoTree(upgrade_pilihan)), Price(InfoTree(upgrade_pilihan)),BuildTime(InfoTree(upgrade_pilihan)));
@@ -176,14 +177,15 @@ void BUY(Stack *stack_aksi, int *durasi_stack, int *harga_stack, int remaining_t
 		printf("Ingin membeli apa?\n");
 		printShop(Shop);
 		printf("$ ");
-		idx_bahan_yang_mau_dibeli = SearchB(Shop,CKata.TabKata);
 		ADVKATA();
+		idx_bahan_yang_mau_dibeli = Search1(Shop,CKata.TabKata);
 		if (idx_bahan_yang_mau_dibeli != IdxUndef){
 			/* bahan yang mau dibeli ada */
 			printf("Beli berapa?\n$ ");
-			jumlah_barang = ToInt(CKata);
 			ADVKATA();
+			jumlah_barang = ToInt(CKata);
 			harga_total = Value(Shop,idx_bahan_yang_mau_dibeli)*jumlah_barang;
+			printf("harga barang: %d\njumlah barang: %d\ntotal harga: %d\n",Value(Shop,idx_bahan_yang_mau_dibeli),jumlah_barang,harga_total);
 			if (harga_total<=DuitPlayer){
 				aksi_baru = MakeAksiBuy(harga_total,BUY_DURATION,Info(Shop,idx_bahan_yang_mau_dibeli),jumlah_barang);
 				PushStack(stack_aksi,aksi_baru);
@@ -246,7 +248,7 @@ void EXECUTE(Stack *stack_aksi){
 	while (!IsEmptyStack(*stack_aksi)){
 		PopStack(stack_aksi,&cur_aksi);
 		if (IDAksi(cur_aksi)==0){
-			BuildWMap(&GraphMap,KoordBuild(cur_aksi));
+			BuildWMap(&GraphMap,KoordBuild(cur_aksi),nodeMap);//nodeMap buat Map keberapa
 			ActiveWahana[nbWahana] = InfoTree(SearchTree(DataWahana,IDBuild(cur_aksi)));
 			nbWahana++;
 			Sekarang = NextNDetik(Sekarang,DurasiBuild(cur_aksi));
@@ -274,7 +276,8 @@ void EXECUTE(Stack *stack_aksi){
 			}
 		}
 		else if (IDAksi(cur_aksi)==2){
-			updateInvenPlus(&Inventory,NamaBarangBuy(cur_aksi),JumlahBarangBuy(cur_aksi));
+			if (SearchB(Inventory,NamaBarangBuy(cur_aksi))) updateInvenPlus(&Inventory,NamaBarangBuy(cur_aksi),JumlahBarangBuy(cur_aksi));
+			else 
 			Sekarang = NextNDetik(Sekarang,DurasiBuy(cur_aksi));
 			DuitPlayer -= HargaBuy(cur_aksi);
 		}
@@ -344,9 +347,9 @@ void PrepPhase(int day){
 	Execute.TabKata[6] = 'e';
 	Main.Length = 4;
 	Main.TabKata[0] = 'm';
-	Main.TabKata[0] = 'a';
-	Main.TabKata[0] = 'i';
-	Main.TabKata[0] = 'n';
+	Main.TabKata[1] = 'a';
+	Main.TabKata[2] = 'i';
+	Main.TabKata[3] = 'n';
 	/* variabel */
 	boolean selesai;
 	Stack stack_aksi;
@@ -408,6 +411,5 @@ void PrepPhase(int day){
 			/* input gak valid */
 			printf("Perintah tidak valid.\n");
 		}
-		ADVKATA();
 	} while (!selesai);
 }
