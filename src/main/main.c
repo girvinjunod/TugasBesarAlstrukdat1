@@ -48,7 +48,6 @@ void InitGame(){
     /* printf("udah input nama\n"); */
     LoadWahanaTree();
     /* printf("udah load tree wahana\n"); */
-    /* printf("udah init active wahana\n"); */
     CreateGraphMap(&GraphMap);
     /* printf("udah load map\n"); */
     STARTKATAFILE("../material/material.txt");
