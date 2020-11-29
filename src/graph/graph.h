@@ -81,6 +81,8 @@ void BuildWMap(Graph *GM,POINT P,int n);
 POINT CheckClearAdj(Graph GM);
 /* Cek jika player adjacent dengan legend 'A' */
 boolean CheckAntrianAdj(Graph GM);
+/* Cek jika player ada di office */
+boolean IsInOffice(Graph GM);
 /* Cari tile adjacent wahana */
 POINT GetAdjWahana(Graph GM);
 
