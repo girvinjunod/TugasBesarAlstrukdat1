@@ -10,7 +10,11 @@
 
 #include "../util/boolean.h"
 #include "../point/point.h"
+#include "../material/material.h"
+#include "../tree/tree.h"
+#include "../util/globalvariable.h"
 #include <string.h>
+
 #define Undef -1
 #define MaxEl 100
 /* Nil adalah stack dengan elemen kosong . */
@@ -21,6 +25,7 @@ typedef struct{
 	int id_build; /* id wahana yang mau di-build */
 	int harga_build;
 	int durasi_build;
+	Material bahan_build;
 	/* bahan bangunan nyimpennya gimana yak */
 } struct_build;
 
@@ -29,6 +34,7 @@ typedef struct{
 	int id_upgrade; /* id upgrade-an wahana */
 	int harga_upgrade;
 	int durasi_upgrade;
+	Material bahan_upgrade;
 	/* bahan bangunan nyimpennya gimana yak */
 } struct_upgrade;
 
@@ -51,10 +57,12 @@ typedef struct {
 #define IDBuild(a) (a).build_details.id_build
 #define HargaBuild(a) (a).build_details.harga_build
 #define DurasiBuild(a) (a).build_details.durasi_build
+#define BahanBuild(a) (a).build_details.bahan_build
 #define KoordUpgrade(a) (a).upgrade_details.coord
 #define IDUpgrade(a) (a).upgrade_details.id_upgrade
 #define HargaUpgrade(a) (a).upgrade_details.harga_upgrade
 #define DurasiUpgrade(a) (a).upgrade_details.durasi_upgrade
+#define BahanUpgrade(a) (a).upgrade_details.bahan_upgrade
 #define HargaBuy(a) (a).buy_details.harga_buy
 #define DurasiBuy(a) (a).buy_details.durasi_buy
 #define NamaBarangBuy(a) (a).buy_details.nama_barang

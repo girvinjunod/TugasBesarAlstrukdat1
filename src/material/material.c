@@ -82,5 +82,12 @@ void updateInvenMinus(Material *I, const char X[], int jumlah){
     }
 }
 
+void CopyM(Material M, Material *copy){
+    IdxType i;
+    for (i = IdxMin; i <= GetLastIdx(M); i++){
+        strcpy(Info(*copy,i), Info(M,i));
+        Value(*copy,i) = Value(M,i);
+    }
+}
 
 
