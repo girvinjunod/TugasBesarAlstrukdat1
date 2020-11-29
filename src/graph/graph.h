@@ -1,6 +1,8 @@
 #ifndef GRAPH_H
 #define GRAPH_H
 
+#include <stdlib.h>
+#include <stdio.h>
 #include "../util/boolean.h"
 #include "../map/map.h"
 #include "../point/point.h"
@@ -64,11 +66,16 @@ adrNode SearchNode(Graph G, int X);
 /* Print Map yang ada player */
 void PrintCurrMap(Graph GR);
 
+/* Put Player in the Point in the same MAP */
+void PutPlayer(Graph *GR,POINT P);
 /* Check movement */
 void move(char input,Graph *GM);
-
 /* Switch Map */
 void SwitchMap(Graph *GM,boolean vertical);
+/* Cari tile adjacent player yang kosong */
+POINT CheckClearAdj(Graph *GM);
+/* Cek jika player adjacent dengan legend 'A' */
+boolean CheckAntrianAdj(Graph GM);
 
 /* Find player */
 adrNode SearchPlayer(Graph GM);

@@ -45,6 +45,9 @@ boolean checkPoint(MAP M,POINT P);
 /* Check jika point P di MAP M menuju ke Map sebelahnya */
 boolean checkSwitchVertical(MAP M,POINT P);
 boolean checkSwitchHorizontal(MAP M,POINT P);
+/* Check jika point P di MAP adalah sebuah legenda */
+boolean checkPosOffice(MAP M,POINT P);
+boolean checkPosAntrian(MAP M,POINT P);
 
 /* Cari Map yang ada player */
 boolean isPlayerHere(MAP M);

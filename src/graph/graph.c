@@ -1,5 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include "../util/boolean.h"
 #include "graph.h"
 #include "../map/map.h"
@@ -112,12 +110,23 @@ adrNode SearchNode(Graph G, int X){
     }
 }
 
+/* Print MAP yang ada player */
 void PrintCurrMap(Graph GR){
-//memprint semua item di graph
     adrNode P = SearchPlayer(GR);
     printMap(Map(P));
 }
 
+/* Put Player in the Point in the same MAP */
+void PutPlayer(Graph *GR,POINT P){
+    adrNode S = SearchPlayer(*GR);
+    MAP M = Map(S);
+
+    setPoint(&M,'-',PosPlayer(M));
+    PosXPlayer(M) = Absis(P);
+    PosYPlayer(M) = Ordinat(P);
+    setPoint(&M,'P',PosPlayer(M));
+    Map(S) = M;
+}
 /* Check Movement */
 void move(char input,Graph *GM){
 	POINT temp;
@@ -193,6 +202,29 @@ void SwitchMap(Graph *GM,boolean vertical){
         Map(P) = M;
         Map(newP) = newMap;
     }else printf("That place is occupied\n");
+}
+
+/*  Cari tile adjacent player yang kosong */
+POINT CheckAdj(Graph *GM){
+    adrNode P = SearchPlayer(*GM);
+    POINT Pos = PosPlayer(Map(P));
+    int x=Absis(Pos),y=Ordinat(Pos);
+
+    if(checkPoint(Map(P),MakePOINT(x+1,y))) return MakePOINT(x+1,y);
+    else if(checkPoint(Map(P),MakePOINT(x,y+1))) return MakePOINT(x,y+1);
+    else if(checkPoint(Map(P),MakePOINT(x-1,y))) return MakePOINT(x-1,y);
+    else return MakePOINT(x,y-1);
+}
+boolean CheckAntrianAdj(Graph GM){
+    adrNode P = SearchPlayer(GM);
+    POINT Pos = PosPlayer(Map(P));
+    int x=Absis(Pos),y=Ordinat(Pos);
+
+    if(checkPosAntrian(Map(P),MakePOINT(x+1,y))) return true;
+    else if(checkPosAntrian(Map(P),MakePOINT(x,y+1))) return true;
+    else if(checkPosAntrian(Map(P),MakePOINT(x-1,y))) return true;
+    else if(checkPosAntrian(Map(P),MakePOINT(x,y-1))) return true;
+    else return false;
 }
 
 adrNode SearchPlayer(Graph GM){
