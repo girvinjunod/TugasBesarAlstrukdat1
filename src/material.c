@@ -55,6 +55,8 @@ void updateInvenPlus(Material *I, const char X[], int jumlah){
     if (isi != -1){
         isi += jumlah;
         Value(*I, Search1(*I,X)) = isi;
+    } else {
+        AddAsLastEl(I, X, jumlah);
     }
 }
 
@@ -67,6 +69,8 @@ void updateInvenMinus(Material *I, const char X[], int jumlah){
         } else {
             printf("Material %s tidak cukup\n", X);
         }
+    } else {
+        printf("Anda tidak memiliki material %s\n", X);
     }
 }
 

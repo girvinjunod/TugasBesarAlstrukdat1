@@ -179,11 +179,11 @@ void AddAsLastEl (TabInt * T, const char X[], int N){
 /* F.S. X adalah elemen terakhir T yang baru */
     if(!IsFull(*T)){
         if(!IsEmpty(*T)){
-            strcpy(Info(*T,GetLastIdx(*T)+1),X);
             Value(*T,GetLastIdx(*T)+1) = N;
+            strcpy(Info(*T,GetLastIdx(*T)+1), X);
         }else{
-            strcpy(Info(*T,IdxMin),X);
             Value(*T,IdxMin) = N;
+            strcpy(Info(*T,IdxMin), X);
         }   
     }
 }
