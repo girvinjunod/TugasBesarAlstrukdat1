@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "wahana.h"
+#include "../material/material.h"
 
 void PrintName(Wahana W){
 	int i;

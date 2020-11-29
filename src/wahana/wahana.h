@@ -4,6 +4,8 @@
 #include "../util/boolean.h"
 #include "../mesinkata/mesinkata.h"
 #include "../material/material.h"
+#include "../listarray/listarray.h"
+
 
 typedef struct {
     //Statis selama program jalan

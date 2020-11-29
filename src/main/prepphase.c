@@ -100,7 +100,7 @@ void UPGRADE(Stack *stack_aksi, int *durasi_stack, int *harga_stack, int remaini
 				/* ada cukup waktu untuk upgrade */
 				if (Price(InfoTree(upgrade_pilihan))<=DuitPlayer){
 					/* note: belum cak bahan bangunan cukup/ga */
-					aksi_baru = MakeAksiUpgrade(koord_player, ID(InfoTree(upgrade_pilihan)), Price(InfoTree(upgrade_pilihan)),BuildTime(InfoTree(upgrade_pilihan)));
+					aksi_baru = MakeAksiUpgrade(koord_upgrade, ID(InfoTree(upgrade_pilihan)), Price(InfoTree(upgrade_pilihan)),BuildTime(InfoTree(upgrade_pilihan)));
 					/* push aksi upgrade ke stack */
 					PushStack(stack_aksi,aksi_baru); /* note: 1 itu id aksi upgrade */
 					*durasi_stack += BuildTime(InfoTree(upgrade_pilihan));
@@ -207,17 +207,38 @@ void EXECUTE(Stack *stack_aksi){
 	/* player dipindah ke sel tanpa wahana */
 	/* KAMUS LOKAL */
 	struct_aksi cur_aksi;
+	Wahana wahana_baru;
+	int idx_upgrade;
+	int i;
 	/* ALGORITMA */
 	while (!IsEmptyStack(*stack_aksi)){
 		PopStack(stack_aksi,&cur_aksi);
 		if (IDAksi(cur_aksi)==0){
-			/* execute build, WIP */
+			BuildWMap(&GraphMap,KoordBuild(cur_aksi));
+			ActiveWahana[nbWahana] = InfoTree(SearchTree(DataWahana,IDBuild(cur_aksi)));
+			nbWahana++;
+			Sekarang = NextNDetik(Sekarang,DurasiBuild(cur_aksi));
+			DuitPlayer -= HargaBuild(cur_aksi);
 		}
 		else if (IDAksi(cur_aksi)==1){
-			/* execute upgrade, WIP */
+			/* search wahana di active wahana */
+			idx_upgrade = -1;
+			i = 0;
+			while (i<nbWahana && idx_upgrade==-1){
+				if (PosX(ActiveWahana[i])==Absis(KoordUpgrade(cur_aksi)) && PosY(ActiveWahana[i])==Ordinat(KoordUpgrade(cur_aksi))){
+					idx_upgrade = i;
+				}
+				else i++;
+			}
+			/* upgrade wahana */
+			ActiveWahana[idx_upgrade] = InfoTree(SearchTree(DataWahana,IDUpgrade(cur_aksi)));
+			Sekarang = NextNDetik(Sekarang,DurasiUpgrade(cur_aksi));
+			DuitPlayer -= HargaUpgrade(cur_aksi);
 		}
 		else if (IDAksi(cur_aksi)==2){
-			/* execute buy, WIP */
+			updateInvenPlus(&Inventory,NamaBarangBuy(cur_aksi),JumlahBarangBuy(cur_aksi));
+			Sekarang = NextNDetik(Sekarang,DurasiBuy(cur_aksi));
+			DuitPlayer -= HargaBuy(cur_aksi);
 		}
 	}
 }
