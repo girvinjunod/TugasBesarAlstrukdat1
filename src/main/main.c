@@ -1,6 +1,19 @@
 #include <stdio.h>
 #include "../util/globalvariable.h"
 
+boolean play;
+int nbWahana = 3;
+Wahana ActiveWahana[100];
+Tree DataWahana;
+PrioQueuePengunjung PQ[100];
+PrioQueuePengunjung Antrian;
+Material Inventory, Shop;
+JAM Sekarang;
+int option;
+Graph GraphMap;
+char* NamaPlayer;
+int DuitPlayer;
+
 void LoadWahanaTree(){
     STARTKATAKEYBOARD();
     int c = ToInt(CKata);

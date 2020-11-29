@@ -57,7 +57,7 @@ typedef struct {
 #define DurasiUpgrade(a) (a).upgrade_details.durasi_upgrade
 #define HargaBuy(a) (a).buy_details.harga_buy
 #define DurasiBuy(a) (a).buy_details.durasi_buy
-#define IDBarangBuy(a) (a).buy_details.id_barang
+#define NamaBarangBuy(a) (a).buy_details.nama_barang
 #define JumlahBarangBuy(a) (a).buy_details.jumlah_barang
 #define IDAksi(a) (a).id_aksi
 #define BuildDetails(a) (a).build_details
@@ -69,7 +69,7 @@ struct_aksi MakeAksiBuild(POINT koord, int id_build, int harga_build, int durasi
 /* mengembalikan struct_aksi dengan data pada parameter */
 struct_aksi MakeAksiUpgrade(POINT koord, int id_upgrade, int harga_upgrade, int durasi_upgrade);
 /* mengembalikan struct_aksi dengan data pada parameter */
-struct_aksi MakeAksiBuy(int harga_buy, int durasi_buy, int id_barang, int jumlah_barang);
+struct_aksi MakeAksiBuy(int harga_buy, int durasi_buy, char nama_barang[], int jumlah_barang);
 /* mengembalikan struct_aksi dengan data pada parameter */
 void CopyAksi(struct_aksi a, struct_aksi *b);
 /* mengembalikan salinan a */

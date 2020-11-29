@@ -26,7 +26,7 @@ struct_aksi MakeAksiUpgrade(POINT koord, int id_upgrade, int harga_upgrade, int 
 	DurasiUpgrade(ret)=durasi_upgrade;
 	return ret;
 }
-struct_aksi MakeAksiBuy(int harga_buy, int durasi_buy, int id_barang, int jumlah_barang){
+struct_aksi MakeAksiBuy(int harga_buy, int durasi_buy, char nama_barang[], int jumlah_barang){
 	/* mengembalikan struct_aksi dengan data pada parameter */
 	/* KAMUS LOKAL */
 	struct_aksi ret;
@@ -34,7 +34,7 @@ struct_aksi MakeAksiBuy(int harga_buy, int durasi_buy, int id_barang, int jumlah
 	IDAksi(ret)=2;
 	HargaBuy(ret)=harga_buy;
 	DurasiBuy(ret)=durasi_buy;
-	IDBarangBuy(ret)=id_barang;
+	strcpy(nama_barang,NamaBarangBuy(ret))
 	JumlahBarangBuy(ret)=jumlah_barang;
 	return ret;
 }
