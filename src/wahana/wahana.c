@@ -14,17 +14,17 @@ void PrintName(Wahana W){
 
 void ReadWahana(Wahana *W){
     int i;
-    MakeEmpty(&Resource(*W));
-    strcpy(Info(Resource(*W),0),"batu");
-    strcpy(Info(Resource(*W),1),"kayu");
-    strcpy(Info(Resource(*W),2),"besi");
-    strcpy(Info(Resource(*W),3),"bata");
-    strcpy(Info(Resource(*W),4),"semen");
+    MakeEmpty(&Resources(*W));
+    strcpy(Info(Resources(*W),0),"batu");
+    strcpy(Info(Resources(*W),1),"kayu");
+    strcpy(Info(Resources(*W),2),"besi");
+    strcpy(Info(Resources(*W),3),"bata");
+    strcpy(Info(Resources(*W),4),"semen");
     ID(*W) = ToInt(CKata); ADVKATA();
     Name(*W) = CKata; ADVKATA();
     BuildTime(*W) = ToInt(CKata); ADVKATA();
     for (i = 0; i < 5; i++){
-        Value(Resource(*W),i) = ToInt(CKata);
+        Value(Resources(*W),i) = ToInt(CKata);
         ADVKATA();
     }
     SizeX(*W) = ToInt(CKata); ADVKATA();
@@ -39,7 +39,7 @@ void PrintInfoWahana(Wahana W){
     printf("ID: %d\n", ID(W));
     printf("BuildTime: %d\n", BuildTime(W));
     printf("Resources needed : \n");
-    printW(Resource(W));
+    printM(Resources(W));
     printf("Ukuran: %d x %d\n", SizeX(W), SizeY(W));
     printf("Duration: %d\n", Duration(W));
     printf("Capacity: %d\n", Capacity(W));
@@ -60,8 +60,8 @@ Wahana CopyWahana(Wahana W){
     Name(Copy) = Name(W);
     BuildTime(Copy) = BuildTime(W);
     for (i = 0; i < 5; i++){
-        strcpy(Info(Resource(Copy),i), Info(Resource(W),i));
-        Value(Resource(W),i) = Value(Resource(W),i);
+        strcpy(Info(Resources(Copy),i), Info(Resources(W),i));
+        Value(Resources(W),i) = Value(Resources(W),i);
     }
     PosX(Copy) = PosX(W);
     PosY(Copy) = PosY(W);

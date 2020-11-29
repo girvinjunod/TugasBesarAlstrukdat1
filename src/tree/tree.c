@@ -73,7 +73,7 @@ void MakeWahanaTree(Tree *T, int c){
     int subc;
     int i;
     for(i=0; i<c; i++){
-        W = ReadWahana();
+        ReadWahana(&W);
         *P = AlokasiTree(W);
         InsertChild(T, P);
         subc = ToInt(CKata);

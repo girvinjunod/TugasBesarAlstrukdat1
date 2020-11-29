@@ -19,7 +19,7 @@ void ShowPrepPhaseState(JAM cur_JAM, JAM END_JAM, int NbElmtAksi, int durasi_sta
 	printf("Opening Time: \n"); TulisJAM(END_JAM); printf("\n");
 	diff = DetikToJAM(Durasi(cur_JAM,END_JAM));
 	printf("Time Remaining: %d hour(s) %d minute(s)\n",Hour(diff),Minute(diff));
-	printf("Total aksi yang akan dilakukan: %d\n",TopStack(stack_aksi)+1); 
+	printf("Total aksi yang akan dilakukan: %d\n",durasi_stack); 
 	printf("Total waktu yang dibutuhkan: %d\n",durasi_stack); 
 	printf("Total uang yang dibutuhkan: %d\n",harga_stack);
 }
@@ -35,14 +35,14 @@ void BUILD(Stack *stack_aksi, int *durasi_stack, int *harga_stack, int remaining
 	printf("Ingin membangun wahana apa? (masukkan ID wahana)\n");
 	PrintChild(DataWahana);
 	printf("$ ");
-	wahana_pilihan = Search(T,ToInt(CKata)); /* note: gaada validasi int/bukan */
+	wahana_pilihan = SearchTree(DataWahana,ToInt(CKata)); /* note: gaada validasi int/bukan */
 	ADVKATA();
 	if (wahana_pilihan!=Nil){
 		if (BuildTime(InfoTree(wahana_pilihan))<=remaining_time){
 			/* ada cukup waktu untuk build */
 			if (Price(InfoTree(wahana_pilihan))<=DuitPlayer){
 				/* note: belum cek bahan bangunan cukup/ga */
-				aksi_baru = MakeAksiBuild(PosPlayer(SearchPlayer(GraphMap)), ID(InfoTree(wahana_pilihan)), Price(InfoTree(wahana_pilihan)),BuildTime(InfoTree(wahana_pilihan)));
+				aksi_baru = MakeAksiBuild(PosPlayer(Map(SearchPlayer(GraphMap))), ID(InfoTree(wahana_pilihan)), Price(InfoTree(wahana_pilihan)),BuildTime(InfoTree(wahana_pilihan)));
 				/* push aksi build ke stack */
 				PushStack(stack_aksi,aksi_baru); /* note: 0 itu id aksi build */
 				*durasi_stack += BuildTime(InfoTree(wahana_pilihan));
@@ -73,30 +73,28 @@ void UPGRADE(Stack *stack_aksi, int *durasi_stack, int *harga_stack, int remaini
 	Tree wahana_upgrade;
 	struct_aksi aksi_baru;
 	POINT koord_player;
-	Graph cur_node;
+	adrNode cur_node;
 	POINT koord_upgrade;
 	int manhattan_distance;
 	int i;
 	/* ALGORITMA */
 	cur_node = SearchPlayer(GraphMap);
-	koord_player = PosPlayer(cur_node); /* cek aman apa nggak ntar */
+	koord_player = PosPlayer(Map(cur_node)); /* cek aman apa nggak ntar */
 	koord_upgrade = MakePOINT(-1,-1);
 	for (i=0;i<nbWahana;i++){
 		manhattan_distance = (Absis(koord_player)-PosX(ActiveWahana[i])) * (Absis(koord_player)-PosX(ActiveWahana[i])>0 ? 1 : -1);
 		manhattan_distance += (Ordinat(koord_player)-PosY(ActiveWahana[i])) * (Ordinat(koord_player)-PosY(ActiveWahana[i])>0 ? 1 : -1);
 		if (manhattan_distance==1){
 			koord_upgrade = MakePOINT(PosX(ActiveWahana[i]),PosY(ActiveWahana[i]));
-			wahana_upgrade = CopyWahana()
+			wahana_upgrade = SearchTree(DataWahana,ID(ActiveWahana[i]));
 		}
 	}
 	if (Absis(koord_upgrade)!=-1){
 		printf("Ingin melakukan upgrade apa? (masukkan ID upgrade)\n");
-		/* nyari wahana yang adjacent sama player, nunggu map, WIP, anggep aja ID wahananya ID*/
-		wahana_upgrade = Search(DataWahana,ID); 
-		PrintChild(wahana_upgrade);
+		PrintChild(wahana_upgrade); 
 		printf("$ ");
 		ADVKATA();
-		upgrade_pilihan = Search(wahana_upgrade,ToInt(CKata));
+		upgrade_pilihan = SearchTree(wahana_upgrade,ToInt(CKata));
 		if (upgrade_pilihan!=Nil){
 			if (BuildTime(InfoTree(upgrade_pilihan))<=remaining_time){
 				/* ada cukup waktu untuk upgrade */
@@ -136,7 +134,7 @@ void BUY(Stack *stack_aksi, int *durasi_stack, int *harga_stack, int remaining_t
 	/* kalau tidak, menampilkan pesan kesalahan */
 	/* KAMUS LOKAL */
 	IdxType idx_bahan_yang_mau_dibeli;
-	int harga_bahan;
+	int harga_total;
 	int jumlah_barang;
 	struct_aksi aksi_baru;
 	/* ALGORITMA */
@@ -151,10 +149,10 @@ void BUY(Stack *stack_aksi, int *durasi_stack, int *harga_stack, int remaining_t
 		if (idx_bahan_yang_mau_dibeli != IdxUndef){
 			/* bahan yang mau dibeli ada */
 			printf("Beli berapa?\n$ ");
-			jumlah_barang = ToInt(Ckata);
+			jumlah_barang = ToInt(CKata);
 			ADVKATA();
 			harga_total = Value(Shop,idx_bahan_yang_mau_dibeli)*jumlah_barang;
-			if (harga_bahan<=DuitPlayer){
+			if (harga_total<=DuitPlayer){
 				aksi_baru = MakeAksiBuy(harga_total,BUY_DURATION,Info(Shop,idx_bahan_yang_mau_dibeli),jumlah_barang);
 				PushStack(stack_aksi,aksi_baru);
 				*durasi_stack += BUY_DURATION;
@@ -212,20 +210,14 @@ void EXECUTE(Stack *stack_aksi){
 	/* ALGORITMA */
 	while (!IsEmptyStack(*stack_aksi)){
 		PopStack(stack_aksi,&cur_aksi);
-		if (IDAksi(del)==0){
+		if (IDAksi(cur_aksi)==0){
 			/* execute build, WIP */
-			*durasi_stack -= DurasiBuild(del);
-			*harga_stack -= HargaBuild(del);
 		}
-		else if (IDAksi(del)==1){
+		else if (IDAksi(cur_aksi)==1){
 			/* execute upgrade, WIP */
-			*durasi_stack -= DurasiUpgrade(del);
-			*harga_stack -= HargaUpgrade(del);
 		}
-		else if (IDAksi(del)==2){
+		else if (IDAksi(cur_aksi)==2){
 			/* execute buy, WIP */
-			*durasi_stack -= DurasiBuy(del);
-			*harga_stack -= HargaBuy(del);
 		}
 	}
 }
@@ -306,7 +298,7 @@ void PrepPhase(int day){
 	/* init */
 	Sekarang = START_JAM;
 	selesai = false;
-	CreateEmpty(&stack_aksi);
+	CreateEmptyStack(&stack_aksi);
 	durasi_stack = 0;
 	harga_stack = 0;
 	/* simulasi prep. phase, pakai do-while karena pasti jalan setidaknya sekali */
@@ -329,9 +321,9 @@ void PrepPhase(int day){
 			/* mindah koordinat player ke kanan */
 			move('d',&GraphMap);
 		} 
-		else if (IsKataSama(CKata, Build)) BUILD(&stack_aksi,&harga_stack,&durasi_stack,Durasi(cur_JAM,END_JAM));
-		else if (IsKataSama(CKata, Upgrade)) UPGRADE(&stack_aksi,&harga_stack,&durasi_stack,Durasi(cur_JAM,END_JAM));
-		else if (IsKataSama(CKata, Buy)) BUY(&stack_aksi,&harga_stack,&durasi_stack,Durasi(cur_JAM,END_JAM),BUY_DURATION);
+		else if (IsKataSama(CKata, Build)) BUILD(&stack_aksi,&harga_stack,&durasi_stack,Durasi(Sekarang,END_JAM));
+		else if (IsKataSama(CKata, Upgrade)) UPGRADE(&stack_aksi,&harga_stack,&durasi_stack,Durasi(Sekarang,END_JAM));
+		else if (IsKataSama(CKata, Buy)) BUY(&stack_aksi,&harga_stack,&durasi_stack,Durasi(Sekarang,END_JAM),BUY_DURATION);
 		else if (IsKataSama(CKata, Undo)) UNDO(&stack_aksi,&harga_stack,&durasi_stack);
 		else if (IsKataSama(CKata, Execute)){
 			EXECUTE(&stack_aksi);
@@ -341,7 +333,7 @@ void PrepPhase(int day){
 		}
 		else if (IsKataSama(CKata, Main)){
 			/* ngosongin stack_aksi */
-			TopStack(stack_aksi) = Nil;
+			TopStack(stack_aksi) = Undef;
 			harga_stack = 0;
 			durasi_stack = 0;
 			selesai = true;

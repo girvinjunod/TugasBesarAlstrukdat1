@@ -12,7 +12,7 @@
 #include "../mesinkata/mesinkata.h"
 #include "../pengunjung/pengunjung.h"
 #include "../point/point.h"
-#include "../main/prepphase.c"
+#include "../main/prepphase.h"
 #include "../queue/prioqueuePengunjung.h"
 #include "../stack/stack.h"
 #include "../tree/tree.h"
