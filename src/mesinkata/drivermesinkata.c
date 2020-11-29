@@ -11,11 +11,11 @@ int main(){
 	printf("masukkan 5 kata diakhiri titik:\n");
 	STARTKATAKEYBOARD();
 	for (i=0;i<5;i++){
-		printf("%s\n",CKata.TabKata);
-		ADVKATA();
+		printf("ini output: %s\n",CKata.TabKata);
+		if (i<4) ADVKATA();
 	}
 	printf("ini isi file wahana.txt:\n");
-	STARTKATAFILE("wahana.txt");
+	STARTKATAFILE("../wahana/wahana.txt");
 	while (!EndKata){
 		printf("%s ",CKata.TabKata);
 		ADVKATA();

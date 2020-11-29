@@ -53,17 +53,18 @@ void InitGame(){
     printf("Masukkan nama pemain:\n$ ");
     STARTKATAKEYBOARD();
     strcpy(NamaPlayer,CKata.TabKata);
-    printf("udah input nama\n");
+    /* printf("udah input nama\n"); */
     LoadWahanaTree();
-    printf("udah load tree wahana\n");
+    /* printf("udah load tree wahana\n"); */
     LoadWahana();
-    printf("udah init active wahana\n");
+    /* printf("udah init active wahana\n"); */
     CreateGraphMap(&GraphMap);
-    printf("udah load map\n");
+    /* printf("udah load map\n"); */
     STARTKATAFILE("../material/material.txt");
     generateShop(&Shop);
-    printf("udah load shop\n");
+    /* printf("udah load shop\n"); */
     DuitPlayer = 10000;
+    setInvenAwal(&Inventory,Shop);
 }
 
 void showMenu(){
