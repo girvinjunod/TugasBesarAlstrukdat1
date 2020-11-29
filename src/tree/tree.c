@@ -10,7 +10,7 @@
 boolean IsTreeEmpty (Tree T){
     return T == Nil;
 }
-boolean CreateTreeEmptyIsTreeOneElmt (Tree T){
+boolean IsTreeOneElmt (Tree T){
     return (!IsTreeEmpty(T) && NbChild(T) == 0);
 }
 
