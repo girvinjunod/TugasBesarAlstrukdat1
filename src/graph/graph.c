@@ -1,9 +1,9 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include "../util/boolean.h"
 #include "graph.h"
 #include "../map/map.h"
 #include "../point/point.h"
+
+boolean inOffice;
 
 adrNode AlokNode(int X,MAP M)
 /* I.S. X adalah bilangan bulat valid */
@@ -66,6 +66,7 @@ void CreateGraphMap(Graph* G)
         
         AddNodeGraph(G,i,*Mtemp);
     }
+    inOffice = false;
     ConnectMap(G);
 }
 
@@ -112,12 +113,28 @@ adrNode SearchNode(Graph G, int X){
     }
 }
 
-void PrintCurrMap(Graph GR){
-//memprint semua item di graph
-    adrNode P = SearchPlayer(GR);
+/* Print MAP yang ada player */
+void PrintCurrMap(Graph GM){
+    adrNode P = SearchPlayer(GM);
     printMap(Map(P));
 }
 
+/* Put Player in the Point in the same MAP */
+void PutPlayer(Graph *GM,POINT P){
+    adrNode S = SearchPlayer(*GM);
+    MAP M = Map(S);
+
+    if(inOffice){ 
+        setPoint(&M,'O',PosPlayer(M));
+        inOffice = false;
+    }
+    else setPoint(&M,'-',PosPlayer(M));
+
+    PosXPlayer(M) = Absis(P);
+    PosYPlayer(M) = Ordinat(P);
+    setPoint(&M,'P',PosPlayer(M));
+    Map(S) = M;
+}
 /* Check Movement */
 void move(char input,Graph *GM){
 	POINT temp;
@@ -132,16 +149,16 @@ void move(char input,Graph *GM){
 	else if (input=='d') x++;
 
 	temp = MakePOINT(x,y);
-	
+	//TulisPOINT(temp);printf("%c\n",Legend(M,Ordinat(temp),Absis(temp)));
+
 	if (checkPoint(M,temp)){
-		setPoint(&M,'-',PosPlayer(M));
-		PosXPlayer(M) = Absis(temp);
-		PosYPlayer(M) = Ordinat(temp);
-		setPoint(&M,'P',PosPlayer(M));
-        Map(P) = M;
+		PutPlayer(GM,temp);
 	}else if(checkSwitchVertical(M,temp)) SwitchMap(GM,true);
     else if(checkSwitchHorizontal(M,temp)) SwitchMap(GM,false);
-    else printf("That place is occupied\n");
+    else if(checkPosOffice(M,temp)){
+        PutPlayer(GM,temp);
+        inOffice = true;
+    }else printf("That place is occupied\n");
 }
 
 void SwitchMap(Graph *GM,boolean vertical){
@@ -193,6 +210,37 @@ void SwitchMap(Graph *GM,boolean vertical){
         Map(P) = M;
         Map(newP) = newMap;
     }else printf("That place is occupied\n");
+}
+/* Menulis legenda 'W' pada map */
+void BuildWMap(Graph *GM,POINT P){
+    adrNode S = SearchPlayer(*GM);
+    MAP M = Map(S);
+    POINT newPos = CheckClearAdj(*GM);
+    PutPlayer(GM,newPos);
+    setPoint(&M,'W',P); Map(S) = M;
+}
+
+/*  Cari tile adjacent player yang kosong */
+POINT CheckClearAdj(Graph GM){
+    adrNode P = SearchPlayer(GM);
+    POINT Pos = PosPlayer(Map(P));
+    int x=Absis(Pos),y=Ordinat(Pos);
+
+    if(checkPoint(Map(P),MakePOINT(x+1,y))) return MakePOINT(x+1,y);
+    else if(checkPoint(Map(P),MakePOINT(x,y+1))) return MakePOINT(x,y+1);
+    else if(checkPoint(Map(P),MakePOINT(x-1,y))) return MakePOINT(x-1,y);
+    else return MakePOINT(x,y-1);
+}
+boolean CheckAntrianAdj(Graph GM){
+    adrNode P = SearchPlayer(GM);
+    POINT Pos = PosPlayer(Map(P));
+    int x=Absis(Pos),y=Ordinat(Pos);
+
+    if(checkPosAntrian(Map(P),MakePOINT(x+1,y))) return true;
+    else if(checkPosAntrian(Map(P),MakePOINT(x,y+1))) return true;
+    else if(checkPosAntrian(Map(P),MakePOINT(x-1,y))) return true;
+    else if(checkPosAntrian(Map(P),MakePOINT(x,y-1))) return true;
+    else return false;
 }
 
 adrNode SearchPlayer(Graph GM){

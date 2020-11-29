@@ -1,9 +1,19 @@
 //list LInier
+#include "../util/boolean.h"
+#include "../util/globalvariable.h"
 
-#include "listlinier.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+boolean play;
+int nbWahana = 3;
+Wahana ActiveWahana[100];
+Tree DataWahana;
+PrioQueuePengunjung PQ[100];
+PrioQueuePengunjung Antrian;
+Material Inventory, Shop;
+JAM Sekarang;
+int option;
+Graph GraphMap;
+char* NamaPlayer;
+int DuitPlayer;
 
 
 List RiwayatUpgrade; //belum kepake

@@ -1,5 +1,5 @@
 #include "listlinier.h"
-#include "boolean.h"
+#include "../util/boolean.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>

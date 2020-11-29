@@ -1,9 +1,13 @@
 #ifndef GRAPH_H
 #define GRAPH_H
 
+#include <stdlib.h>
+#include <stdio.h>
 #include "../util/boolean.h"
 #include "../map/map.h"
 #include "../point/point.h"
+
+extern boolean inOffice;
 
 #define Nil NULL
 /* Selektor */
@@ -62,13 +66,21 @@ adrNode SearchNode(Graph G, int X);
 /* F.S. Mengembalikan adrNode dari elemen dengan ID X */
 
 /* Print Map yang ada player */
-void PrintCurrMap(Graph GR);
+void PrintCurrMap(Graph GM);
 
+/* Put Player in the Point in the same MAP */
+void PutPlayer(Graph *GM,POINT P);
 /* Check movement */
 void move(char input,Graph *GM);
-
 /* Switch Map */
 void SwitchMap(Graph *GM,boolean vertical);
+/* Menulis legenda W pada map */
+void BuildWMap(Graph *GM,POINT P);
+
+/* Cari tile adjacent player yang kosong */
+POINT CheckClearAdj(Graph GM);
+/* Cek jika player adjacent dengan legend 'A' */
+boolean CheckAntrianAdj(Graph GM);
 
 /* Find player */
 adrNode SearchPlayer(Graph GM);

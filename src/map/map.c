@@ -4,6 +4,7 @@
 #include "map.h"
 #include "../point/point.h"
 
+boolean inOffice;
 
 /* Baca MAP dari file map.txt */
 void readMap(MAP *M1,MAP *M2,MAP *M3, MAP *M4){
@@ -55,6 +56,15 @@ boolean checkSwitchHorizontal(MAP M,POINT P){
 	legend L = Legend(M,Ordinat(P),Absis(P));
 	return L=='<'||L=='>';
 }
+boolean checkPosOffice(MAP M,POINT P){
+	legend L = Legend(M,Ordinat(P),Absis(P));
+	return L=='O';
+}
+boolean checkPosAntrian(MAP M,POINT P){
+	legend L = Legend(M,Ordinat(P),Absis(P));
+	return L=='A';
+}
+
 
 /* Cari Map yang ada player */
 boolean isPlayerHere(MAP M){

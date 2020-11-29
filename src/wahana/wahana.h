@@ -3,13 +3,16 @@
 
 #include "../util/boolean.h"
 #include "../mesinkata/mesinkata.h"
+#include "../material/material.h"
+#include "../listarray/listarray.h"
+
 
 typedef struct {
     //Statis selama program jalan
     int ID;
     Kata Name;
 	int BuildTime;
-    int Resources;
+    Material Resources;
     int SizeX;
     int SizeY;
     int Duration;
@@ -46,7 +49,7 @@ typedef struct {
 
 void PrintName(Wahana W);
 
-Wahana ReadWahana();
+void ReadWahana(Wahana *W);
 
 void PrintInfoWahana(Wahana W);
 

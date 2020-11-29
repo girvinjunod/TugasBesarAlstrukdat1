@@ -44,7 +44,6 @@ void showMenu(){
     printf("// Welcome to Willy wangky's fun factory!!//\n");
     printf("// New game / load game / exit? //\n");
     scanf("%d", &option);
-    printf("\n", option);
     if(option == 1){
         
     }else if(option == 2){
@@ -65,4 +64,5 @@ int main(){
         day++;
         play = false;
     }
+    return 0;
 }

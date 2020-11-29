@@ -1,6 +1,6 @@
 #include "stack.h"
 #include <stdio.h>
-#include "boolean.h"
+#include "../util/boolean.h"
 #include <string.h>
 
 struct_aksi MakeAksiBuild(POINT koord, int id_build, int harga_build, int durasi_build){
@@ -13,6 +13,7 @@ struct_aksi MakeAksiBuild(POINT koord, int id_build, int harga_build, int durasi
 	IDBuild(ret)=id_build;
 	HargaBuild(ret)=harga_build;
 	DurasiBuild(ret)=durasi_build;
+	CopyM(Resources(InfoTree(SearchTree(DataWahana,id_build))),&BahanBuild(ret));
 	return ret;
 }
 struct_aksi MakeAksiUpgrade(POINT koord, int id_upgrade, int harga_upgrade, int durasi_upgrade){
@@ -25,6 +26,7 @@ struct_aksi MakeAksiUpgrade(POINT koord, int id_upgrade, int harga_upgrade, int 
 	IDUpgrade(ret)=id_upgrade;
 	HargaUpgrade(ret)=harga_upgrade;
 	DurasiUpgrade(ret)=durasi_upgrade;
+	CopyM(Resources(InfoTree(SearchTree(DataWahana,id_upgrade))),&BahanUpgrade(ret));
 	return ret;
 }
 struct_aksi MakeAksiBuy(int harga_buy, int durasi_buy, char nama_barang[], int jumlah_barang){
@@ -35,7 +37,7 @@ struct_aksi MakeAksiBuy(int harga_buy, int durasi_buy, char nama_barang[], int j
 	IDAksi(ret)=2;
 	HargaBuy(ret)=harga_buy;
 	DurasiBuy(ret)=durasi_buy;
-	strcpy(nama_barang,NamaBarangBuy(ret));
+	strcpy(NamaBarangBuy(ret),nama_barang);
 	JumlahBarangBuy(ret)=jumlah_barang;
 	return ret;
 }
@@ -47,13 +49,15 @@ void CopyAksi(struct_aksi a, struct_aksi *b){
 	IDBuild(*b) = IDBuild(a);
 	HargaBuild(*b) = HargaBuild(a); 
 	DurasiBuild(*b) = DurasiBuild(a);
+	CopyM(BahanBuild(a),&BahanBuild(*b)); 
 	KoordUpgrade(*b) = KoordUpgrade(a);
 	IDUpgrade(*b) = IDUpgrade(a);
 	HargaUpgrade(*b) = HargaUpgrade(a);
 	DurasiUpgrade(*b) = DurasiUpgrade(a);
+	CopyM(BahanUpgrade(a),&BahanUpgrade(*b));
 	HargaBuy(*b) = HargaBuy(a);
 	DurasiBuy(*b) = DurasiBuy(a);
-	NamaBarangBuy(*b) = NamaBarangBuy(a);
+	strcpy(NamaBarangBuy(*b),NamaBarangBuy(a));
 	JumlahBarangBuy(*b) = JumlahBarangBuy(a);
 	IDAksi(*b) = IDAksi(a);
 	BuildDetails(*b) = BuildDetails(a);

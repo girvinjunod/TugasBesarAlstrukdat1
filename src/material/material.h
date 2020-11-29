@@ -16,7 +16,9 @@ void generateShop(Material *S);
 void setInvenAwal(Material *I, Material S);
 void printShop(Material S);
 void printInven(Material I);
+void printM(Material R);
 void updateInvenPlus(Material *I, const char X[], int jumlah);
 void updateInvenMinus(Material *I, const char X[], int jumlah);
+void CopyM(Material M, Material *copy);
 
 #endif

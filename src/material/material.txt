@@ -1,0 +1,5 @@
+batu  100
+kayu  50
+besi  200
+semen  25
+bata  150.

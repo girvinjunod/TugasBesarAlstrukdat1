@@ -17,8 +17,17 @@ int main() {
 	//Node 4 dgn Map 4, terhubung dengan Node 2 dan 3
     CreateGraphMap(&g);
 
+    //Check adj Antrian
+    if(CheckAntrianAdj(g)) printf("Player disekitar antrian\n");
+    PrintCurrMap(g);printf("\n");
     //Memindahkan Legend 'P' ke kiri satu satuan
     move('a',&g);
+    //Output Map
+    PrintCurrMap(g);printf("\n");
+    move('s',&g);
+    PrintCurrMap(g);printf("\n");
+    //Taruh player di titik 5,5
+    PutPlayer(&g,MakePOINT(9,5));
     //Output Map
     PrintCurrMap(g);
 }

@@ -10,7 +10,7 @@
 boolean IsTreeEmpty (Tree T){
     return T == Nil;
 }
-boolean CreateTreeEmptyIsTreeOneElmt (Tree T){
+boolean IsTreeOneElmt (Tree T){
     return (!IsTreeEmpty(T) && NbChild(T) == 0);
 }
 
@@ -73,7 +73,7 @@ void MakeWahanaTree(Tree *T, int c){
     int subc;
     int i;
     for(i=0; i<c; i++){
-        W = ReadWahana();
+        ReadWahana(&W);
         *P = AlokasiTree(W);
         InsertChild(T, P);
         subc = ToInt(CKata);
