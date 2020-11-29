@@ -3,6 +3,8 @@
 #include "../map/map.h"
 #include "../point/point.h"
 
+boolean inOffice;
+
 adrNode AlokNode(int X,MAP M)
 /* I.S. X adalah bilangan bulat valid */
 /* F.S. Alokasi node dalam graph dengan ID X dan Npred, Trail dan Next diinisialisasikan 0,Nil,dan Nil  */
@@ -64,6 +66,7 @@ void CreateGraphMap(Graph* G)
         
         AddNodeGraph(G,i,*Mtemp);
     }
+    inOffice = false;
     ConnectMap(G);
 }
 
@@ -121,7 +124,12 @@ void PutPlayer(Graph *GM,POINT P){
     adrNode S = SearchPlayer(*GM);
     MAP M = Map(S);
 
-    setPoint(&M,'-',PosPlayer(M));
+    if(inOffice){ 
+        setPoint(&M,'O',PosPlayer(M));
+        inOffice = false;
+    }
+    else setPoint(&M,'-',PosPlayer(M));
+
     PosXPlayer(M) = Absis(P);
     PosYPlayer(M) = Ordinat(P);
     setPoint(&M,'P',PosPlayer(M));
@@ -141,12 +149,16 @@ void move(char input,Graph *GM){
 	else if (input=='d') x++;
 
 	temp = MakePOINT(x,y);
-	
+	//TulisPOINT(temp);printf("%c\n",Legend(M,Ordinat(temp),Absis(temp)));
+
 	if (checkPoint(M,temp)){
 		PutPlayer(GM,temp);
 	}else if(checkSwitchVertical(M,temp)) SwitchMap(GM,true);
     else if(checkSwitchHorizontal(M,temp)) SwitchMap(GM,false);
-    else printf("That place is occupied\n");
+    else if(checkPosOffice(M,temp)){
+        PutPlayer(GM,temp);
+        inOffice = true;
+    }else printf("That place is occupied\n");
 }
 
 void SwitchMap(Graph *GM,boolean vertical){

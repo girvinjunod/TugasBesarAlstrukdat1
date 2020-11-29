@@ -4,6 +4,7 @@
 #include "map.h"
 #include "../point/point.h"
 
+boolean inOffice;
 
 /* Baca MAP dari file map.txt */
 void readMap(MAP *M1,MAP *M2,MAP *M3, MAP *M4){

@@ -7,6 +7,8 @@
 #include "../map/map.h"
 #include "../point/point.h"
 
+extern boolean inOffice;
+
 #define Nil NULL
 /* Selektor */
 typedef struct tNodeGraph* adrNode;
