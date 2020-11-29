@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "boolean.h"
+#include "../util/boolean.h"
 #include "map.h"
-#include "point.h"
+#include "../point/point.h"
 
 
 /* Baca MAP dari file map.txt */
@@ -67,8 +67,9 @@ void setPoint(MAP *M,char cc,POINT P){
 }
 
 void printMap(MAP M){
-	for (int i = IdxMin; i < NBarEff(M); i++){
-        for (int j = IdxMin; j < NColEff(M); j++){
+	int i,j;
+	for (i = IdxMin; i < NBarEff(M); i++){
+        for (j = IdxMin; j < NColEff(M); j++){
             if (j != NColEff(M)-1) printf("%c", Legend(M,i,j));
             else printf("%c\n", Legend(M,i,j));
         }
