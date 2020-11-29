@@ -257,8 +257,7 @@ void EXECUTE(Stack *stack_aksi){
 			Sekarang = NextNDetik(Sekarang,DurasiBuild(cur_aksi));
 			DuitPlayer -= HargaBuild(cur_aksi);
 			for (i=GetFirstIdx(BahanBuild(cur_aksi));i<=GetLastIdx(BahanBuild(cur_aksi));i++){
-				/*updateInvenMinus(&Inventory,Info(BahanBuild(cur_aksi),i),Value(BahanBuild(cur_aksi),i));*/
-				printf("pake material %s sebanyak %d\n",Info(BahanBuild(cur_aksi),i),Value(BahanBuild(cur_aksi),i));
+				updateInvenMinus(&Inventory,Info(BahanBuild(cur_aksi),i),Value(BahanBuild(cur_aksi),i));
 			}
 		}
 		else if (IDAksi(cur_aksi)==1){

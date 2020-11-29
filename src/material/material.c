@@ -6,8 +6,7 @@ Material inventory;
 Material shop;
 
 void generateShop(Material *S){
-    IdxType i;
-    for (i=IdxMin;i<=IdxMax;i++) strcpy(Info(*S,i),ValUndef);
+    MakeEmpty(S);
     int tes = 0, temp;
     const char* X;
     IdxType idx = IdxMin;
@@ -27,9 +26,8 @@ void generateShop(Material *S){
 }
 
 void setInvenAwal(Material *I, Material S){
-    IdxType i;
-    for (i=IdxMin;i<=IdxMax;i++) strcpy(Info(*I,i),ValUndef);
-    i = IdxMin;
+    MakeEmpty(I);
+    IdxType i = IdxMin;
     while (i <= GetLastIdx(S)){
         strcpy(Info(*I,i), Info(S,i));
         Value(*I,i) = 10;
