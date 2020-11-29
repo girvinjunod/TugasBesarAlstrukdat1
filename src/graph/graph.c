@@ -149,7 +149,6 @@ void move(char input,Graph *GM){
 	else if (input=='d') x++;
 
 	temp = MakePOINT(x,y);
-	//TulisPOINT(temp);printf("%c\n",Legend(M,Ordinat(temp),Absis(temp)));
 
 	if (checkPoint(M,temp)){
 		PutPlayer(GM,temp);
@@ -212,12 +211,14 @@ void SwitchMap(Graph *GM,boolean vertical){
     }else printf("That place is occupied\n");
 }
 /* Menulis legenda 'W' pada map */
-void BuildWMap(Graph *GM,POINT P){
-    adrNode S = SearchPlayer(*GM);
-    MAP M = Map(S);
-    POINT newPos = CheckClearAdj(*GM);
-    PutPlayer(GM,newPos);
-    setPoint(&M,'W',P); Map(S) = M;
+void BuildWMap(Graph *GM,POINT P,int n){
+    adrNode S = SearchPlayer(*GM),Q = SearchNode(*GM,n);
+    MAP M=Map(Q),MPlayer=Map(S); 
+    if (EQPOINT(PosPlayer(MPlayer),P)){
+        POINT newPos = CheckClearAdj(*GM);
+        PutPlayer(GM,newPos);
+    }
+    setPoint(&M,'W',P); Map(Q) = M;
 }
 
 /*  Cari tile adjacent player yang kosong */
@@ -241,6 +242,17 @@ boolean CheckAntrianAdj(Graph GM){
     else if(checkPosAntrian(Map(P),MakePOINT(x-1,y))) return true;
     else if(checkPosAntrian(Map(P),MakePOINT(x,y-1))) return true;
     else return false;
+}
+POINT GetAdjWahana(Graph GM){
+    adrNode P = SearchPlayer(GM);
+    POINT Pos = PosPlayer(Map(P));
+    int x=Absis(Pos),y=Ordinat(Pos);
+
+    if(checkPosWahana(Map(P),MakePOINT(x+1,y))) return MakePOINT(x+1,y);
+    else if(checkPosWahana(Map(P),MakePOINT(x,y+1))) return MakePOINT(x,y+1);
+    else if(checkPosWahana(Map(P),MakePOINT(x-1,y))) return MakePOINT(x-1,y);
+    else if(checkPosWahana(Map(P),MakePOINT(x-1,y))) return MakePOINT(x,y-1);
+    else return MakePOINT(pointUndef,pointUndef);
 }
 
 adrNode SearchPlayer(Graph GM){

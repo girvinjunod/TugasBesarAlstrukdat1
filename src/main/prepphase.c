@@ -246,7 +246,7 @@ void EXECUTE(Stack *stack_aksi){
 	while (!IsEmptyStack(*stack_aksi)){
 		PopStack(stack_aksi,&cur_aksi);
 		if (IDAksi(cur_aksi)==0){
-			BuildWMap(&GraphMap,KoordBuild(cur_aksi));
+			BuildWMap(&GraphMap,KoordBuild(cur_aksi),nodeMap);//nodeMap buat Map keberapa
 			ActiveWahana[nbWahana] = InfoTree(SearchTree(DataWahana,IDBuild(cur_aksi)));
 			nbWahana++;
 			Sekarang = NextNDetik(Sekarang,DurasiBuild(cur_aksi));

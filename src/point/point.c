@@ -54,6 +54,9 @@ boolean NEQPOINT (POINT P1, POINT P2){
     x2 = Absis(P2) ; y2 = Ordinat(P2);
     return (x1!=x2 || y1!=y2);
 }
+boolean IsUndef(POINT P){
+    return Absis(P)==pointUndef&&Ordinat(P)==pointUndef;
+}
 
 /* *** Kelompok menentukan di mana P berada *** */
 boolean IsOrigin (POINT P){

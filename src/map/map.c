@@ -64,6 +64,10 @@ boolean checkPosAntrian(MAP M,POINT P){
 	legend L = Legend(M,Ordinat(P),Absis(P));
 	return L=='A';
 }
+boolean checkPosWahana(MAP M,POINT P){
+	legend L = Legend(M,Ordinat(P),Absis(P));
+	return L=='W';
+}
 
 
 /* Cari Map yang ada player */
