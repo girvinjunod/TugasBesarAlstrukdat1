@@ -342,7 +342,7 @@ void PrepPhase(int day){
 	JAM START_JAM = MakeJAM(21,0,0); /* jam mulai prep. phase */
 	JAM END_JAM = MakeJAM(9,0,0); /* jam selesai prep. phase */
 	int WALKING_DURATION = 0;
-	int BUY_DURATION = 10;
+	int BUY_DURATION = 1800;
 	/* konstanta kata */
 	Kata W;
 	Kata A;
