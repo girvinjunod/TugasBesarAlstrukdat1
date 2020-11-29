@@ -1,5 +1,4 @@
-#include "listarray.h"
-#include "boolean.h"
+#include "../listarray/listarray.h"
 #include <stdio.h>
 #include <string.h>
 

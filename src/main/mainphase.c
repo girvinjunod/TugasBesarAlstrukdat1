@@ -15,8 +15,8 @@ void MinuteUpdate(){
             while(Detik == Prio(InfoHeadQ(PQ[i]))){
                 infotypeQ Q;
                 Dequeue(&PQ[i], &Q);
-                ServeWahana(&(Q.info), i);
-                Q.prio = Q.info.kesabaran;
+                ServeWahana(&(Q.infoqueue), i);
+                Q.prio = Q.infoqueue.kesabaran;
                 Enqueue(&Antrian, Q);
                 //Update Laporan Wahana
                 TotalGold(ActiveWahana[i]) += Price(ActiveWahana[i]);
@@ -46,8 +46,8 @@ void SERVE(Kata K){
         Dequeue(&Antrian, &Q);
         boolean foundonlist = false;
         int j;
-        for(j=0; j<Q.info.nbListWahana; j++){
-            if(Q.info.wahana[j] == i && !Q.info.done[j]){
+        for(j=0; j<Q.infoqueue.nbListWahana; j++){
+            if(Q.infoqueue.wahana[j] == i && !Q.infoqueue.done[j]){
                 foundonlist = true;
             }
         }
@@ -70,7 +70,7 @@ void generateAntrian(){
     for(i=0; i<BanyakAntrian; i++){
         Pengunjung P = generatePengunjung();
         infotypeQ Q;
-        Q.info = P;
+        Q.infoqueue = P;
         Q.prio = P.kesabaran;
         Enqueue(&Antrian, Q);
     }
