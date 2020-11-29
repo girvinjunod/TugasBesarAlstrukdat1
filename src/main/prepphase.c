@@ -102,12 +102,9 @@ void UPGRADE(Stack *stack_aksi, int *durasi_stack, int *harga_stack, int remaini
 	/* ALGORITMA */
 	cur_node = SearchPlayer(GraphMap);
 	koord_player = PosPlayer(Map(cur_node)); /* cek aman apa nggak ntar */
-	koord_upgrade = MakePOINT(-1,-1);
+	koord_upgrade = GetAdjWahana(GraphMap);
 	for (i=0;i<nbWahana;i++){
-		manhattan_distance = (Absis(koord_player)-PosX(ActiveWahana[i])) * (Absis(koord_player)-PosX(ActiveWahana[i])>0 ? 1 : -1);
-		manhattan_distance += (Ordinat(koord_player)-PosY(ActiveWahana[i])) * (Ordinat(koord_player)-PosY(ActiveWahana[i])>0 ? 1 : -1);
-		if (manhattan_distance==1){
-			koord_upgrade = MakePOINT(PosX(ActiveWahana[i]),PosY(ActiveWahana[i]));
+		if (PosX(ActiveWahana[i])==Absis(koord_upgrade)&&PosY(ActiveWahana[i])==Ordinat(koord_upgrade)){
 			wahana_upgrade = SearchTree(DataWahana,ID(ActiveWahana[i]));
 		}
 	}
