@@ -29,58 +29,74 @@ void BUILD(Stack *stack_aksi, int *durasi_stack, int *harga_stack, int remaining
 	/* F.S. kalau build valid, menambahkan aksi ke stack_aksi */
 	/* kalau tidak, menampilkan pesan kesalahan */
 	/* KAMUS LOKAL */
+	POINT pos_player;
+	boolean ada_wahana;
 	Tree wahana_pilihan;
 	Wahana info_wahana_pilihan;
 	struct_aksi aksi_baru;
 	boolean bahan_cukup;
 	int i, j;
 	/* ALGORITMA */
-	printInven(Inventory);
-	printf("Ingin membangun wahana apa? (masukkan ID wahana)\n");
-	PrintChild(DataWahana);
-	printf("$ ");
-	ADVKATA();
-	printf("ID wahana pilihan: %s\n",CKata.TabKata);
-	wahana_pilihan = SearchTree(DataWahana,ToInt(CKata)); /* note: gaada validasi int/bukan */
-	if (wahana_pilihan!=Nil){
-		info_wahana_pilihan = InfoTree(wahana_pilihan);
-		if (BuildTime(info_wahana_pilihan)<=remaining_time){
-			/* ada cukup waktu untuk build */
-			if (Price(info_wahana_pilihan)<=DuitPlayer){
-				bahan_cukup = true;
-				i = GetFirstIdx(Resources(info_wahana_pilihan));
-				while (i<GetLastIdx(Resources(info_wahana_pilihan)) && bahan_cukup){
-					j = Search1(Inventory,Info(Resources(info_wahana_pilihan),i));
-					if (j==IdxUndef || Value(Inventory,j)<Value(Resources(info_wahana_pilihan),j)){
-						bahan_cukup = false;
+	/* cek di sel sekarang ada wahana atau tidak */
+	pos_player = PosPlayer(Map(SearchPlayer(GraphMap)));
+	ada_wahana = false;
+	for (i=0;i<=TopStack(*stack_aksi);i++){
+		if (IDAksi((*stack_aksi).aksi[i])==0 && Absis(pos_player)==Absis(KoordBuild((*stack_aksi).aksi[i])) && Ordinat(pos_player)==Ordinat(KoordBuild((*stack_aksi).aksi[i])) && IdGraph(SearchPlayer(GraphMap))==IDNodeBuild((*stack_aksi).aksi[i])){
+			ada_wahana = true;
+		}
+	}
+	if (!ada_wahana){
+		printInven(Inventory);
+		printf("Ingin membangun wahana apa? (masukkan ID wahana)\n");
+		PrintChild(DataWahana);
+		printf("$ ");
+		ADVKATA();
+		printf("ID wahana pilihan: %s\n",CKata.TabKata);
+		wahana_pilihan = SearchTree(DataWahana,ToInt(CKata)); /* note: gaada validasi int/bukan */
+		if (wahana_pilihan!=Nil){
+			info_wahana_pilihan = InfoTree(wahana_pilihan);
+			if (BuildTime(info_wahana_pilihan)<=remaining_time){
+				/* ada cukup waktu untuk build */
+				if (Price(info_wahana_pilihan)<=DuitPlayer){
+					bahan_cukup = true;
+					i = GetFirstIdx(Resources(info_wahana_pilihan));
+					while (i<GetLastIdx(Resources(info_wahana_pilihan)) && bahan_cukup){
+						j = Search1(Inventory,Info(Resources(info_wahana_pilihan),i));
+						if (j==IdxUndef || Value(Inventory,j)<Value(Resources(info_wahana_pilihan),j)){
+							bahan_cukup = false;
+						}
+						i++;
 					}
-					i++;
-				}
-				if (bahan_cukup){
-					aksi_baru = MakeAksiBuild(PosPlayer(Map(SearchPlayer(GraphMap))), ID(InfoTree(wahana_pilihan)), Price(InfoTree(wahana_pilihan)),BuildTime(InfoTree(wahana_pilihan)));
-					/* push aksi build ke stack */
-					PushStack(stack_aksi,aksi_baru); /* note: 0 itu id aksi build */
-					*durasi_stack += BuildTime(InfoTree(wahana_pilihan));
-					*harga_stack += Price(InfoTree(wahana_pilihan));
+					if (bahan_cukup){
+						aksi_baru = MakeAksiBuild(IdGraph(SearchPlayer(GraphMap)), pos_player, ID(InfoTree(wahana_pilihan)), Price(InfoTree(wahana_pilihan)),BuildTime(InfoTree(wahana_pilihan)));
+						/* push aksi build ke stack */
+						PushStack(stack_aksi,aksi_baru); /* note: 0 itu id aksi build */
+						*durasi_stack += BuildTime(InfoTree(wahana_pilihan));
+						*harga_stack += Price(InfoTree(wahana_pilihan));
+					}
+					else{
+						/* bahan gak cukup */
+						printf("Bahan bangunan yang ada tidak cukup untuk membangun wahana!\n");
+					}
 				}
 				else{
-					/* bahan gak cukup */
-					printf("Bahan bangunan yang ada tidak cukup untuk membangun wahana!\n");
+					/* uang gak cukup untuk build */
+					printf("Tidak cukup uang untuk membangun wahana!\n");
 				}
 			}
 			else{
-				/* uang gak cukup untuk build */
-				printf("Tidak cukup uang untuk membangun wahana!\n");
+				/* waktu gak cukup untuk build */
+				printf("Tidak ada waktu untuk build wahana!\n");
 			}
 		}
 		else{
-			/* waktu gak cukup untuk build */
-			printf("Tidak ada waktu untuk build wahana!\n");
+			/* perintah gak valid */
+			printf("Command tidak valid\n");		
 		}
 	}
 	else{
-		/* perintah gak valid */
-		printf("Command tidak valid\n");		
+		/* ada wahana yang akan dibangun di sini */
+		printf("Sudah ada wahana yang akan dibangun di sini!\n");
 	}
 }
 
@@ -129,7 +145,7 @@ void UPGRADE(Stack *stack_aksi, int *durasi_stack, int *harga_stack, int remaini
 						i++;
 					}
 					if (bahan_cukup){
-						aksi_baru = MakeAksiUpgrade(koord_upgrade, ID(InfoTree(upgrade_pilihan)), Price(InfoTree(upgrade_pilihan)),BuildTime(InfoTree(upgrade_pilihan)));
+						aksi_baru = MakeAksiUpgrade(IdGraph(SearchPlayer(GraphMap)), koord_upgrade, ID(InfoTree(upgrade_pilihan)), Price(InfoTree(upgrade_pilihan)), BuildTime(InfoTree(upgrade_pilihan)));
 						/* push aksi upgrade ke stack */
 						PushStack(stack_aksi,aksi_baru); /* note: 1 itu id aksi upgrade */
 						*durasi_stack += BuildTime(InfoTree(upgrade_pilihan));
@@ -248,8 +264,15 @@ void EXECUTE(Stack *stack_aksi){
 	while (!IsEmptyStack(*stack_aksi)){
 		PopStack(stack_aksi,&cur_aksi);
 		if (IDAksi(cur_aksi)==0){
-			BuildWMap(&GraphMap,KoordBuild(cur_aksi),nodeMap);//nodeMap buat Map keberapa
+			BuildWMap(&GraphMap,KoordBuild(cur_aksi),IDNodeBuild(cur_aksi));
 			ActiveWahana[nbWahana] = InfoTree(SearchTree(DataWahana,IDBuild(cur_aksi)));
+			PosX(ActiveWahana[nbWahana]) = Absis(KoordBuild(cur_aksi));
+			PosY(ActiveWahana[nbWahana]) = Ordinat(KoordBuild(cur_aksi));
+			TotalRide(ActiveWahana[nbWahana]) = 0;
+			TotalGold(ActiveWahana[nbWahana]) = 0;
+			DayRide(ActiveWahana[nbWahana]) = 0;
+			DayGold(ActiveWahana[nbWahana]) = 0;
+			/* init wahana lain */
 			nbWahana++;
 			Sekarang = NextNDetik(Sekarang,DurasiBuild(cur_aksi));
 			DuitPlayer -= HargaBuild(cur_aksi);

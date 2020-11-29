@@ -29,21 +29,13 @@ void LoadWahana(){
     nbWahana = 0;
     int i;
     for(i=0; i<12; i++){
-        printf("test\n");
         ActiveWahana[i] = CopyWahanaID(DataWahana, i+1);
-        printf("test2\n");
         PosX(ActiveWahana[i]) = 0;
-        printf("test3\n");
         PosY(ActiveWahana[i]) = 0;
-        printf("test4\n");
         TotalRide(ActiveWahana[i]) = 0;
-        printf("test5\n");
         TotalGold(ActiveWahana[i]) = 0;
-        printf("test6\n");
         DayRide(ActiveWahana[i]) = 0;
-        printf("test7\n");
         DayGold(ActiveWahana[i]) = 0;
-        printf("test8\n");
         MakeEmptyQ(&PQ[i], 100);
         nbWahana++;
     }

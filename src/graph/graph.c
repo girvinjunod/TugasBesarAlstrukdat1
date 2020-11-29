@@ -214,7 +214,7 @@ void SwitchMap(Graph *GM,boolean vertical){
 void BuildWMap(Graph *GM,POINT P,int n){
     adrNode S = SearchPlayer(*GM),Q = SearchNode(*GM,n);
     MAP M=Map(Q),MPlayer=Map(S); 
-    if (EQPOINT(PosPlayer(MPlayer),P)){
+    if (PosXPlayer(MPlayer)==Absis(P) && PosYPlayer(MPlayer)==Ordinat(P)){
         POINT newPos = CheckClearAdj(*GM);
         PutPlayer(GM,newPos);
     }

@@ -21,6 +21,7 @@
 
 /* definisi struct_aksi */
 typedef struct{
+	int id_node;
 	POINT coord;
 	int id_build; /* id wahana yang mau di-build */
 	int harga_build;
@@ -30,6 +31,7 @@ typedef struct{
 } struct_build;
 
 typedef struct{
+	int id_node;
 	POINT coord;
 	int id_upgrade; /* id upgrade-an wahana */
 	int harga_upgrade;
@@ -53,11 +55,13 @@ typedef struct {
 } struct_aksi;
 
 /* selektor struct_aksi, a itu struct_aksi */
+#define IDNodeBuild(a) (a).build_details.id_node
 #define KoordBuild(a) (a).build_details.coord
 #define IDBuild(a) (a).build_details.id_build
 #define HargaBuild(a) (a).build_details.harga_build
 #define DurasiBuild(a) (a).build_details.durasi_build
 #define BahanBuild(a) (a).build_details.bahan_build
+#define IDNodeUpgrade(a) (a).upgrade_details.id_node
 #define KoordUpgrade(a) (a).upgrade_details.coord
 #define IDUpgrade(a) (a).upgrade_details.id_upgrade
 #define HargaUpgrade(a) (a).upgrade_details.harga_upgrade
@@ -73,9 +77,9 @@ typedef struct {
 #define BuyDetails(a) (a).buy_details
 
 /* konstruktor struct_aksi */
-struct_aksi MakeAksiBuild(POINT koord, int id_build, int harga_build, int durasi_build);
+struct_aksi MakeAksiBuild(int id_node, POINT koord, int id_build, int harga_build, int durasi_build);
 /* mengembalikan struct_aksi dengan data pada parameter */
-struct_aksi MakeAksiUpgrade(POINT koord, int id_upgrade, int harga_upgrade, int durasi_upgrade);
+struct_aksi MakeAksiUpgrade(int id_node, POINT koord, int id_upgrade, int harga_upgrade, int durasi_upgrade);
 /* mengembalikan struct_aksi dengan data pada parameter */
 struct_aksi MakeAksiBuy(int harga_buy, int durasi_buy, char nama_barang[], int jumlah_barang);
 /* mengembalikan struct_aksi dengan data pada parameter */

@@ -3,12 +3,13 @@
 #include "../util/boolean.h"
 #include <string.h>
 
-struct_aksi MakeAksiBuild(POINT koord, int id_build, int harga_build, int durasi_build){
+struct_aksi MakeAksiBuild(int id_node, POINT koord, int id_build, int harga_build, int durasi_build){
 	/* mengembalikan struct_aksi dengan data pada parameter */
 	/* KAMUS LOKAL */
 	struct_aksi ret;
 	/* ALGORITMA */
 	IDAksi(ret)=0;
+	IDNodeBuild(ret)=id_node;
 	KoordBuild(ret)=MakePOINT(Absis(koord),Ordinat(koord));
 	IDBuild(ret)=id_build;
 	HargaBuild(ret)=harga_build;
@@ -17,12 +18,13 @@ struct_aksi MakeAksiBuild(POINT koord, int id_build, int harga_build, int durasi
 	CopyM(Resources(InfoTree(SearchTree(DataWahana,id_build))),&BahanBuild(ret));
 	return ret;
 }
-struct_aksi MakeAksiUpgrade(POINT koord, int id_upgrade, int harga_upgrade, int durasi_upgrade){
+struct_aksi MakeAksiUpgrade(int id_node, POINT koord, int id_upgrade, int harga_upgrade, int durasi_upgrade){
 	/* mengembalikan struct_aksi dengan data pada parameter */
 	/* KAMUS LOKAL */
 	struct_aksi ret;
 	/* ALGORITMA */
 	IDAksi(ret)=1;
+	IDNodeBuild(ret)=id_node;
 	KoordUpgrade(ret)=MakePOINT(Absis(koord),Ordinat(koord));
 	IDUpgrade(ret)=id_upgrade;
 	HargaUpgrade(ret)=harga_upgrade;
@@ -47,11 +49,13 @@ void CopyAksi(struct_aksi a, struct_aksi *b){
 	/* menyalin isi a ke b */
 	/* KAMUS LOKAL */
 	/* ALGORITMA */
+	IDNodeBuild(*b) = IDNodeBuild(a);
 	KoordBuild(*b) = KoordBuild(a);
 	IDBuild(*b) = IDBuild(a);
 	HargaBuild(*b) = HargaBuild(a); 
 	DurasiBuild(*b) = DurasiBuild(a);
-	CopyM(BahanBuild(a),&BahanBuild(*b)); 
+	CopyM(BahanBuild(a),&BahanBuild(*b));
+	IDNodeUpgrade(*b) = IDNodeUpgrade(a); 
 	KoordUpgrade(*b) = KoordUpgrade(a);
 	IDUpgrade(*b) = IDUpgrade(a);
 	HargaUpgrade(*b) = HargaUpgrade(a);

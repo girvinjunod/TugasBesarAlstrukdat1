@@ -47,7 +47,7 @@ void STARTKATAFILE(char *namafile){
 
 void ADVKATA(){
     CREATEEMPTYKATA();
-        IgnoreBlank();
+    IgnoreBlank();
     if(CC == MARK){
         EndKata = true;
     }else{
