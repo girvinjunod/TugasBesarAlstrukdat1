@@ -1,6 +1,7 @@
 #include "stack.h"
 #include <stdio.h>
 #include "boolean.h"
+#include <string.h>
 
 struct_aksi MakeAksiBuild(POINT koord, int id_build, int harga_build, int durasi_build){
 	/* mengembalikan struct_aksi dengan data pada parameter */
@@ -34,7 +35,7 @@ struct_aksi MakeAksiBuy(int harga_buy, int durasi_buy, char nama_barang[], int j
 	IDAksi(ret)=2;
 	HargaBuy(ret)=harga_buy;
 	DurasiBuy(ret)=durasi_buy;
-	strcpy(nama_barang,NamaBarangBuy(ret))
+	strcpy(nama_barang,NamaBarangBuy(ret));
 	JumlahBarangBuy(ret)=jumlah_barang;
 	return ret;
 }
@@ -52,7 +53,7 @@ void CopyAksi(struct_aksi a, struct_aksi *b){
 	DurasiUpgrade(*b) = DurasiUpgrade(a);
 	HargaBuy(*b) = HargaBuy(a);
 	DurasiBuy(*b) = DurasiBuy(a);
-	IDBarangBuy(*b) = IDBarangBuy(a);
+	NamaBarangBuy(*b) = NamaBarangBuy(a);
 	JumlahBarangBuy(*b) = JumlahBarangBuy(a);
 	IDAksi(*b) = IDAksi(a);
 	BuildDetails(*b) = BuildDetails(a);

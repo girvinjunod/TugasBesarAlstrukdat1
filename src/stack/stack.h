@@ -10,7 +10,7 @@
 
 #include "../util/boolean.h"
 #include "../point/point.h"
-
+#include <string.h>
 #define Undef -1
 #define MaxEl 100
 /* Nil adalah stack dengan elemen kosong . */
@@ -35,7 +35,7 @@ typedef struct{
 typedef struct{
 	int harga_buy;
 	int durasi_buy;
-	int id_barang;
+	int nama_barang;
 	int jumlah_barang;
 } struct_buy;
 
