@@ -24,6 +24,7 @@ Wahana ActiveWahana[100];
 Tree DataWahana;
 PrioQueuePengunjung PQ[100];
 PrioQueuePengunjung Antrian;
+Material Inventory, Shop;
 JAM Sekarang;
 int option;
 
