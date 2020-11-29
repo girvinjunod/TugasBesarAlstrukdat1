@@ -18,15 +18,17 @@
 #include "../tree/tree.c"
 #include "../wahana/wahana.c"
 
-boolean play;
-int nbWahana = 3;
-Wahana ActiveWahana[100];
-Tree DataWahana;
-PrioQueuePengunjung PQ[100];
-PrioQueuePengunjung Antrian;
-Material Inventory, Shop;
-JAM Sekarang;
-int option;
-
+extern boolean play;
+extern int nbWahana = 3;
+extern Wahana ActiveWahana[100];
+extern Tree DataWahana;
+extern PrioQueuePengunjung PQ[100];
+extern PrioQueuePengunjung Antrian;
+extern Material Inventory, Shop;
+extern JAM Sekarang;
+extern int option;
+extern Graph GraphMap;
+extern char* NamaPlayer;
+extern int DuitPlayer;
 
 #endif
