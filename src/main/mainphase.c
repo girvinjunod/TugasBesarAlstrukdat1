@@ -56,7 +56,7 @@ void NMinuteUpdate(int N){
 
 
 void generateAntrian(){
-    int BanyakAntrian = (rand() % 25) + 1;
+    int BanyakAntrian = (rand() % 10) + 1;
     int i;
     for(i=0; i<BanyakAntrian; i++){
         Pengunjung P = generatePengunjung();
@@ -68,10 +68,11 @@ void generateAntrian(){
 }
 
 void InitializeMainPhase(){
-    MakeEmptyQ(&Antrian, 25);
+    MakeEmptyQ(&Antrian, 10);
     generateAntrian();
     int i;
     for(i=0; i<nbWahana; i++){
+        MakeEmptyQ(&PQ[i], Capacity(ActiveWahana[i]));
         DayGold(ActiveWahana[i]) = 0;
         DayRide(ActiveWahana[i]) = 0;
     }
@@ -83,6 +84,7 @@ void ShowMainPhaseState(JAM cur_JAM, JAM END_JAM){
 	 */
 	/* KAMUS LOKAL */
 	JAM diff;
+    PrintCurrMap(GraphMap);
 	/* ALGORITMA */
 	/* ngeprint area map sekarang somehow, WIP */
 	/* print legend */
@@ -99,15 +101,15 @@ void ShowMainPhaseState(JAM cur_JAM, JAM END_JAM){
 
 void SERVE(Kata K){
     boolean notfound = true;
-    int i=-1;
+    int i=0;
     int Detik = JAMToDetik(Sekarang);
     while(i<nbWahana && notfound){
-        i++;
         if(NbElmtQ(PQ[i])<Capacity(ActiveWahana[i]) && IsKataSama(Name(ActiveWahana[i]), K) && IsRusak(ActiveWahana[i])==0){
             notfound = false;
         }
+        i++;
     }
-
+    i--;
     if(notfound){
         printf("Semua wahana dengan nama tersebut penuh/rusak/bahkan tidak ada\n");
     }else{
@@ -138,9 +140,9 @@ void PrintDetailWahana(Wahana W){
     printf("Nama: ");
     printf("\n");
     printf("Lokasi: (%d,%d)\n", PosX(W), PosY(W));
-    printf("Upgrade: \n");
-    PrintChild(P);
-    printf("History: ");
+    printf("Upgrade: ");
+    PrintChildrenName(P);
+    printf("\nHistory: ");
     PrintHistory(P);
     printf("\n");
 }
@@ -182,7 +184,7 @@ void REPAIR(){
         }
     }
     if(j==0){
-        printf("Tidak ada wahana didekat anda!\n");
+        printf("Tidak ada wahana didekat anda yang bisa di repair!\n");
     }else{
         printf("List wahana yang bisa di repair:\n");
         for(i=0; i<j; i++){
@@ -232,7 +234,7 @@ void DETAIL(){
     }else{
         printf("List wahana yang bisa dilihat detailnya:\n");
         for(i=0; i<j; i++){
-            printf("%d. ", j+1);
+            printf("%d. ", i+1);
             PrintName(ActiveWahana[i]);
             printf("\n");
         }
@@ -270,9 +272,9 @@ void OFFICE(){
     Exit.TabKata[3] = 't';
     boolean dalamOffice = true;
     do{
-        ADVKATA();
         printf("// Memasuki office mode //\n");
         printf("Masukkan perintah (Details / Report / Exit):\n");
+        ADVKATA();
         if(IsKataSama(CKata, Details)){
             printf("Masukkan nomor wahana yang ingin dilihat detailnya:\n");
             PrintListActiveWahana();
@@ -366,6 +368,7 @@ void MainPhase(int day){
 	do {
 		ShowMainPhaseState(Sekarang, END_JAM);
 		printf("Masukkan perintah:\n$ ");
+		ADVKATA();
         if (IsKataSama(CKata, W)){
 			/* mindah koordinat player ke atas */
 			move('w',&GraphMap);
@@ -388,13 +391,21 @@ void MainPhase(int day){
 		} 
 		if (IsKataSama(CKata, Serve)){
             ADVKATA();
-            SERVE(CKata);
+            if(CheckAntrianAdj(GraphMap)){
+                SERVE(CKata);
+            }else{
+                printf("Anda tidak di dekat antrian\n");
+            }
         }
         else if (IsKataSama(CKata, Detail)){
             DETAIL();
         }
         else if (IsKataSama(CKata, Office)){
+            
             OFFICE();
+        }
+        else if (IsKataSama(CKata, Repair)){
+            REPAIR();
         }
         else if (IsKataSama(CKata, Prepare)){
             selesai = true;
@@ -402,6 +413,5 @@ void MainPhase(int day){
         else{
             printf("Perintah tidak valid.\n");
         }
-		ADVKATA();
 	} while (!selesai);
 }

@@ -7,7 +7,7 @@ Pengunjung generatePengunjung(){ //n itu jumlahnya pengunjung yang di generate
 	Pengunjung P;
 	P.kesabaran = 0;
 	//printf("haha1\n");
-	P.nbListWahana = (rand() % 20) + 1;
+	P.nbListWahana = (rand() % 5) + 1;
 	//printf("haha2\n");
 	P.nbActiveWahana = P.nbListWahana;
 	//printf("haha3\n");

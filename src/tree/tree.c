@@ -67,6 +67,22 @@ void PrintChild(Tree T){
     }
 }
 
+void PrintChildrenName(Tree T){
+    int i;
+    printf("[");
+    boolean first = true;
+    for(i=0; i<NbChild(T); i++){
+        if(first){
+            PrintName(InfoTree(Children(T)[i]));
+            first = false;
+        }else{
+            printf(",");
+            PrintName(InfoTree(Children(T)[i]));
+        }
+    }
+    printf("]");
+}
+
 void MakeWahanaTree(Tree *T, int c){
     Wahana W;
     addrNode P;

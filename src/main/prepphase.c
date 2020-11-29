@@ -272,6 +272,7 @@ void EXECUTE(Stack *stack_aksi){
 			TotalGold(ActiveWahana[nbWahana]) = 0;
 			DayRide(ActiveWahana[nbWahana]) = 0;
 			DayGold(ActiveWahana[nbWahana]) = 0;
+			IsRusak(ActiveWahana[nbWahana]) = 0;
 			MapWahana(ActiveWahana[nbWahana]) = IDNodeBuild(cur_aksi);
 			nbWahana++;
 			Sekarang = NextNDetik(Sekarang,DurasiBuild(cur_aksi));

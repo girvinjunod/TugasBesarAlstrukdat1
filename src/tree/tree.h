@@ -41,6 +41,7 @@ void InsertChild(Tree *T, Tree *SubT);
 
 /* PROSEDUR */
 void PrintChild(Tree T);
+void PrintChildrenName(Tree T);
 void MakeWahanaTree(Tree *T, int c);
 void PrintHistory(addrNode P);
 Wahana CopyWahanaID(Tree T, int ID);
