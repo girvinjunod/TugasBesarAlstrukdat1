@@ -29,7 +29,7 @@ struct_aksi MakeAksiUpgrade(int id_node, POINT koord, int id_upgrade, int harga_
 	IDUpgrade(ret)=id_upgrade;
 	HargaUpgrade(ret)=harga_upgrade;
 	DurasiUpgrade(ret)=durasi_upgrade;
-	MakeEmpty(&BahanBuild(ret));
+	MakeEmpty(&BahanUpgrade(ret));
 	CopyM(Resources(InfoTree(SearchTree(DataWahana,id_upgrade))),&BahanUpgrade(ret));
 	return ret;
 }

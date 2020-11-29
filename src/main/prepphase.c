@@ -444,7 +444,7 @@ void PrepPhase(int day){
 		else if (IsKataSama(CKata, Undo)) UNDO(&stack_aksi,&harga_stack,&durasi_stack);
 		else if (IsKataSama(CKata, Execute)){
 			EXECUTE(&stack_aksi);
-			Sekarang = NextNDetik(Sekarang,durasi_stack*60);
+			Sekarang = NextNDetik(Sekarang,durasi_stack);
 			harga_stack = 0;
 			durasi_stack = 0;
 		}
