@@ -21,9 +21,7 @@ void LoadWahanaTree(){
     Wahana Dummy;
     ID(Dummy) = 0;
     DataWahana = AlokasiTree(Dummy);
-    while(!EndKata){
-        MakeWahanaTree(&DataWahana, c);
-    }
+    MakeWahanaTree(&DataWahana, c);
 }
 
 void LoadWahana(){
@@ -60,24 +58,11 @@ void showMenu(){
 
 int main(){
     play = true;
+    int day = 1;
     showMenu();
     while(play){
-        Sekarang = DetikToJAM(32400);
-        MakeEmptyQ(&Antrian, 25);
-        generateAntrian();
-        PrintPrioQueuePengunjung(Antrian);
-        PrintInfoWahana(ActiveWahana[5]);
-        SERVE(ActiveWahana[5].Name);
-        TulisJAM(Sekarang);
-        printf("\n");
-        int i;
-        for(i=0; i<10; i++){
-            MinuteUpdate();
-        }
-        TulisJAM(Sekarang);
-        printf("\n");
-        PrintPrioQueuePengunjung(Antrian);
-        LaporanWahana(ActiveWahana[5]);
+        MainPhase(day);
+        day++;
         play = false;
     }
 }

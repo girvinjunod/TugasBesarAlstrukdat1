@@ -58,4 +58,6 @@ boolean IsKataSama(Kata A, Kata B);
 
 int ToInt(Kata C);
 
+void PrintKata(Kata K);
+
 #endif

@@ -85,3 +85,10 @@ boolean IsKataSama(Kata A, Kata B){
     }
     return ret;
 }
+
+void PrintKata(Kata K){
+    int i;
+    for(i=0; i<K.Length; i++){
+        printf("%c", K.TabKata[i]);
+    }
+}
