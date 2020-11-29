@@ -14,7 +14,7 @@ extern Material Inventory, Shop;
 extern JAM Sekarang;
 extern int option;
 extern Graph GraphMap;
-extern char* NamaPlayer;
+extern char NamaPlayer[40];
 extern int DuitPlayer;
 
 /* fungsi/prosedur yang ada di prepphase.c */

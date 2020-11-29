@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 #include "../util/globalvariable.h"
 
 boolean play;
@@ -11,11 +12,11 @@ Material Inventory, Shop;
 JAM Sekarang;
 int option;
 Graph GraphMap;
-char* NamaPlayer;
+char NamaPlayer[40];
 int DuitPlayer;
 
 void LoadWahanaTree(){
-    STARTKATAKEYBOARD();
+    STARTKATAFILE("../wahana/wahana.txt");
     int c = ToInt(CKata);
     ADVKATA();
     Wahana Dummy;
@@ -40,15 +41,31 @@ void LoadWahana(){
     }
 }
 
+void InitGame(){
+    printf("Masukkan nama pemain:\n$ ");
+    STARTKATAKEYBOARD();
+    strcpy(NamaPlayer,CKata.TabKata);
+    printf("udah input nama\n");
+    LoadWahanaTree();
+    printf("udah load tree wahana\n");
+    LoadWahana();
+    printf("udah init active wahana\n");
+    CreateGraphMap(&GraphMap);
+    printf("udah load map\n");
+    STARTKATAFILE("../material/material.txt");
+    generateShop(&Shop);
+    printf("udah load shop\n");
+    DuitPlayer = 10000;
+}
+
 void showMenu(){
     printf("// Welcome to Willy wangky's fun factory!!//\n");
     printf("// New game / load game / exit? //\n");
     scanf("%d", &option);
     if(option == 1){
-        
+        InitGame();
     }else if(option == 2){
-        LoadWahanaTree();
-        LoadWahana();
+
     }else{
         play = false;
         printf("// Thanks for playing!!! //");
@@ -60,9 +77,9 @@ int main(){
     int day = 1;
     showMenu();
     while(play){
+        PrepPhase(day);
         MainPhase(day);
         day++;
-        play = false;
     }
     return 0;
 }

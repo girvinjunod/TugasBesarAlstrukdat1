@@ -8,7 +8,7 @@ void ShowPrepPhaseState(JAM cur_JAM, JAM END_JAM, int NbElmtAksi, int durasi_sta
 	/* KAMUS LOKAL */
 	JAM diff;
 	/* ALGORITMA */
-	/* ngeprint area map sekarang somehow, WIP */
+	PrintCurrMap(GraphMap);
 	/* print legend */
 	printf("Legend:\nA = Antrian\nP = Player\nW = Wahana\nO = Office\n< ^ > V = Gerbang\n");
 	printf("\n");
@@ -352,6 +352,7 @@ void PrepPhase(int day){
 	Stack stack_aksi;
 	int durasi_stack;
 	int harga_stack;
+	boolean udah_start_kata;
 	/* ALGORITMA */
 	printf("Preparation phase day %d\n",day);
 	/* init */
@@ -360,10 +361,15 @@ void PrepPhase(int day){
 	CreateEmptyStack(&stack_aksi);
 	durasi_stack = 0;
 	harga_stack = 0;
+	udah_start_kata = false;
 	/* simulasi prep. phase, pakai do-while karena pasti jalan setidaknya sekali */
 	do {
 		ShowPrepPhaseState(Sekarang,END_JAM,TopStack(stack_aksi)+1,durasi_stack,harga_stack);
 		printf("Masukkan perintah:\n$ ");
+		if (!udah_start_kata){
+			STARTKATAKEYBOARD();
+			udah_start_kata = true;
+		}
 		if (IsKataSama(CKata, W)){
 			/* mindah koordinat player ke atas */
 			move('w',&GraphMap);

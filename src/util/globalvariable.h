@@ -12,7 +12,7 @@
 #include "../mesinkata/mesinkata.h"
 #include "../pengunjung/pengunjung.h"
 #include "../point/point.h"
-//#include "../main/prepphase.c"
+#include "../main/prepphase.h"
 #include "../queue/prioqueuePengunjung.h"
 #include "../stack/stack.h"
 #include "../tree/tree.h"
@@ -28,7 +28,7 @@ extern Material Inventory, Shop;
 extern JAM Sekarang;
 extern int option;
 extern Graph GraphMap;
-extern char* NamaPlayer;
+extern char NamaPlayer[40];
 extern int DuitPlayer;
 
 #endif
