@@ -19,7 +19,7 @@ void ShowPrepPhaseState(JAM cur_JAM, JAM END_JAM, int NbElmtAksi, int durasi_sta
 	printf("Opening Time: \n"); TulisJAM(END_JAM); printf("\n");
 	diff = DetikToJAM(Durasi(cur_JAM,END_JAM));
 	printf("Time Remaining: %d hour(s) %d minute(s)\n",Hour(diff),Minute(diff));
-	printf("Total aksi yang akan dilakukan: %d\n",durasi_stack); 
+	printf("Total aksi yang akan dilakukan: %d\n",NbElmtAksi); 
 	printf("Total waktu yang dibutuhkan: %d\n",durasi_stack); 
 	printf("Total uang yang dibutuhkan: %d\n",harga_stack);
 }
@@ -370,6 +370,7 @@ void PrepPhase(int day){
 			STARTKATAKEYBOARD();
 			udah_start_kata = true;
 		}
+		else ADVKATA();
 		if (IsKataSama(CKata, W)){
 			/* mindah koordinat player ke atas */
 			move('w',&GraphMap);

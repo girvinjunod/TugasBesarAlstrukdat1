@@ -6,9 +6,12 @@ Material inventory;
 Material shop;
 
 void generateShop(Material *S){
+    int i;
+    for (i=IdxMin;i<=IdxMax;i++) strcpy(Info(*S,i),ValUndef);
     int tes = 0, temp;
     const char* X;
     IdxType idx = IdxMin;
+
     while (!EndKata){
         if (tes == 1) tes = 0;
         else tes++;

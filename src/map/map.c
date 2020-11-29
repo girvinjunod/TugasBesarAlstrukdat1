@@ -24,11 +24,11 @@ void readMap(MAP *M1,MAP *M2,MAP *M3, MAP *M4){
     do{
 		cc = getc(fileMap);
 
-        if (cc=='1') {currMap=M1; cc=getc(fileMap); cc = getc(fileMap); NBarEff(*currMap)=1; NColEff(*currMap)=0;i=0;j=0;}
-        else if (cc=='2') {currMap=M2; cc=getc(fileMap); cc = getc(fileMap); NBarEff(*currMap)=1; NColEff(*currMap)=0;i=0;j=0;}
-        else if (cc=='3') {currMap=M3; cc=getc(fileMap); cc = getc(fileMap); NBarEff(*currMap)=1; NColEff(*currMap)=0;i=0;j=0;}
-        else if (cc=='4') {currMap=M4; cc=getc(fileMap); cc = getc(fileMap); NBarEff(*currMap)=1; NColEff(*currMap)=0;i=0;j=0;}
-		else if (cc=='.') {cc = getc(fileMap);cc = getc(fileMap);}
+        if (cc=='1') {currMap=M1; cc=getc(fileMap); NBarEff(*currMap)=1; NColEff(*currMap)=0;i=0;j=0;}
+        else if (cc=='2') {currMap=M2; cc=getc(fileMap); NBarEff(*currMap)=1; NColEff(*currMap)=0;i=0;j=0;}
+        else if (cc=='3') {currMap=M3; cc=getc(fileMap); NBarEff(*currMap)=1; NColEff(*currMap)=0;i=0;j=0;}
+        else if (cc=='4') {currMap=M4; cc=getc(fileMap); NBarEff(*currMap)=1; NColEff(*currMap)=0;i=0;j=0;}
+		else if (cc=='.') {cc = getc(fileMap);}
 		else if(cc != EOF){
 			if (cc=='\n') {i++;j=0;NBarEff(*currMap)++;NColEff(*currMap)=0;}
 			else{
