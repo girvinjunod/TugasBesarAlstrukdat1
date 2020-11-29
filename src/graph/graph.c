@@ -243,6 +243,9 @@ boolean CheckAntrianAdj(Graph GM){
     else if(checkPosAntrian(Map(P),MakePOINT(x,y-1))) return true;
     else return false;
 }
+boolean IsInOffice(Graph GM){
+    return inOffice;
+}
 POINT GetAdjWahana(Graph GM){
     adrNode P = SearchPlayer(GM);
     POINT Pos = PosPlayer(Map(P));
