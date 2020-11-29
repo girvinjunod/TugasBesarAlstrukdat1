@@ -43,7 +43,7 @@ typedef struct {
 #define ChanceRusak(W) (W).ChanceRusak
 #define IsRusak(W) (W).IsRusak
 
-#define MapWahana(W) (W).MapWahana;
+#define MapWahana(W) (W).MapWahana
 #define PosX(W) (W).PosX
 #define PosY(W) (W).PosY
 #define TotalRide(W) (W).TotalRide

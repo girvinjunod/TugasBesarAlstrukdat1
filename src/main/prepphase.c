@@ -272,7 +272,7 @@ void EXECUTE(Stack *stack_aksi){
 			TotalGold(ActiveWahana[nbWahana]) = 0;
 			DayRide(ActiveWahana[nbWahana]) = 0;
 			DayGold(ActiveWahana[nbWahana]) = 0;
-			/* init wahana lain */
+			MapWahana(ActiveWahana[nbWahana]) = IDNodeBuild(cur_aksi);
 			nbWahana++;
 			Sekarang = NextNDetik(Sekarang,DurasiBuild(cur_aksi));
 			DuitPlayer -= HargaBuild(cur_aksi);
