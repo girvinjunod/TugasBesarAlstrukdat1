@@ -10,7 +10,7 @@ boolean inOffice;
 void readMap(MAP *M1,MAP *M2,MAP *M3, MAP *M4){
 // Membaca keempat MAP pada file map.txt, tiap map dipisah dengan line kosong
     FILE *fileMap;
-    fileMap = fopen("map.txt","r");
+    fileMap = fopen("../graph/map.txt","r");
 
     MAP *currMap;
     indeks i,j;
