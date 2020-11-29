@@ -2,6 +2,7 @@
 #include "../jam/jam.h"
 #include "../tree/tree.h"
 #include "../queue/prioqueuePengunjung.h"
+#include "../util/globalvariable.h"
 
 /* variabel yang harusnya ada di main.c */
 extern int nbWahana;
@@ -12,7 +13,4 @@ extern JAM Sekarang;
 extern Tree DataWahana;
 
 /* fungsi/prosedur yang ada di prepphase.c */
-void MinuteUpdate();
-void SERVE(Kata K);
-void generateAntrian();
 void MainPhase(int day);
