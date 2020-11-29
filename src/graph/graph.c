@@ -212,12 +212,14 @@ void SwitchMap(Graph *GM,boolean vertical){
 }
 /* Menulis legenda 'W' pada map */
 void BuildWMap(Graph *GM,POINT P,int n){
-    adrNode S = SearchPlayer(*GM),Q = SearchNode(*GM,n);
-    MAP M=Map(Q),MPlayer=Map(S); 
+    adrNode S = SearchPlayer(*GM), Q;
+    MAP M,MPlayer=Map(S); 
     if (PosXPlayer(MPlayer)==Absis(P) && PosYPlayer(MPlayer)==Ordinat(P)){
         POINT newPos = CheckClearAdj(*GM);
         PutPlayer(GM,newPos);
     }
+    Q = SearchNode(*GM,n);
+    M = Map(Q);
     setPoint(&M,'W',P); Map(Q) = M;
 }
 

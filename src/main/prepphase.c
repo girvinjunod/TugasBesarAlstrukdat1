@@ -24,7 +24,7 @@ void ShowPrepPhaseState(JAM cur_JAM, JAM END_JAM, int NbElmtAksi, int durasi_sta
 	printf("Total uang yang dibutuhkan: %d\n",harga_stack);
 }
 
-void BUILD(Stack *stack_aksi, int *durasi_stack, int *harga_stack, int remaining_time){
+void BUILD(Stack *stack_aksi, int *harga_stack, int *durasi_stack, int remaining_time){
 	/* I.S. sembarang */
 	/* F.S. kalau build valid, menambahkan aksi ke stack_aksi */
 	/* kalau tidak, menampilkan pesan kesalahan */
@@ -35,7 +35,8 @@ void BUILD(Stack *stack_aksi, int *durasi_stack, int *harga_stack, int remaining
 	Wahana info_wahana_pilihan;
 	struct_aksi aksi_baru;
 	boolean bahan_cukup;
-	int i, j;
+	int jumlah_bahan;
+	int i, j, k;
 	/* ALGORITMA */
 	/* cek di sel sekarang ada wahana atau tidak */
 	pos_player = PosPlayer(Map(SearchPlayer(GraphMap)));
@@ -60,9 +61,20 @@ void BUILD(Stack *stack_aksi, int *durasi_stack, int *harga_stack, int remaining
 				if (Price(info_wahana_pilihan)<=DuitPlayer){
 					bahan_cukup = true;
 					i = GetFirstIdx(Resources(info_wahana_pilihan));
-					while (i<GetLastIdx(Resources(info_wahana_pilihan)) && bahan_cukup){
+					while (i<=GetLastIdx(Resources(info_wahana_pilihan)) && bahan_cukup){
 						j = Search1(Inventory,Info(Resources(info_wahana_pilihan),i));
-						if (j==IdxUndef || Value(Inventory,j)<Value(Resources(info_wahana_pilihan),j)){
+						jumlah_bahan = Value(Resources(info_wahana_pilihan),i);
+						for (j=0;j<=TopStack(*stack_aksi);j++){
+							if (IDAksi((*stack_aksi).aksi[j])==0){
+								k = Search1(BahanBuild((*stack_aksi).aksi[j]),Info(Resources(info_wahana_pilihan),i));
+								if (k!=IdxUndef) jumlah_bahan += Value(BahanBuild((*stack_aksi).aksi[j]),k);
+							}
+							else if (IDAksi((*stack_aksi).aksi[j])==1){
+								k = Search1(BahanUpgrade((*stack_aksi).aksi[j]),Info(Resources(info_wahana_pilihan),i));
+								if (k!=IdxUndef) jumlah_bahan += Value(BahanUpgrade((*stack_aksi).aksi[j]),k);
+							}
+						}
+						if (Value(Inventory,j)<jumlah_bahan){
 							bahan_cukup = false;
 						}
 						i++;
@@ -100,7 +112,7 @@ void BUILD(Stack *stack_aksi, int *durasi_stack, int *harga_stack, int remaining
 	}
 }
 
-void UPGRADE(Stack *stack_aksi, int *durasi_stack, int *harga_stack, int remaining_time){
+void UPGRADE(Stack *stack_aksi, int *harga_stack, int *durasi_stack, int remaining_time){
 	/* I.S. sembarang */
 	/* F.S. kalau upgrade valid, menambahkan aksi ke stack_aksi */
 	/* kalau tidak, menampilkan pesan kesalahan */
@@ -113,8 +125,9 @@ void UPGRADE(Stack *stack_aksi, int *durasi_stack, int *harga_stack, int remaini
 	adrNode cur_node;
 	POINT koord_upgrade;
 	int manhattan_distance;
-	int i, j;
+	int i, j, k;
 	boolean bahan_cukup;
+	int jumlah_bahan;
 	/* ALGORITMA */
 	cur_node = SearchPlayer(GraphMap);
 	koord_player = PosPlayer(Map(cur_node)); /* cek aman apa nggak ntar */
@@ -137,9 +150,20 @@ void UPGRADE(Stack *stack_aksi, int *durasi_stack, int *harga_stack, int remaini
 				if (Price(info_upgrade_pilihan)<=DuitPlayer){
 					bahan_cukup = true;
 					i = GetFirstIdx(Resources(info_upgrade_pilihan));
-					while (i<GetLastIdx(Resources(info_upgrade_pilihan)) && bahan_cukup){
+					while (i<=GetLastIdx(Resources(info_upgrade_pilihan)) && bahan_cukup){
 						j = Search1(Inventory,Info(Resources(info_upgrade_pilihan),i));
-						if (j==IdxUndef || Value(Inventory,j)<Value(Resources(info_upgrade_pilihan),j)){
+						jumlah_bahan = Value(Resources(info_upgrade_pilihan),i);
+						for (j=0;j<=TopStack(*stack_aksi);j++){
+							if (IDAksi((*stack_aksi).aksi[j])==0){
+								k = Search1(BahanBuild((*stack_aksi).aksi[j]),Info(Resources(info_upgrade_pilihan),i));
+								if (k!=IdxUndef) jumlah_bahan += Value(BahanBuild((*stack_aksi).aksi[j]),k);
+							}
+							else if (IDAksi((*stack_aksi).aksi[j])==1){
+								k = Search1(BahanUpgrade((*stack_aksi).aksi[j]),Info(Resources(info_upgrade_pilihan),i));
+								if (k!=IdxUndef) jumlah_bahan += Value(BahanUpgrade((*stack_aksi).aksi[j]),k);
+							}
+						}
+						if (Value(Inventory,j)<jumlah_bahan){
 							bahan_cukup = false;
 						}
 						i++;
@@ -177,7 +201,7 @@ void UPGRADE(Stack *stack_aksi, int *durasi_stack, int *harga_stack, int remaini
 	}
 }
 
-void BUY(Stack *stack_aksi, int *durasi_stack, int *harga_stack, int remaining_time, int BUY_DURATION){
+void BUY(Stack *stack_aksi, int *harga_stack, int *durasi_stack, int remaining_time, int BUY_DURATION){
 	/* I.S. sembarang */
 	/* F.S. kalau buy valid, menambahkan aksi ke stack_aksi */
 	/* kalau tidak, menampilkan pesan kesalahan */
@@ -224,7 +248,7 @@ void BUY(Stack *stack_aksi, int *durasi_stack, int *harga_stack, int remaining_t
 	}
 }
 
-void UNDO(Stack *stack_aksi, int *durasi_stack, int *harga_stack){
+void UNDO(Stack *stack_aksi, int *harga_stack, int *durasi_stack){
 	/* I.S. sembarang */
 	/* F.S. top stack_aksi terhapus jika ada */
 	/* KAMUS LOKAL */
@@ -272,6 +296,7 @@ void EXECUTE(Stack *stack_aksi){
 			TotalGold(ActiveWahana[nbWahana]) = 0;
 			DayRide(ActiveWahana[nbWahana]) = 0;
 			DayGold(ActiveWahana[nbWahana]) = 0;
+			IsRusak(ActiveWahana[nbWahana]) = 0;
 			MapWahana(ActiveWahana[nbWahana]) = IDNodeBuild(cur_aksi);
 			nbWahana++;
 			Sekarang = NextNDetik(Sekarang,DurasiBuild(cur_aksi));

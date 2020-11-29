@@ -3,7 +3,7 @@
 #include "../util/globalvariable.h"
 
 boolean play;
-int nbWahana = 3;
+int nbWahana;
 Wahana ActiveWahana[100];
 Tree DataWahana;
 PrioQueuePengunjung PQ[100];
@@ -48,8 +48,6 @@ void InitGame(){
     /* printf("udah input nama\n"); */
     LoadWahanaTree();
     /* printf("udah load tree wahana\n"); */
-    LoadWahana();
-    /* printf("udah init active wahana\n"); */
     CreateGraphMap(&GraphMap);
     /* printf("udah load map\n"); */
     STARTKATAFILE("../material/material.txt");
@@ -57,6 +55,7 @@ void InitGame(){
     /* printf("udah load shop\n"); */
     DuitPlayer = 10000;
     setInvenAwal(&Inventory,Shop);
+    nbWahana = 0;
 }
 
 void showMenu(){
