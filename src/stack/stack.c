@@ -35,7 +35,7 @@ struct_aksi MakeAksiBuy(int harga_buy, int durasi_buy, char nama_barang[], int j
 	IDAksi(ret)=2;
 	HargaBuy(ret)=harga_buy;
 	DurasiBuy(ret)=durasi_buy;
-	strcpy(nama_barang,NamaBarangBuy(ret));
+	strcpy(NamaBarangBuy(ret),nama_barang);
 	JumlahBarangBuy(ret)=jumlah_barang;
 	return ret;
 }
@@ -53,7 +53,7 @@ void CopyAksi(struct_aksi a, struct_aksi *b){
 	DurasiUpgrade(*b) = DurasiUpgrade(a);
 	HargaBuy(*b) = HargaBuy(a);
 	DurasiBuy(*b) = DurasiBuy(a);
-	NamaBarangBuy(*b) = NamaBarangBuy(a);
+	strcpy(NamaBarangBuy(*b),NamaBarangBuy(a));
 	JumlahBarangBuy(*b) = JumlahBarangBuy(a);
 	IDAksi(*b) = IDAksi(a);
 	BuildDetails(*b) = BuildDetails(a);

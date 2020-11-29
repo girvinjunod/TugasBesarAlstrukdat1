@@ -80,4 +80,5 @@ int main(){
         LaporanWahana(ActiveWahana[5]);
         play = false;
     }
+    return 0;
 }

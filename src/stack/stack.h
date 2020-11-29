@@ -35,7 +35,7 @@ typedef struct{
 typedef struct{
 	int harga_buy;
 	int durasi_buy;
-	int nama_barang;
+	char nama_barang[20];
 	int jumlah_barang;
 } struct_buy;
 
