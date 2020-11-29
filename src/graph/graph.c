@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "boolean.h"
 #include "graph.h"
+#include "map.h"
+#include "point.h"
 
 adrNode AlokNode(int X,MAP M)
 /* I.S. X adalah bilangan bulat valid */
@@ -24,11 +27,12 @@ adrSucc AlokSucc(adrNode Pn)
 /* I.S. adrNode Pn valid */
 /* F.S. Membuat address P , Mengalokasikan Succ(P) = Pn dan next = Nil */
 {
-    adrSucc P = (adrSucc) malloc(sizeof(SuccGraph)+1);
+    adrSucc P = (adrSucc) malloc(sizeof(SuccGraph));
     if(P!= Nil){
         Succ(P) = Pn;
         NextSucc(P) = Nil;
     }
+    return P;
 }
 void DealokSuccNode(adrSucc Pt)
 /* I.S. adrSucc Pt valid */
@@ -38,13 +42,11 @@ void DealokSuccNode(adrSucc Pt)
 }
 
 void ConnectNode(adrNode *P1,adrNode *P2){
-  adrSucc S = Trail(*P1);
-  while (S!=Nil) S=NextSucc(S); 
-  S = AlokSucc(*P2);
-  
-  S = Trail(*P2);
-  while (S!=Nil) S=NextSucc(S);
-  S = AlokSucc(*P1);
+  if (Trail(*P1)!=Nil) NextSucc(Trail(*P1))=AlokSucc(*P2);
+  else Trail(*P1)=AlokSucc(*P2);
+
+  if (Trail(*P2)!=Nil) NextSucc(Trail(*P2))=AlokSucc(*P1);
+  else Trail(*P2)=AlokSucc(*P1);
 }
 
 void CreateGraphMap(Graph* G)
@@ -56,8 +58,7 @@ void CreateGraphMap(Graph* G)
     
     adrNode P = AlokNode(1,M1);
     First(*G) = P;
-    int i;
-    for(i=2; i<=4;i++){
+    for(int i=2; i<=4;i++){
         if(i==2) Mtemp = &M2;
         else if(i==3) Mtemp = &M3;
         else if(i==4) Mtemp = &M4;
@@ -82,13 +83,11 @@ void AddNodeGraph(Graph *G,int n,MAP M)
 
 void ConnectMap(Graph *G){
   adrNode P,P1,P2;
-  int i;
-  for(i=1;i<=4;i+=3){
+  for(int i=1;i<=4;i+=3){
     P = SearchNode(*G,i);
-
+    
     if(i==1) {P1=SearchNode(*G,i+1);P2=SearchNode(*G,i+2);}
     else {P1=SearchNode(*G,i-1);P2=SearchNode(*G,i-2);}
-    
     ConnectNode(&P,&P1);
     ConnectNode(&P,&P2);
   }
@@ -140,7 +139,7 @@ void move(char input,Graph *GM){
         Map(P) = M;
 	}else if(checkSwitchVertical(M,temp)) SwitchMap(GM,true);
     else if(checkSwitchHorizontal(M,temp)) SwitchMap(GM,false);
-    else printf("That place is occupied");
+    else printf("That place is occupied\n");
 }
 
 void SwitchMap(Graph *GM,boolean vertical){
@@ -149,21 +148,37 @@ void SwitchMap(Graph *GM,boolean vertical){
     POINT gate;
     adrSucc S = Trail(P);
     if (vertical){
-        newP = Succ(NextSucc(S));
-        printf("test\n");
-        newMap = Map(newP);
-        setPoint(&M,'-',PosPlayer(M));
+        if(IdGraph(P)==1||IdGraph(P)==2){    
+            newP = Succ(NextSucc(S));
+            newMap = Map(newP);
+            setPoint(&M,'-',PosPlayer(M));
+            
+            if(Ordinat(VGate(newMap))==0) gate=MakePOINT(Absis(VGate(newMap)),Ordinat(VGate(newMap))+1);
+            else gate=MakePOINT(Absis(VGate(newMap)),Ordinat(VGate(newMap))-1);
+        }else{
+            newP = Succ(S);
+            newMap = Map(newP);
+            setPoint(&M,'-',PosPlayer(M));
 
-        if(Ordinat(VGate(newMap))==0) gate=MakePOINT(Absis(VGate(newMap)),Ordinat(VGate(newMap))++);
-        else gate=MakePOINT(Absis(VGate(newMap)),Ordinat(VGate(newMap))--);
-        TulisPOINT(gate);printf("\n");
+            if(Ordinat(VGate(newMap))==0) gate=MakePOINT(Absis(VGate(newMap)),Ordinat(VGate(newMap))+1);
+            else gate=MakePOINT(Absis(VGate(newMap)),Ordinat(VGate(newMap))-1);
+        }
     }else{
-        newP = NextSucc(S);
-        newMap = Map(newP);
-        setPoint(&M,'-',PosPlayer(M));
+        if(IdGraph(P)==3||IdGraph(P)==4){    
+            newP = Succ(NextSucc(S));
+            newMap = Map(newP);
+            setPoint(&M,'-',PosPlayer(M));
+            
+            if(Absis(HGate(newMap))==0) gate=MakePOINT(Absis(HGate(newMap))+1,Ordinat(HGate(newMap)));
+            else gate=MakePOINT(Absis(HGate(newMap))-1,Ordinat(HGate(newMap)));
+        }else{
+            newP = Succ(S);
+            newMap = Map(newP);
+            setPoint(&M,'-',PosPlayer(M));
 
-        if(Absis(VGate(newMap))==0) gate=MakePOINT(Absis(VGate(newMap))++,Ordinat(VGate(newMap)));
-        else gate=MakePOINT(Absis(VGate(newMap))--,Ordinat(VGate(newMap)));
+            if(Absis(HGate(newMap))==0) gate=MakePOINT(Absis(HGate(newMap))+1,Ordinat(HGate(newMap)));
+            else gate=MakePOINT(Absis(HGate(newMap))-1,Ordinat(HGate(newMap)));
+        }
     }
 
     if(checkPoint(newMap,gate)){
@@ -175,7 +190,7 @@ void SwitchMap(Graph *GM,boolean vertical){
         PosYPlayer(newMap) = Ordinat(gate);
         Map(P) = M;
         Map(newP) = newMap;
-    }else printf("That place is occupied");
+    }else printf("That place is occupied\n");
 }
 
 adrNode SearchPlayer(Graph GM){
@@ -189,7 +204,9 @@ adrNode SearchPlayer(Graph GM){
 int main() {
 	Graph g;
 	CreateGraphMap(&g);
-	PrintCurrMap(g);
-    move('s',&g);
+    move('a',&g);
+    PrintCurrMap(g);
+    move('d',&g);
+    PrintCurrMap(g);
 }
 

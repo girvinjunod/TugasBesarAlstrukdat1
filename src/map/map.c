@@ -1,4 +1,8 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include "boolean.h"
 #include "map.h"
+#include "point.h"
 
 
 /* Baca MAP dari file map.txt */
@@ -29,7 +33,7 @@ void readMap(MAP *M1,MAP *M2,MAP *M3, MAP *M4){
 			else{
 				Legend(*currMap,i,j) = cc;
 				if (cc=='P') PosPlayer(*currMap)=MakePOINT(j,i);
-				else if (cc=='v'||cc=='^') VGate(*currMap)=MakePOINT(j,i);
+				else if (cc=='V'||cc=='^'||cc=='v') VGate(*currMap)=MakePOINT(j,i);
 				else if (cc=='<'||cc=='>') HGate(*currMap)=MakePOINT(j,i);
 				j++;
 				NColEff(*currMap)++;
@@ -63,10 +67,8 @@ void setPoint(MAP *M,char cc,POINT P){
 }
 
 void printMap(MAP M){
-	int i;
-	int j;
-	for (i = IdxMin; i < NBarEff(M); i++){
-        for (j = IdxMin; j < NColEff(M); j++){
+	for (int i = IdxMin; i < NBarEff(M); i++){
+        for (int j = IdxMin; j < NColEff(M); j++){
             if (j != NColEff(M)-1) printf("%c", Legend(M,i,j));
             else printf("%c\n", Legend(M,i,j));
         }

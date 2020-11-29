@@ -1,9 +1,9 @@
 #ifndef GRAPH_H
 #define GRAPH_H
 
-#include "../util/boolean.h"
-#include "../map/map.h"
-#include "../point/point.h"
+#include "boolean.h"
+#include "map.h"
+#include "point.h"
 
 #define Nil NULL
 /* Selektor */

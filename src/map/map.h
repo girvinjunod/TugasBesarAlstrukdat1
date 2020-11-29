@@ -3,8 +3,8 @@
 #ifndef _MAP_H_
 #define _MAP_H_
 
-#include "../point/point.h"
-#include "../util/boolean.h"
+#include "point.h"
+#include "boolean.h"
 #include <stdio.h>
 #include <stdlib.h>
 
