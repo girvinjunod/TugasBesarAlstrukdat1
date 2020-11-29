@@ -47,12 +47,11 @@ void STARTKATAFILE(char *namafile){
 
 void ADVKATA(){
     CREATEEMPTYKATA();
-    IgnoreBlank();
+        IgnoreBlank();
     if(CC == MARK){
         EndKata = true;
     }else{
         SalinKata();
-        IgnoreBlank();
     }
 }
 void SalinKata(){

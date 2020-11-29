@@ -13,6 +13,8 @@ struct_aksi MakeAksiBuild(POINT koord, int id_build, int harga_build, int durasi
 	IDBuild(ret)=id_build;
 	HargaBuild(ret)=harga_build;
 	DurasiBuild(ret)=durasi_build;
+	IdxType i;
+   for (i=IdxMin;i<=IdxMax;i++) strcpy(Info(BahanUpgrade(ret),i),ValUndef);
 	CopyM(Resources(InfoTree(SearchTree(DataWahana,id_build))),&BahanBuild(ret));
 	return ret;
 }
@@ -26,6 +28,8 @@ struct_aksi MakeAksiUpgrade(POINT koord, int id_upgrade, int harga_upgrade, int 
 	IDUpgrade(ret)=id_upgrade;
 	HargaUpgrade(ret)=harga_upgrade;
 	DurasiUpgrade(ret)=durasi_upgrade;
+	IdxType i;
+   for (i=IdxMin;i<=IdxMax;i++) strcpy(Info(BahanUpgrade(ret),i),ValUndef);
 	CopyM(Resources(InfoTree(SearchTree(DataWahana,id_upgrade))),&BahanUpgrade(ret));
 	return ret;
 }
