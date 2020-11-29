@@ -6,26 +6,29 @@
 #ifndef listlinier_H
 #define listlinier_H
 
-#include "../util/boolean.h"
-#include "../wahana/wahana.h"
+#include "boolean.h"
+#include "wahana.h"
 
 #define Nil NULL
 
-typedef char infotype[100];
+
+typedef char infotype[50];
 typedef struct tElmtlist *address;
 typedef struct tElmtlist {
-	infotype infolinier;
+	infotype info;
 	address next;
 } ElmtList;
 typedef struct {
 	address First;
 } List;
 
+extern List RiwayatUpgrade;
+
 /* Definisi list : */
 /* List kosong : First(L) = Nil */
 /* Setiap elemen dengan address P dapat diacu Info(P), Next(P) */
 /* Elemen terakhir list : jika addressnya Last, maka Next(Last)=Nil */
-#define InfoLinier(P) (P)->infolinier
+#define InfoLinier(P) (P)->info
 #define Next(P) (P)->next
 #define FirstLinier(L) ((L).First)
 
@@ -40,7 +43,7 @@ void CreateEmpty (List *L);
 /* F.S. Terbentuk list kosong */
 
 /****************** Manajemen Memori ******************/
-address Alokasi (infotype X);
+address Alokasi (char X[50]);
 /* Mengirimkan address hasil alokasi sebuah elemen */
 /* Jika alokasi berhasil, maka address tidak nil, dan misalnya */
 /* menghasilkan P, maka info(P)=X, Next(P)=Nil */
@@ -55,7 +58,7 @@ void InsertLast (List *L, address P);
 /* I.S. Sembarang, P sudah dialokasi  */
 /* F.S. P ditambahkan sebagai elemen terakhir yang baru */
 
-void InsVLast (List *L, infotype X);
+void InsVLast (List *L, char X[50]);
 /* I.S. L mungkin kosong */
 /* F.S. Melakukan alokasi sebuah elemen dan */
 /* menambahkan elemen list di akhir: elemen terakhir yang baru */

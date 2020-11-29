@@ -1,9 +1,10 @@
 //list LInier
 
-#include "globalvariable.h"
 #include "listlinier.h"
 #include <stdio.h>
 #include <stdlib.h>
+
+List RiwayatUpgrade; //belum kepake
 
 int main(){
     List L;
@@ -11,14 +12,18 @@ int main(){
     CreateEmpty(&L);
 
     printf("IsEmptyLinier(L) = %d\n",IsEmptyLinier(L));
-    infotype X; 
+    char X[50]; 
     printf("X = ");scanf("%s",&X);
     printf("address A = Alokasi(X);\n");
-    address A = Alokasi(X);
+    address A = Alokasi("wahana");
     printf("InsertLast(&L,A);\n");
     InsertLast(&L,A);
     printf("InsVLast(&L,X)\n");
     InsVLast(&L,X);
     printf("PrintInfo(L);\n");
+    InsVLast(&L,"satu");
+    InsVLast(&L,"dua");
+    InsVLast(&L,"tiga");
+    InsVLast(&L,"empat");
     PrintInfo(L);
 }

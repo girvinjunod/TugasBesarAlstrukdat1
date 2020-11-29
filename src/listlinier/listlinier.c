@@ -1,8 +1,10 @@
 #include "listlinier.h"
-#include "../util/boolean.h"
-#include "../util/globalvariable.h"
+#include "boolean.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
+
+List RiwayatUpgrade;
 
 /* PROTOTYPE */
 /****************** TEST LIST KOSONG ******************/
@@ -19,7 +21,7 @@ void CreateEmpty (List *L){
 }
 
 /****************** Manajemen Memori ******************/
-address Alokasi (infotype X){
+address Alokasi (char X[50]){
 /* Mengirimkan address hasil alokasi sebuah elemen */
 /* Jika alokasi berhasil, maka address tidak nil, dan misalnya */
 /* menghasilkan P, maka Info(P)=X, Next(P)=Nil */
@@ -27,10 +29,7 @@ address Alokasi (infotype X){
     address P;
     P = (address)malloc(sizeof(ElmtList));
     if(P!=NULL){//Periksa keberhasilan alokasi
-        int i;
-		for(i=0; i<CKata.Length; i++){
-            InfoLinier(P)[i] = X[i];
-        }
+        strcpy(InfoLinier(P), X);
         Next(P)=Nil;
         return P;
     }else {
@@ -59,7 +58,8 @@ void InsertLast (List *L, address P){
         Next(Ptemp)=P;
     }
 }
-void InsVLast (List *L, infotype X){
+
+void InsVLast (List *L, char X[50]){
 /* I.S. L mungkin kosong */
 /* F.S. Melakukan alokasi sebuah elemen dan */
 /* menambahkan elemen list di akhir: elemen terakhir yang baru */
@@ -85,5 +85,8 @@ void PrintInfo (List L){
             P=Next(P);
         }
         printf("%s",InfoLinier(P));
+    } else {
+        printf(" kosong ?!\n");
     }
 }
+
