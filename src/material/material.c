@@ -50,6 +50,14 @@ void printInven(Material I){
     }
 }
 
+void printM(Material R){
+    IdxType i;
+    for (i = IdxMin; i <= GetLastIdx(R); i++){
+        printf("    - %s : ", Info(R, i));
+        printf("%d\n", Value(R, i));
+    }
+}
+
 void updateInvenPlus(Material *I, const char X[], int jumlah){
     int isi = GetValue(*I, X);
     if (isi != -1){
