@@ -138,61 +138,66 @@ void UPGRADE(Stack *stack_aksi, int *harga_stack, int *durasi_stack, int remaini
 		}
 	}
 	if (Absis(koord_upgrade)!=-1){
-		printf("Ingin melakukan upgrade apa? (masukkan ID upgrade)\n");
-		PrintChild(wahana_upgrade); 
-		printf("$ ");
-		ADVKATA();
-		upgrade_pilihan = SearchTree(wahana_upgrade,ToInt(CKata));
-		if (upgrade_pilihan!=Nil){
-			info_upgrade_pilihan = InfoTree(upgrade_pilihan);
-			if (BuildTime(info_upgrade_pilihan)<=remaining_time){
-				/* ada cukup waktu untuk upgrade */
-				if (Price(info_upgrade_pilihan)<=DuitPlayer){
-					bahan_cukup = true;
-					i = GetFirstIdx(Resources(info_upgrade_pilihan));
-					while (i<=GetLastIdx(Resources(info_upgrade_pilihan)) && bahan_cukup){
-						j = Search1(Inventory,Info(Resources(info_upgrade_pilihan),i));
-						jumlah_bahan = Value(Resources(info_upgrade_pilihan),i);
-						for (j=0;j<=TopStack(*stack_aksi);j++){
-							if (IDAksi((*stack_aksi).aksi[j])==0){
-								k = Search1(BahanBuild((*stack_aksi).aksi[j]),Info(Resources(info_upgrade_pilihan),i));
-								if (k!=IdxUndef) jumlah_bahan += Value(BahanBuild((*stack_aksi).aksi[j]),k);
+		if (NbChild(wahana_upgrade)==0){
+			printf("Tidak ada upgrade untuk wahana ini.\n");
+		}
+		else{
+			printf("Ingin melakukan upgrade apa? (masukkan ID upgrade)\n");
+			PrintChild(wahana_upgrade); 
+			printf("$ ");
+			ADVKATA();
+			upgrade_pilihan = SearchTree(wahana_upgrade,ToInt(CKata));
+			if (upgrade_pilihan!=Nil){
+				info_upgrade_pilihan = InfoTree(upgrade_pilihan);
+				if (BuildTime(info_upgrade_pilihan)<=remaining_time){
+					/* ada cukup waktu untuk upgrade */
+					if (Price(info_upgrade_pilihan)<=DuitPlayer){
+						bahan_cukup = true;
+						i = GetFirstIdx(Resources(info_upgrade_pilihan));
+						while (i<=GetLastIdx(Resources(info_upgrade_pilihan)) && bahan_cukup){
+							j = Search1(Inventory,Info(Resources(info_upgrade_pilihan),i));
+							jumlah_bahan = Value(Resources(info_upgrade_pilihan),i);
+							for (j=0;j<=TopStack(*stack_aksi);j++){
+								if (IDAksi((*stack_aksi).aksi[j])==0){
+									k = Search1(BahanBuild((*stack_aksi).aksi[j]),Info(Resources(info_upgrade_pilihan),i));
+									if (k!=IdxUndef) jumlah_bahan += Value(BahanBuild((*stack_aksi).aksi[j]),k);
+								}
+								else if (IDAksi((*stack_aksi).aksi[j])==1){
+									k = Search1(BahanUpgrade((*stack_aksi).aksi[j]),Info(Resources(info_upgrade_pilihan),i));
+									if (k!=IdxUndef) jumlah_bahan += Value(BahanUpgrade((*stack_aksi).aksi[j]),k);
+								}
 							}
-							else if (IDAksi((*stack_aksi).aksi[j])==1){
-								k = Search1(BahanUpgrade((*stack_aksi).aksi[j]),Info(Resources(info_upgrade_pilihan),i));
-								if (k!=IdxUndef) jumlah_bahan += Value(BahanUpgrade((*stack_aksi).aksi[j]),k);
+							if (Value(Inventory,j)<jumlah_bahan){
+								bahan_cukup = false;
 							}
+							i++;
 						}
-						if (Value(Inventory,j)<jumlah_bahan){
-							bahan_cukup = false;
+						if (bahan_cukup){
+							aksi_baru = MakeAksiUpgrade(IdGraph(SearchPlayer(GraphMap)), koord_upgrade, ID(InfoTree(upgrade_pilihan)), Price(InfoTree(upgrade_pilihan)), BuildTime(InfoTree(upgrade_pilihan)));
+							/* push aksi upgrade ke stack */
+							PushStack(stack_aksi,aksi_baru); /* note: 1 itu id aksi upgrade */
+							*durasi_stack += BuildTime(InfoTree(upgrade_pilihan));
+							*harga_stack += Price(InfoTree(upgrade_pilihan));
 						}
-						i++;
-					}
-					if (bahan_cukup){
-						aksi_baru = MakeAksiUpgrade(IdGraph(SearchPlayer(GraphMap)), koord_upgrade, ID(InfoTree(upgrade_pilihan)), Price(InfoTree(upgrade_pilihan)), BuildTime(InfoTree(upgrade_pilihan)));
-						/* push aksi upgrade ke stack */
-						PushStack(stack_aksi,aksi_baru); /* note: 1 itu id aksi upgrade */
-						*durasi_stack += BuildTime(InfoTree(upgrade_pilihan));
-						*harga_stack += Price(InfoTree(upgrade_pilihan));
+						else{
+							/* bahan gak cukup */
+							printf("Bahan bangunan yang ada tidak cukup untuk upgrade wahana!\n");
+						}
 					}
 					else{
-						/* bahan gak cukup */
-						printf("Bahan bangunan yang ada tidak cukup untuk upgrade wahana!\n");
+						/* uang gak cukup untuk build */
+						printf("Tidak cukup uang untuk upgrade wahana!\n");
 					}
 				}
 				else{
-					/* uang gak cukup untuk build */
-					printf("Tidak cukup uang untuk upgrade wahana!\n");
+					/* waktu gak cukup untuk build */
+					printf("Tidak ada waktu untuk upgrade wahana!\n");
 				}
 			}
 			else{
-				/* waktu gak cukup untuk build */
-				printf("Tidak ada waktu untuk upgrade wahana!\n");
+				/* perintah gak valid */
+				printf("Command tidak valid\n");
 			}
-		}
-		else{
-			/* perintah gak valid */
-			printf("Command tidak valid\n");
 		}
 	}
 	else{
@@ -284,6 +289,7 @@ void EXECUTE(Stack *stack_aksi){
 	Wahana wahana_baru;
 	int idx_upgrade;
 	int i;
+	int tmp_total_gold, tmp_total_ride;
 	/* ALGORITMA */
 	while (!IsEmptyStack(*stack_aksi)){
 		PopStack(stack_aksi,&cur_aksi);
@@ -316,7 +322,14 @@ void EXECUTE(Stack *stack_aksi){
 				else i++;
 			}
 			/* upgrade wahana */
+			tmp_total_ride = TotalRide(ActiveWahana[idx_upgrade]);
+			tmp_total_gold = TotalGold(ActiveWahana[idx_upgrade]);
 			ActiveWahana[idx_upgrade] = InfoTree(SearchTree(DataWahana,IDUpgrade(cur_aksi)));
+			TotalRide(ActiveWahana[idx_upgrade]) = tmp_total_ride;
+			TotalGold(ActiveWahana[idx_upgrade]) = tmp_total_gold;
+			DayRide(ActiveWahana[idx_upgrade]) = 0;
+			DayGold(ActiveWahana[idx_upgrade]) = 0;
+			IsRusak(ActiveWahana[idx_upgrade]) = 0;
 			Sekarang = NextNDetik(Sekarang,DurasiUpgrade(cur_aksi));
 			DuitPlayer -= HargaUpgrade(cur_aksi);
 			for (i=GetFirstIdx(BahanUpgrade(cur_aksi));i<=GetLastIdx(BahanUpgrade(cur_aksi));i++){
